@@ -1,0 +1,72 @@
+id: ghost 
+title: "Ghost"
+version: 4.41.1
+release-notes: "Initial Release"
+license: mit
+wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
+upstream-repo: "https://github.com/TryGhost/ghost"
+support-site: "https://ghost.org/help"
+marketing-site: "https://ghost.org"
+build: ["make"]
+description:
+  short: A self-hosted blogging platform
+  long: |
+    Ghost is a free and open source blogging platform written in JavaScript and distributed under the MIT License, designed to simplify the process of online publishing for individual bloggers as well as online publications.
+assets:
+  license: LICENSE
+  icon: icon.png
+  instructions: instructions.md
+  docker-images: image.tar
+main:
+  type: docker
+  image: main
+  entrypoint: "docker-entrypoint.sh"
+  args: ["node", "current/index.js"]
+  mounts:
+    main: /var/lib/ghost/content
+health-checks: {}
+volumes:
+  main:
+    type: data
+interfaces:
+  main:
+    name: Network Interface
+    description: Specifies the interface to listen on for HTTP connections.
+    tor-config:
+      port-mapping:
+        80: "2368"
+    lan-config:
+      443:
+        ssl: true
+        internal: 2368
+    ui: true
+    protocols:
+      - tcp
+      - http
+backup:
+  create:
+    type: docker
+    image: compat
+    system: true 
+    entrypoint: compat 
+    args: 
+      - duplicity
+      - create
+      - /mnt/backup
+      - /root/data
+    mounts:
+      BACKUP: "/mnt/backup" 
+      main: "/root/data"
+  restore:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args:
+      - duplicity
+      - restore
+      - /root/data
+      - /mnt/backup
+    mounts:
+      BACKUP: "/mnt/backup"
+      main: "/root/data"
