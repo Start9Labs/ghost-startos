@@ -17,6 +17,6 @@ clean:
 ghost.s9pk: manifest.yaml image.tar instructions.md $(ASSET_PATHS)
 	embassy-sdk pack
 
-image.tar: Dockerfile
+image.tar: Dockerfile docker_entrypoint.sh
 	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/ghost/main:$(VERSION) --platform=linux/arm64 -o type=docker,dest=image.tar .
 

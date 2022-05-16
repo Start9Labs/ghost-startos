@@ -20,14 +20,37 @@ assets:
 main:
   type: docker
   image: main
-  entrypoint: "docker-entrypoint.sh"
-  args: ["node", "current/index.js"]
+  entrypoint: "docker_entrypoint.sh"
+  args: []
   mounts:
     main: /var/lib/ghost/content
 health-checks: {}
+config:
+  get:
+    type: docker
+    system: true
+    image: compat
+    entrypoint: compat
+    args: ["config", "get", "/root", "/mnt/assets/config_spec.yaml"]
+    mounts:
+      compat: /mnt/assets
+      main: /root
+    io-format: yaml
+  set:
+    type: docker
+    image: compat
+    system: true
+    entrypoint: compat
+    args: ["config", "set", "ghost", "/root", "/mnt/assets/config_rules.yaml"]
+    mounts:
+      compat: /mnt/assets
+      main: /root
+    io-format: yaml
 volumes:
   main:
     type: data
+  compat:
+    type: assets
 interfaces:
   main:
     name: Network Interface

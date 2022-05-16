@@ -1,0 +1,7 @@
+tor-address:
+  name: Tor Address
+  type: pointer
+  subtype: package
+  package-id: ghost
+  target: tor-address
+  interface: main
