@@ -12,4 +12,10 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
       "target": "tor-address",
       "interface": "main"
     },
+    "useTinfoil": {
+        "name": "Enable Tinfoil Mode",
+        "description": "Protect privacy by turning off: Update check, Gravatar, RPC ping and Structured data.",
+        "type": "boolean",
+        "default": false,
+    },
 });

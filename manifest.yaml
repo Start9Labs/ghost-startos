@@ -1,7 +1,7 @@
 id: ghost 
 title: "Ghost"
 version: 5.10.1
-release-notes: "Initial Release"
+release-notes: "Initial release of Ghost for EmbassyOS"
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
 upstream-repo: "https://github.com/TryGhost/ghost"
@@ -39,7 +39,10 @@ config:
     type: script
   set:
     type: script
-properties: ~
+properties:
+  type: script
+dependencies: {}
+alerts: {}
 volumes:
   main:
     type: data
@@ -51,14 +54,13 @@ interfaces:
       port-mapping:
         80: "2368"
     lan-config:
-      443:
-        ssl: true
-        internal: 2368
+        443:
+         ssl: true
+         internal: 2368
     ui: true
     protocols:
       - tcp
       - http
-dependencies: {}
 backup:
   create:
     type: docker
