@@ -1,6 +1,6 @@
 id: ghost 
 title: "Ghost"
-version: 5.10.1
+version: 5.11.0
 release-notes: "Initial release of Ghost for EmbassyOS"
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
@@ -46,6 +46,11 @@ alerts: {}
 volumes:
   main:
     type: data
+alerts:
+  install: |
+    ⚠️ Before installing - uninstall previous version of Ghost. This is the one with integrated DB. Look around and try to brake it. Backups are not tested. Everything else looks fine to me.
+  start: |
+    📝 It may take some time after first startup for this service to be ready for use. Be patient.
 interfaces:
   main:
     name: Network Interface
@@ -65,16 +70,17 @@ backup:
   create:
     type: docker
     image: compat
-    system: true 
-    entrypoint: compat 
-    args: 
+    system: true
+    entrypoint: compat
+    args:
       - duplicity
       - create
       - /mnt/backup
-      - /root/data
+      - /var/lib/ghost/content
     mounts:
-      BACKUP: "/mnt/backup" 
-      main: "/root/data"
+      BACKUP: /mnt/backup
+      main: /var/lib/ghost/content
+    io-format: yaml
   restore:
     type: docker
     image: compat
@@ -83,11 +89,12 @@ backup:
     args:
       - duplicity
       - restore
-      - /root/data
       - /mnt/backup
+      - /var/lib/ghost/content
     mounts:
-      BACKUP: "/mnt/backup"
-      main: "/root/data"
+      BACKUP: /mnt/backup
+      main: /var/lib/ghost/content
+    io-format: yaml
 migrations:
   from:
     "*":
