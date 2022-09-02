@@ -18,6 +18,14 @@ clean:
 	rm -f $(ID_NAME).s9pk
 	rm -f scripts/*.js
 
+update:
+	curl https://code.jquery.com/jquery-3.5.1.min.js --output scripts/ghost/jquery-3.5.1.min.js
+	curl https://cdn.jsdelivr.net/npm/@tryghost/portal/umd/portal.min.js --output scripts/ghost/portal.min.js
+	curl https://cdn.jsdelivr.net/npm/@tryghost/sodo-search/umd/sodo-search.min.js --output scripts/ghost/sodo-search.min.js
+	curl https://cdn.jsdelivr.net/npm/@tryghost/sodo-search/umd/main.css --output scripts/ghost/sodo-main.css
+	curl https://cdn.jsdelivr.net/npm/@tryghost/comments-ui/umd/comments-ui.min.js --output scripts/ghost/comments-ui.min.js
+	curl https://cdn.jsdelivr.net/npm/@tryghost/comments-ui/umd/main.css --output scripts/ghost/comments-main.css
+
 $(ID_NAME).s9pk: manifest.yaml instructions.md icon.png LICENSE scripts/embassy.js image.tar
 	embassy-sdk pack
 

@@ -50,7 +50,7 @@ alerts:
   install: |
     ⚠️ Before installing - uninstall previous version of Ghost. This is the one with integrated DB. Look around and try to brake it. Backups are not tested. Everything else looks fine to me.
   start: |
-    📝 It may take some time after first startup for this service to be ready for use. Be patient.
+    📝 It may take some time after first startup for this service to be ready for use. Be very patient 🙏.
 interfaces:
   main:
     name: Network Interface

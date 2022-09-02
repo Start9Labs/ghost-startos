@@ -78,10 +78,17 @@ export database__client=mysql
 export database__connection__host=localhost
 export database__connection__user=root
 export database__connection__password="$(yq e '.data.MariaDB*.value' /var/lib/ghost/content/start9/stats.yaml)"
+export portal__url="/assets/built/ghost/portal.min.js"
+export sodoSearch__url="/assets/built/ghost/sodo-search.min.js"
+export sodoSearch__styles="/assets/built/ghost/sodo-main.css"
+export comments__url="/assets/built/ghost/comments-ui.min.js"
+export comments__styles="/assets/built/ghost/comments-main.css"
 
 if [ "$(yq e .useTinfoil /var/lib/ghost/content/start9/config.yaml)" = "true" ]; then
     export privacy__useTinfoil=true
 fi
+
+sed -i 's#https://code.jquery.com/jquery-3.5.1.min.js#/assets/built/ghost/jquery-3.5.1.min.js#g' /var/lib/ghost/current/content/themes/casper/default.hbs
 
 docker-entrypoint.sh node current/index.js &
 frontend_process=$!

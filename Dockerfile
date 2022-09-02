@@ -5,5 +5,6 @@ RUN apk add --no-cache curl yq mariadb && \
 
 ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 ADD ./check-web.sh /usr/local/bin/check-web.sh
+ADD ./scripts/ghost /var/lib/ghost/current/content/themes/casper/assets/built/ghost
 
 RUN chmod a+x /usr/local/bin/*.sh
