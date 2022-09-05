@@ -73,22 +73,35 @@ fi
 /usr/bin/mysqld --user=node --datadir='/var/lib/ghost/content/mysql' --console --skip-name-resolve --skip-networking=0 &
 db_process=$!
 
-export url="http://$(yq e .tor-address /var/lib/ghost/content/start9/config.yaml)"
+TOR_ADDRESS=$(yq e .tor-address /var/lib/ghost/content/start9/config.yaml)
+LAN_ADDRESS=$(echo "$TOR_ADDRESS" | sed -r 's/(.+)\.onion/\1.local/g')
+TOR_ADDR="http://$TOR_ADDRESS"
+LAN_ADDR="https://$LAN_ADDRESS"
+
+
+export url=$TOR_ADDR
 export database__client=mysql
 export database__connection__host=localhost
 export database__connection__user=root
 export database__connection__password="$(yq e '.data.MariaDB*.value' /var/lib/ghost/content/start9/stats.yaml)"
-export portal__url="/assets/built/ghost/portal.min.js"
-export sodoSearch__url="/assets/built/ghost/sodo-search.min.js"
-export sodoSearch__styles="/assets/built/ghost/sodo-main.css"
-export comments__url="/assets/built/ghost/comments-ui.min.js"
-export comments__styles="/assets/built/ghost/comments-main.css"
+export portal__url="/ghost/assets/local/portal.min.js"
+export sodoSearch__url="/ghost/assets/local/sodo-search.min.js"
+export sodoSearch__styles="/ghost/assets/local/sodo-main.css"
+export comments__url="/ghost/assets/local/comments-ui.min.js"
+export comments__styles="/ghost/assets/local/comments-main.css"
 
 if [ "$(yq e .useTinfoil /var/lib/ghost/content/start9/config.yaml)" = "true" ]; then
     export privacy__useTinfoil=true
+    sed -i 's#https://zapier.com/#/#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
+    sed -i 's#https://resources.ghost.io/#/#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
+    sed -i 's#https://ghost.org/changelog.json#/#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
 fi
 
-sed -i 's#https://code.jquery.com/jquery-3.5.1.min.js#/assets/built/ghost/jquery-3.5.1.min.js#g' /var/lib/ghost/current/content/themes/casper/default.hbs
+sed -i 's#https://code.jquery.com/jquery-3.5.1.min.js#/ghost/assets/local/jquery-3.5.1.min.js#g' /var/lib/ghost/current/content/themes/casper/default.hbs
+sed -i 's#https://static.ghost.org/v4.0.0/images/publication-cover.jpg#'$LAN_ADDR'/ghost/assets/local/publication-cover.png#g' /var/lib/ghost/current/core/server/data/schema/default-settings/default-settings.json
+sed -i 's#https://static.ghost.org/v4.0.0/images/feature-image.jpg#'$LAN_ADDR'/ghost/assets/local/feature-image.jpg#g' /var/lib/ghost/current/core/server/data/schema/fixtures/fixtures.json
+sed -i 's#https://static.ghost.org/v4.0.0/images/ghost-orb-1.png#/ghost/assets/local/ghost-orb-1.png#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
+sed -i 's#https://static.ghost.org/v4.0.0/images/ghost-orb-2.png#/ghost/assets/local/ghost-orb-2.png#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
 
 docker-entrypoint.sh node current/index.js &
 frontend_process=$!

@@ -8,11 +8,11 @@ const noPropertiesFound: T.ResultType<T.Properties> = {
     data: {
       "Not Ready": {
         type: "string",
-        value: "Could not find properties. The service might still be starting",
+        value: "Could not find properties. Ghost might still be starting...",
         qr: false,
         copyable: false,
         masked: false,
-        description: "Fallback Message When Properties could not be found",
+        description: "Properties could not be found",
       },
     },
   },
@@ -20,6 +20,7 @@ const noPropertiesFound: T.ResultType<T.Properties> = {
 
 const configMatcher = shape({
   "tor-address": string,
+  "lan-address": string,
 });
 
 export const properties: T.ExpectedExports.properties = async ( effects: T.Effects ) => {
@@ -41,10 +42,18 @@ export const properties: T.ExpectedExports.properties = async ( effects: T.Effec
     result: {
       version: 2,
       data: {
-        "Ghost Admin Panel": {
+        "Ghost Admin (Tor)": {
           type: "string",
           value: `http://${config["tor-address"]}/ghost`,
-          description: "Use this link to enter Ghost Admin Panel.",
+          description: "Use this link to enter Ghost Admin Panel over Tor.",
+          copyable: true,
+          qr: false,
+          masked: false,
+        },
+        "Ghost Admin (Lan)": {
+          type: "string",
+          value: `https://${config["lan-address"]}/ghost`,
+          description: "Use this link to enter Ghost Admin Panel over Lan.",
           copyable: true,
           qr: false,
           masked: false,

@@ -1,10 +1,9 @@
-FROM arm64v8/ghost:5.11.0-alpine
+FROM arm64v8/ghost:5.12.3-alpine
 
-RUN apk add --no-cache curl yq mariadb && \
+RUN apk add --no-cache yq mariadb && \
     rm -f /var/cache/apk/*
 
 ADD ./docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
-ADD ./check-web.sh /usr/local/bin/check-web.sh
-ADD ./scripts/ghost /var/lib/ghost/current/content/themes/casper/assets/built/ghost
+ADD ./scripts/local /var/lib/ghost/current/core/built/admin/assets/local
 
 RUN chmod a+x /usr/local/bin/*.sh

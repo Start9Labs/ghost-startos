@@ -1,7 +1,10 @@
 id: ghost 
 title: "Ghost"
-version: 5.11.0
-release-notes: "Initial release of Ghost for EmbassyOS"
+version: 5.12.3
+release-notes: |
+  Initial release of Ghost for EmbassyOS
+  * Privacy patching
+  * Customised S9 Look
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
 upstream-repo: "https://github.com/TryGhost/ghost"
@@ -25,15 +28,10 @@ main:
   mounts:
     main: /var/lib/ghost/content
 health-checks:
-  main:
+  web-ui:
     name: Web Interface
     success-message: The Ghost UI is accessible
-    type: docker
-    image: main
-    entrypoint: "check-web.sh"
-    args: []
-    system: false
-    io-format: json
+    type: script
 config:
   get:
     type: script
@@ -42,15 +40,14 @@ config:
 properties:
   type: script
 dependencies: {}
-alerts: {}
 volumes:
   main:
     type: data
-alerts:
-  install: |
-    ⚠️ Before installing - uninstall previous version of Ghost. This is the one with integrated DB. Look around and try to brake it. Backups are not tested. Everything else looks fine to me.
-  start: |
-    📝 It may take some time after first startup for this service to be ready for use. Be very patient 🙏.
+alerts: {}
+#  install: |
+#    ⚠️ Before installing - E-mail sending works only for Protonmail and Criptext
+#  start: |
+#    ✏️ It takes time after first startup for Ghost to be ready for use. Be very patient 🙏.
 interfaces:
   main:
     name: Network Interface

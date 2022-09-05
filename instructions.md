@@ -2,7 +2,7 @@
 **Your own blogging platform!**
 
 The moment you start Ghost, it is ready to run and waiting for you to finish some basic site setup in **Ghost Admin** at:
-> `http://your_ghost_address_from_preferences.onion/ghost`
+> `http://<your-ghost-address-from-preferences>/ghost`
 
 You can copy your unique address from the **Services > Ghost > Properties** section.
 
