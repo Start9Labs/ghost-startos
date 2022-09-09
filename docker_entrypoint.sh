@@ -3,7 +3,7 @@
 set -ea
 
 _term() { 
-  echo "Caught SIGTERM signal!" 
+  echo "Caught TERM signal!" 
   kill -TERM "$db_process" 2>/dev/null
   kill -TERM "$ghost_process" 2>/dev/null
 }
@@ -62,7 +62,7 @@ data:
 version: 2
 EOF
  
-    /usr/bin/mysqld --user=node --datadir='/var/lib/ghost/content/mysql' --bootstrap --verbose=0 --skip-name-resolve --skip-networking=0 < $tfile
+    /usr/sbin/mysqld --user=node --datadir='/var/lib/ghost/content/mysql' --bootstrap --verbose=0 --skip-name-resolve --skip-networking=0 < $tfile
     rm -f $tfile
 
 	echo
@@ -70,7 +70,7 @@ EOF
 	echo
 fi
 
-/usr/bin/mysqld --user=node --datadir='/var/lib/ghost/content/mysql' --console --skip-name-resolve --skip-networking=0 &
+/usr/sbin/mysqld --user=node --datadir='/var/lib/ghost/content/mysql' --console --skip-name-resolve --skip-networking=0 &
 db_process=$!
 
 TOR_ADDRESS=$(yq e .tor-address /var/lib/ghost/content/start9/config.yaml)
@@ -103,8 +103,8 @@ sed -i 's#https://static.ghost.org/v4.0.0/images/feature-image.jpg#'$LAN_ADDR'/g
 sed -i 's#https://static.ghost.org/v4.0.0/images/ghost-orb-1.png#/ghost/assets/local/ghost-orb-1.png#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
 sed -i 's#https://static.ghost.org/v4.0.0/images/ghost-orb-2.png#/ghost/assets/local/ghost-orb-2.png#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
 
-docker-entrypoint.sh node current/index.js &
-frontend_process=$!
+start-ghost.sh node current/index.js &
+ghost_process=$!
 
-trap _term SIGTERM
-wait -n $db_process $ghost_process
+trap _term TERM
+wait $db_process $ghost_process

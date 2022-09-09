@@ -3,3 +3,4 @@ image.tar
 scripts/embassy.js
 .DS_Store
 .vscode
+config.json
