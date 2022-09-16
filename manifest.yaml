@@ -5,9 +5,6 @@ release-notes: |
   Initial release of Ghost for EmbassyOS
   * Privacy patching
   * Customised S9 Look
-  * Updated to latest upstream
-  * Migrated from alpine to debian base
-  * ⚠️ Don't update from previous builds!
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
 upstream-repo: "https://github.com/TryGhost/ghost"
@@ -46,9 +43,9 @@ dependencies: {}
 volumes:
   main:
     type: data
-alerts: {}
-#  install: |
-#    ⚠️ Before installing - E-mail delivery works only for Protonmail and Criptext
+alerts:
+  install: |
+    ⚠️  Transactional e-mail delivery may work only for Protonmail and Criptext
 #  start: |
 #    ✏️ It takes time after first startup for Ghost to be ready for use. Be very patient 🙏.
 interfaces:
