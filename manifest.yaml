@@ -43,9 +43,9 @@ dependencies: {}
 volumes:
   main:
     type: data
-alerts:
-  install: |
-    ⚠️  Transactional e-mail delivery may work only for Protonmail and Criptext
+alerts: {}
+#  install: |
+#    ⚠️  Transactional e-mail delivery may work only for Protonmail and Criptext
 #  start: |
 #    ✏️ It takes time after first startup for Ghost to be ready for use. Be very patient 🙏.
 interfaces:

@@ -21,7 +21,7 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
     },
     "useTinfoil": {
         "name": "Enable Tinfoil Mode",
-        "description": "Protects your privacy by disabling built-in features of Ghost that could expose your IP address, such as Gravatars, update checks, RPC pinging, structured data, and third party integrations. Enabling tinfoil mode will result in certain parts of the Ghost user interface from rendering correctly.",
+        "description": "Protects your privacy by disabling built-in features of Ghost that could expose your IP address, such as Gravatars, update checks, RPC pinging, structured data, and third party integrations. Enabling tinfoil mode will prevent certain parts from rendering correctly.",
         "type": "boolean",
         "default": false,
     },
