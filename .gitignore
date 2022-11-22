@@ -4,4 +4,3 @@ scripts/embassy.js
 docker-images
 .DS_Store
 .vscode
-config.json
