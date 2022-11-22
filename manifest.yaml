@@ -1,6 +1,6 @@
 id: ghost 
 title: "Ghost"
-version: 5.17.4
+version: 5.17.2.2
 release-notes: |
   This one is Universal Package aka Fattie
   * added support to x86_64 and aarch64 architecture
