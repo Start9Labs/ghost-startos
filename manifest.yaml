@@ -1,10 +1,10 @@
 id: ghost 
 title: "Ghost"
-version: 5.17.2.1
+version: 5.17.2
 release-notes: |
   This one is Universal Package aka Fattie
   * added support to x86_64 and aarch64 architecture
-  * using mod.ts v0.3.3.0.4
+  * using mod.ts v0.3.3.0.5
   * latest version of localy hosted scripts
   * a more detailed changelog is available [here](https://github.com/TryGhost/Ghost/compare/v5.13.2...v5.17.2)
 license: mit
