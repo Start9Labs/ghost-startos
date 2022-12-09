@@ -1,11 +1,11 @@
 id: ghost 
 title: "Ghost"
-version: 5.24.2
+version: 5.17.2
 release-notes: |
-  This one is Universal Package aka Fattie
-  * added support to x86_64 and aarch64 architecture
+  Update to lates Ghost upstream release
+  * health checks updates
   * latest version of localy hosted scripts
-  * latest upstream update - changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.13.2...v5.24.2)
+  * a more detailed changelog is available [here](https://github.com/TryGhost/Ghost/compare/v5.13.2...v5.17.2)
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
 upstream-repo: "https://github.com/TryGhost/ghost"
@@ -20,7 +20,7 @@ assets:
   license: LICENSE
   icon: icon.png
   instructions: instructions.md
-#  docker-images: image.tar
+  docker-images: image.tar
 main:
   type: docker
   image: main

@@ -11,16 +11,12 @@ install:
 	embassy-cli package install $(ID_NAME).s9pk
 
 verify: $(ID_NAME).s9pk
-	@embassy-sdk verify s9pk $(ID_NAME).s9pk
-	@echo " Done!"
-	@echo "   Filesize: $(shell du -h $(ID_NAME).s9pk) is ready"
-
+	embassy-sdk verify s9pk $(ID_NAME).s9pk
 
 clean:
 	rm -f image.tar
 	rm -f $(ID_NAME).s9pk
 	rm -f scripts/*.js
-	rm -rf docker-images
 
 # download/update latest dependencies scripts to be hosted locally
 update:
@@ -31,17 +27,11 @@ update:
 	curl https://cdn.jsdelivr.net/npm/@tryghost/comments-ui/umd/comments-ui.min.js --output scripts/local/comments-ui.min.js
 	curl https://cdn.jsdelivr.net/npm/@tryghost/comments-ui/umd/main.css --output scripts/local/comments-main.css
 
-$(ID_NAME).s9pk: manifest.yaml instructions.md icon.png LICENSE scripts/embassy.js docker-images/aarch64.tar docker-images/x86_64.tar
-	@if ! [ -z "$(ARCH)" ]; then cp docker-images/$(ARCH).tar image.tar; echo "* image.tar compiled for $(ARCH)"; fi
+$(ID_NAME).s9pk: manifest.yaml instructions.md icon.png LICENSE scripts/embassy.js image.tar
 	embassy-sdk pack
 
-docker-images/aarch64.tar: Dockerfile docker_entrypoint.sh
-	mkdir -p docker-images
-	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/$(ID_NAME)/main:$(VERSION) --platform=linux/arm64 -o type=docker,dest=docker-images/aarch64.tar .
-
-docker-images/x86_64.tar: Dockerfile docker_entrypoint.sh
-	mkdir -p docker-images
-	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/$(ID_NAME)/main:$(VERSION) --platform=linux/amd64 -o type=docker,dest=docker-images/x86_64.tar .
+image.tar: Dockerfile docker_entrypoint.sh
+	DOCKER_CLI_EXPERIMENTAL=enabled docker buildx build --tag start9/$(ID_NAME)/main:$(VERSION) --platform=linux/arm64 -o type=docker,dest=image.tar .
 
 scripts/embassy.js: $(TS_FILES)
 	deno bundle scripts/embassy.ts scripts/embassy.js

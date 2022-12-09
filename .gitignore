@@ -1,7 +1,6 @@
 ghost.s9pk
 image.tar
 scripts/embassy.js
-docker-images
 .DS_Store
 .vscode
 config.json
