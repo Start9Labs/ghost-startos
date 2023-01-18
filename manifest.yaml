@@ -1,10 +1,10 @@
 id: ghost 
 title: "Ghost"
-version: 5.29.0
+version: 5.30.1
 release-notes: |
-  * update to latest upstream v5.29.0
-  * latest version of localy hosted scripts
-  * latest upstream update - changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.24.2...v5.29.0)
+  * Update to latest upstream v5.30.1
+  * Update backups to use new eOS APIs
+  * Latest upstream update - changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.24.2...v5.30.1)
 license: mit
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
 upstream-repo: "https://github.com/TryGhost/ghost"
