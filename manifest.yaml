@@ -65,33 +65,9 @@ interfaces:
       - http
 backup:
   create:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args:
-      - duplicity
-      - create
-      - /mnt/backup
-      - /var/lib/ghost/content
-    mounts:
-      BACKUP: /mnt/backup
-      main: /var/lib/ghost/content
-    io-format: yaml
+    type: script
   restore:
-    type: docker
-    image: compat
-    system: true
-    entrypoint: compat
-    args:
-      - duplicity
-      - restore
-      - /mnt/backup
-      - /var/lib/ghost/content
-    mounts:
-      BACKUP: /mnt/backup
-      main: /var/lib/ghost/content
-    io-format: yaml
+    type: script
 migrations:
   from:
     "*":
