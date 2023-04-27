@@ -78,8 +78,20 @@ LAN_ADDRESS=$(echo "$TOR_ADDRESS" | sed -r 's/(.+)\.onion/\1.local/g')
 TOR_ADDR="http://$TOR_ADDRESS"
 LAN_ADDR="https://$LAN_ADDRESS"
 
+cat > /etc/tinyproxy/tinyproxy.conf << EOF
+Port 8080
+Listen 0.0.0.0
+Timeout 600
+ReversePath "/" "http://127.0.0.1:2368/"
+AddHeader "X-Forwarded-Proto" "https"
+ReverseOnly Yes
+ReverseBaseURL "blog.start9.com"
+MaxClients 100
+StartServers 1
+EOF
+tinyproxy
 
-export url=$TOR_ADDR
+export url=https://blog.start9.com # $TOR_ADDR
 export database__client=mysql
 export database__connection__host=localhost
 export database__connection__user=root
