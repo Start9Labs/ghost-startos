@@ -2,10 +2,11 @@ id: ghost
 title: "Ghost"
 version: 5.54.0
 release-notes: |
-  Upstream update
+  * New Announcement bar
+  * New Labs Beta Features (Ghost editor, Substack migrator and Portal translation)
   * Code cleanup
-  * latest version of localy hosted scripts
-  * latest upstream update - changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.24.2...v5.54.0)
+  * Latest version of localy hosted scripts
+  * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.24.2...v5.54.0)
 license: MIT
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
 upstream-repo: "https://github.com/TryGhost/ghost"
