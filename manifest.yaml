@@ -1,12 +1,13 @@
 id: ghost 
 title: "Ghost"
-version: 5.24.2
+version: 5.54.0
 release-notes: |
-  This one is Universal Package aka Fattie
-  * added support to x86_64 and aarch64 architecture
-  * latest version of localy hosted scripts
-  * latest upstream update - changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.13.2...v5.24.2)
-license: mit
+  * New Announcement bar
+  * New Labs Beta Features (Ghost editor, Substack migrator and Portal translation)
+  * Code cleanup
+  * Latest version of localy hosted scripts
+  * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.24.2...v5.54.0)
+license: MIT
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
 upstream-repo: "https://github.com/TryGhost/ghost"
 support-site: "https://ghost.org/help"
@@ -20,7 +21,6 @@ assets:
   license: LICENSE
   icon: icon.png
   instructions: instructions.md
-#  docker-images: image.tar
 main:
   type: docker
   image: main
@@ -45,10 +45,6 @@ volumes:
   main:
     type: data
 alerts: {}
-#  install: |
-#    ⚠️  Transactional e-mail delivery may work only for Protonmail and Criptext
-#  start: |
-#    ✏️ It takes time after first startup for Ghost to be ready for use. Be very patient 🙏.
 interfaces:
   main:
     name: Network Interface
