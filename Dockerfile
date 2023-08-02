@@ -4,7 +4,7 @@ ENV YQ_VERSION v4.25.1
 
 RUN set -eux; \
     apt-get update; \
-    apt-get install -y --no-install-recommends wget ca-certificates tinyproxy mariadb-server mariadb-client; \
+    apt-get install -y --no-install-recommends wget ca-certificates nginx mariadb-server mariadb-client; \
     rm /etc/mysql/mariadb.conf.d/50-server.cnf; \
     rm -rf /var/lib/apt/lists/*; \
     \
