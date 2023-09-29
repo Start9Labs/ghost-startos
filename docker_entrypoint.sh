@@ -88,6 +88,7 @@ export sodoSearch__url="/ghost/assets/local/sodo-search.min.js"
 export sodoSearch__styles="/ghost/assets/local/sodo-main.css"
 export comments__url="/ghost/assets/local/comments-ui.min.js"
 export comments__styles="/ghost/assets/local/comments-main.css"
+export privacy__useUpdateCheck=false
 
 if [ "$(yq e .useTinfoil /var/lib/ghost/content/start9/config.yaml)" = "true" ]; then
     export privacy__useTinfoil=true
