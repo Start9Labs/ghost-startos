@@ -71,6 +71,7 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           name: Ghost ${{ github.ref_name }}
+          prerelease: true
           body_path: change-log.txt
           files: |
             ghost.s9pk
