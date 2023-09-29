@@ -102,6 +102,7 @@ sed -i 's#https://static.ghost.org/v5.0.0/images/publication-cover.jpg#'$LAN_ADD
 sed -i 's#https://static.ghost.org/v4.0.0/images/feature-image.jpg#'$LAN_ADDR'/ghost/assets/local/feature-image.jpg#g' /var/lib/ghost/current/core/server/data/schema/fixtures/fixtures.json
 sed -i 's#https://static.ghost.org/v4.0.0/images/ghost-orb-1.png#/ghost/assets/local/ghost-orb-1.png#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
 sed -i 's#https://static.ghost.org/v4.0.0/images/ghost-orb-2.png#/ghost/assets/local/ghost-orb-2.png#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
+sed -i 's#gh-env-error#gh-env-error hidden#g; s#gh-upgrade-notification#gh-upgrade-notification hidden#g; s#gh-btn-notification-dot#gh-btn-notification-dot hidden#g; #Update available!#d' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
 
 docker-entrypoint.sh node current/index.js &
 ghost_process=$!
