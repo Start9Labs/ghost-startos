@@ -3,11 +3,11 @@ name: Build Service
 on:
   workflow_dispatch:
   pull_request:
-    paths-ignore: ['*.md']
-    branches: ['master', 'next']
+    paths-ignore: ["*.md"]
+    branches: ["master", "next"]
   push:
-    paths-ignore: ['*.md']
-    branches: ['master', 'next']
+    paths-ignore: ["*.md"]
+    branches: ["master", "next"]
 
 jobs:
   BuildPackage:
@@ -22,7 +22,7 @@ jobs:
         with:
           toolchain: stable
       - name: Get StartOS Hash
-        run: echo "STARTOSHASH=$(git ls-remote https://github.com/Start9Labs/start-os --branch latest | awk '{ print $1}')" >> $GITHUB_ENV
+        run: echo "STARTOSHASH=$(git ls-remote https://github.com/Start9Labs/start-os --branch sdk | awk '{ print $1}')" >> $GITHUB_ENV
       - name: Cache Packages
         uses: buildjet/cache@v3
         id: packageCache
@@ -44,7 +44,7 @@ jobs:
         id: packageManager
         if: steps.packageCache.outputs.cache-hit != 'true'
         run: |
-          cd ~/ && git clone https://github.com/Start9Labs/start-os.git --branch latest;
+          cd ~/ && git clone https://github.com/Start9Labs/start-os.git --branch sdk;
           cd start-os;
           git submodule update --init --recursive
           cd backend;
@@ -54,7 +54,7 @@ jobs:
       - name: Build the service package
         run: |
           git submodule update --init --recursive
-          embassy-sdk init
+          start-sdk init
           make
           mv ghost*s9pk ~/
       - name: Upload .s9pk
