@@ -1,12 +1,11 @@
-id: ghost 
+id: ghost
 title: "Ghost"
-version: 5.54.0
+version: 5.65.1
 release-notes: |
-  * New Announcement bar
-  * New Labs Beta Features (Ghost editor, Substack migrator and Portal translation)
+  * Added new enhanced Header Card in Beta Editor
   * Code cleanup
   * Latest version of localy hosted scripts
-  * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.24.2...v5.54.0)
+  * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.54.0...v5.65.1)
 license: MIT
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
 upstream-repo: "https://github.com/TryGhost/ghost"
@@ -53,9 +52,9 @@ interfaces:
       port-mapping:
         80: "2368"
     lan-config:
-        443:
-         ssl: true
-         internal: 2368
+      443:
+        ssl: true
+        internal: 2368
     ui: true
     protocols:
       - tcp
