@@ -2,6 +2,9 @@ id: ghost
 title: "Ghost"
 version: 5.75.1
 release-notes: |
+  * The new Ghost editor
+  * ✨ Emoji autocomplete ✨
+  * Refreshed settings
   * Latest version of localy hosted scripts
   * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.65.1...v5.75.1)
 license: MIT
