@@ -1,11 +1,9 @@
 id: ghost
 title: "Ghost"
-version: 5.65.1
+version: 5.75.1
 release-notes: |
-  * Added new enhanced Header Card in Beta Editor
-  * Code cleanup
   * Latest version of localy hosted scripts
-  * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.54.0...v5.65.1)
+  * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.65.1...v5.75.1)
 license: MIT
 wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
 upstream-repo: "https://github.com/TryGhost/ghost"

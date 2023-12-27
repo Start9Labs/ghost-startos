@@ -1,4 +1,4 @@
-FROM ghost:5.65.1
+FROM ghost:5.75.1
 
 ENV YQ_VERSION v4.25.1
 RUN set -eux; \
