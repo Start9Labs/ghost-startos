@@ -1,15 +1,13 @@
 id: ghost
 title: "Ghost"
-version: 5.75.1
+version: 5.75.2
 release-notes: |
-  * The new Ghost editor
-  * ✨ Emoji autocomplete ✨
-  * Refreshed settings
-  * Updated and optimized icon
+  * Fixed editor crash when typing `:,`, `:|`, or similar
+  * Other minor bugfixes
   * Latest version of localy hosted scripts
-  * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.65.1...v5.75.1)
+  * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.75.1...v5.75.2)
 license: MIT
-wrapper-repo: "https://github.com/Start9Labs/ghost-wrapper"
+wrapper-repo: "https://github.com/Start9Labs/ghost-startos"
 upstream-repo: "https://github.com/TryGhost/ghost"
 support-site: "https://ghost.org/help"
 marketing-site: "https://ghost.org"
