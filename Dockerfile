@@ -1,4 +1,4 @@
-FROM ghost:5.75.3 as build
+FROM ghost:5.110.4 AS build
 
 RUN apt-get update; apt-get install -y --no-install-recommends ca-certificates wget; \
     dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
@@ -7,13 +7,13 @@ RUN apt-get update; apt-get install -y --no-install-recommends ca-certificates w
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*
 
-COPY --chmod=a+x docker_entrypoint.sh /usr/local/bin
+COPY --chmod=0755 docker_entrypoint.sh /usr/local/bin
 COPY scripts/local /var/lib/ghost/current/core/built/admin/assets/local
 
-FROM node:18-bullseye-slim as final
+FROM node:18-bullseye-slim AS final
 
 ENV NODE_ENV=production \
-	GHOST_CLI_VERSION=1.25.3 \
+	GHOST_CLI_VERSION=1.27.0 \
 	GHOST_INSTALL=/var/lib/ghost \
 	GHOST_CONTENT=/var/lib/ghost/content
 
