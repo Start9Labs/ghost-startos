@@ -10,7 +10,8 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    */
   console.info('Starting Ghost!')
 
-  const store = await sdk.store.getOwn(effects, sdk.StorePath).const()
+  const { url, tinfoilEnabled, database__connection__password } =
+    await sdk.store.getOwn(effects, sdk.StorePath).const()
 
   /**
    * ======================== Additional Health Checks (optional) ========================
@@ -30,8 +31,9 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     subcontainer: { imageId: 'ghost' },
     command: ['docker_entrypoint.sh'],
     env: {
-      URL: store.primaryUrl!,
-      TINFOIL: String(store.tinfoilEnabled),
+      URL: url!,
+      TINFOIL: String(tinfoilEnabled),
+      database__connection__password,
     },
     mounts: sdk.Mounts.of().addVolume(
       'main',

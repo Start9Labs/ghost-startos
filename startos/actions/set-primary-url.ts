@@ -4,7 +4,7 @@ import { getPrimaryInterfaceUrls } from '../utils'
 const { InputSpec, Value } = sdk
 
 export const inputSpec = InputSpec.of({
-  primaryUrl: Value.dynamicSelect(async ({ effects }) => {
+  url: Value.dynamicSelect(async ({ effects }) => {
     const urls = await getPrimaryInterfaceUrls(effects)
 
     return {
@@ -42,12 +42,11 @@ export const setPrimaryUrl = sdk.Action.withInput(
 
   // optionally pre-fill the input form
   async ({ effects }) => ({
-    primaryUrl:
-      (await sdk.store.getOwn(effects, sdk.StorePath.primaryUrl).const()) ||
-      undefined,
+    url:
+      (await sdk.store.getOwn(effects, sdk.StorePath.url).const()) || undefined,
   }),
 
   // the execution function
   async ({ effects, input }) =>
-    sdk.store.setOwn(effects, sdk.StorePath.primaryUrl, input.primaryUrl),
+    sdk.store.setOwn(effects, sdk.StorePath.url, input.url),
 )

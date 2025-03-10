@@ -28,13 +28,6 @@ else
 
     mysql_install_db --user=node --ldata=/var/lib/ghost/content/mysql >/dev/null
 
-    if [ "$MYSQL_ROOT_PASSWORD" = "" ]; then
-        MYSQL_ROOT_PASSWORD=$(cat /dev/urandom | base64 | head -c 16)
-        echo "[i] MariaDB root Password: $MYSQL_ROOT_PASSWORD"
-    fi
-
-    MYSQL_PASSWORD=${MYSQL_PASSWORD:-""}
-
     tfile=$(mktemp)
     if [ ! -f "$tfile" ]; then
         return 1
@@ -43,23 +36,11 @@ else
     cat <<EOF >$tfile
 USE mysql;
 FLUSH PRIVILEGES ;
-GRANT ALL ON *.* TO 'root'@'%' identified by '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION ;
-GRANT ALL ON *.* TO 'root'@'localhost' identified by '$MYSQL_ROOT_PASSWORD' WITH GRANT OPTION ;
-SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${MYSQL_ROOT_PASSWORD}') ;
+GRANT ALL ON *.* TO 'root'@'%' identified by '$database__connection__password' WITH GRANT OPTION ;
+GRANT ALL ON *.* TO 'root'@'localhost' identified by '$database__connection__password' WITH GRANT OPTION ;
+SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${database__connection__password}') ;
 DROP DATABASE IF EXISTS test ;
 FLUSH PRIVILEGES ;
-EOF
-    mkdir -p /var/lib/ghost/content/start9
-    cat <<EOF >/var/lib/ghost/content/start9/stats.yaml
-data:
-  MariaDB root password:
-    copyable: true
-    description: Remember that you are always the one in control. This is your MariaDB root password. Use it with caution!
-    masked: true
-    qr: false
-    type: string
-    value: $MYSQL_ROOT_PASSWORD
-version: 2
 EOF
 
     /usr/sbin/mysqld --user=node --datadir='/var/lib/ghost/content/mysql' --bootstrap --verbose=0 --skip-name-resolve --skip-networking=0 <$tfile
@@ -77,7 +58,7 @@ export url=$URL
 export database__client=mysql
 export database__connection__host=localhost
 export database__connection__user=root
-export database__connection__password="$(yq e '.data.MariaDB*.value' /var/lib/ghost/content/start9/stats.yaml)"
+export database__connection__password=$database__connection__password
 export portal__url="/ghost/assets/local/portal.min.js"
 export sodoSearch__url="/ghost/assets/local/sodo-search.min.js"
 export sodoSearch__styles="/ghost/assets/local/sodo-main.css"

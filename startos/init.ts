@@ -5,12 +5,17 @@ import { setInterfaces } from './interfaces'
 import { versions } from './versions'
 import { actions } from './actions'
 import { setPrimaryUrl } from './actions/set-primary-url'
+import { utils } from '@start9labs/start-sdk'
 
 // **** Install ****
 const install = sdk.setupInstall(async ({ effects }) => {
   await sdk.store.setOwn(effects, sdk.StorePath, {
     tinfoilEnabled: false,
-    primaryUrl: null,
+    url: null,
+    database__connection__password: utils.getDefaultString({
+      charset: 'a-z,A-Z,1-9,!,@,$,%,&,*',
+      len: 16,
+    }),
   })
 
   await sdk.action.requestOwn(effects, setPrimaryUrl, 'critical')
