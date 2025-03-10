@@ -16,12 +16,10 @@ export const manifest = setupManifest({
   assets: [],
   volumes: ['main'],
   images: {
-    'ghost': {
+    ghost: {
       source: {
         dockerBuild: {},
       },
-      arch: ['x86_64', 'aarch64'],
-      emulateMissingAs: 'aarch64',
     },
   },
   hardwareRequirements: {},

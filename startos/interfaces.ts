@@ -6,10 +6,10 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
   const uiMultiOrigin = await uiMulti.bindPort(uiPort, {
     protocol: 'http',
   })
-  const ui = sdk.createInterface(effects, {
-    name: 'Web UI',
-    id: 'ui',
-    description: 'The web interface of Ghost',
+  const primary = sdk.createInterface(effects, {
+    name: 'Primary UI',
+    id: 'primary',
+    description: 'The primary web interface for your Ghost blog',
     type: 'ui',
     masked: false,
     schemeOverride: null,
@@ -18,7 +18,19 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
     search: {},
   })
 
-  const uiReceipt = await uiMultiOrigin.export([ui])
+  const admin = sdk.createInterface(effects, {
+    name: 'Admin UI',
+    id: 'admin',
+    description: 'The admin web interface',
+    type: 'ui',
+    masked: false,
+    schemeOverride: null,
+    username: null,
+    path: '/ghost',
+    search: {},
+  })
+
+  const uiReceipt = await uiMultiOrigin.export([primary, admin])
 
   return [uiReceipt]
 })

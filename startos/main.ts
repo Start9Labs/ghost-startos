@@ -10,6 +10,8 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    */
   console.info('Starting Ghost!')
 
+  const store = await sdk.store.getOwn(effects, sdk.StorePath).const()
+
   /**
    * ======================== Additional Health Checks (optional) ========================
    *
@@ -27,13 +29,22 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   return sdk.Daemons.of(effects, started, healthReceipts).addDaemon('primary', {
     subcontainer: { imageId: 'ghost' },
     command: ['docker_entrypoint.sh'],
-    mounts: sdk.Mounts.of().addVolume('main', null, '/var/lib/ghost/content', false),
+    env: {
+      URL: store.primaryUrl!,
+      TINFOIL: String(store.tinfoilEnabled),
+    },
+    mounts: sdk.Mounts.of().addVolume(
+      'main',
+      null,
+      '/var/lib/ghost/content',
+      false,
+    ),
     ready: {
-      display: 'Web Interface',
+      display: 'Web Interfaces',
       fn: () =>
         sdk.healthCheck.checkPortListening(effects, uiPort, {
-          successMessage: 'The web interface is ready',
-          errorMessage: 'The web interface is not ready',
+          successMessage: 'Ghost web interfaces are ready',
+          errorMessage: 'Ghost web interfaces are not ready',
         }),
     },
     requires: [],
