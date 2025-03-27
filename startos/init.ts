@@ -4,7 +4,7 @@ import { setDependencies } from './dependencies'
 import { setInterfaces } from './interfaces'
 import { versions } from './versions'
 import { actions } from './actions'
-import { setPrimaryUrl } from './actions/set-primary-url'
+import { setPrimaryUrl } from './actions/setPrimaryUrl'
 import { utils } from '@start9labs/start-sdk'
 
 // **** Install ****
