@@ -44,7 +44,9 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     ready: {
       display: 'Web Interfaces',
       fn: () =>
-        sdk.healthCheck.checkPortListening(effects, uiPort, {
+        sdk.healthCheck.checkWebUrl(effects,
+          `http://ghost.startos:${uiPort}/ghost/api/v3/admin/site/`,
+        {
           successMessage: 'Ghost web interfaces are ready',
           errorMessage: 'Ghost web interfaces are not ready',
         }),
