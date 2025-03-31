@@ -10,8 +10,10 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    */
   console.info('Starting Ghost!')
 
-  const { url, tinfoilEnabled, database__connection__password } =
+  const { url, privacy__useTinfoil, database__connection__password } =
     await sdk.store.getOwn(effects, sdk.StorePath).const()
+
+  const adminUI = await sdk.serviceInterface.getOwn(effects, 'admin').once()
 
   /**
    * ======================== Additional Health Checks (optional) ========================
@@ -31,9 +33,10 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     subcontainer: { imageId: 'ghost' },
     command: ['docker_entrypoint.sh'],
     env: {
-      URL: url!,
-      TINFOIL: String(tinfoilEnabled),
+      url,
+      privacy__useTinfoil: String(privacy__useTinfoil),
       database__connection__password,
+      admin__url: adminUI?.addressInfo?.localUrls[0]!,
     },
     mounts: sdk.Mounts.of().addVolume(
       'main',
@@ -44,12 +47,14 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     ready: {
       display: 'Web Interfaces',
       fn: () =>
-        sdk.healthCheck.checkWebUrl(effects,
+        sdk.healthCheck.checkWebUrl(
+          effects,
           `http://ghost.startos:${uiPort}/ghost/api/v3/admin/site/`,
-        {
-          successMessage: 'Ghost web interfaces are ready',
-          errorMessage: 'Ghost web interfaces are not ready',
-        }),
+          {
+            successMessage: 'Ghost web interfaces are ready',
+            errorMessage: 'Ghost web interfaces are not ready',
+          },
+        ),
     },
     requires: [],
   })

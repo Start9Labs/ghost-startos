@@ -7,7 +7,7 @@ export const setTinfoil = sdk.Action.withoutInput(
   // metadata
   async ({ effects }) => {
     const tinfoilEnabled = await sdk.store
-      .getOwn(effects, sdk.StorePath.tinfoilEnabled)
+      .getOwn(effects, sdk.StorePath.privacy__useTinfoil)
       .const()
 
     return {
@@ -24,12 +24,12 @@ export const setTinfoil = sdk.Action.withoutInput(
   // the execution function
   async ({ effects }) => {
     const tinfoilEnabled = await sdk.store
-      .getOwn(effects, sdk.StorePath.tinfoilEnabled)
+      .getOwn(effects, sdk.StorePath.privacy__useTinfoil)
       .const()
 
     await sdk.store.setOwn(
       effects,
-      sdk.StorePath.tinfoilEnabled,
+      sdk.StorePath.privacy__useTinfoil,
       !tinfoilEnabled,
     )
   },

@@ -10,8 +10,8 @@ import { utils } from '@start9labs/start-sdk'
 // **** Install ****
 const install = sdk.setupInstall(async ({ effects }) => {
   await sdk.store.setOwn(effects, sdk.StorePath, {
-    tinfoilEnabled: false,
-    url: null,
+    privacy__useTinfoil: false,
+    url: '',
     database__connection__password: utils.getDefaultString({
       charset: 'a-z,A-Z,1-9,!,@,$,%,&,*',
       len: 16,

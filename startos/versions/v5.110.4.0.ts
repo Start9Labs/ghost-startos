@@ -30,7 +30,7 @@ export const v_5_110_4_0 = VersionInfo.of({
       // initialize the store
       await sdk.store.setOwn(effects, sdk.StorePath, {
         url: urls.find((u) => u.startsWith('http:') && u.includes('.onion'))!,
-        tinfoilEnabled: configFile.useTinfoil,
+        privacy__useTinfoil: configFile.useTinfoil,
         database__connection__password: statsFile.data.MariaDB.value,
       })
 

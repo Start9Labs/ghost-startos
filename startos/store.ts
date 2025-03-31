@@ -1,8 +1,8 @@
 import { setupExposeStore } from '@start9labs/start-sdk'
 
 export type Store = {
-  url: string | null
-  tinfoilEnabled: boolean
+  url: string
+  privacy__useTinfoil: boolean
   database__connection__password: string
 }
 
