@@ -33,10 +33,10 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     subcontainer: { imageId: 'ghost' },
     command: ['docker_entrypoint.sh'],
     env: {
-      url,
-      privacy__useTinfoil: String(privacy__useTinfoil),
-      database__connection__password,
-      admin__url: adminUI?.addressInfo?.localUrls[0]!,
+      URL: url,
+      TINFOIL: String(privacy__useTinfoil),
+      DB_PASS: database__connection__password,
+      ADMIN_URL: adminUI?.addressInfo?.localUrls[0]!,
     },
     mounts: sdk.Mounts.of().addVolume(
       'main',

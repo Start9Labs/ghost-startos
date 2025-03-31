@@ -36,9 +36,9 @@ else
     cat <<EOF >$tfile
 USE mysql;
 FLUSH PRIVILEGES ;
-GRANT ALL ON *.* TO 'root'@'%' identified by '$database__connection__password' WITH GRANT OPTION ;
-GRANT ALL ON *.* TO 'root'@'localhost' identified by '$database__connection__password' WITH GRANT OPTION ;
-SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${database__connection__password}') ;
+GRANT ALL ON *.* TO 'root'@'%' identified by '$DB_PASS' WITH GRANT OPTION ;
+GRANT ALL ON *.* TO 'root'@'localhost' identified by '$DB_PASS' WITH GRANT OPTION ;
+SET PASSWORD FOR 'root'@'localhost'=PASSWORD('${DB_PASS}') ;
 DROP DATABASE IF EXISTS test ;
 FLUSH PRIVILEGES ;
 EOF
@@ -54,17 +54,21 @@ fi
 /usr/sbin/mysqld --user=node --datadir='/var/lib/ghost/content/mysql' --console --skip-name-resolve --skip-networking=0 &
 db_process=$!
 
+echo '** ADMIN URL **'
+echo $ADMIN_URL
+
 export url=$URL
 export database__client=mysql
 export database__connection__host=localhost
 export database__connection__user=root
-export database__connection__password=$database__connection__password
+export database__connection__password=$DB_PASS
 export portal__url="/ghost/assets/local/portal.min.js"
 export sodoSearch__url="/ghost/assets/local/sodo-search.min.js"
 export sodoSearch__styles="/ghost/assets/local/sodo-main.css"
 export comments__url="/ghost/assets/local/comments-ui.min.js"
 export comments__styles="/ghost/assets/local/comments-main.css"
 export privacy__useUpdateCheck=false
+export admin__url=$ADMIN_URL
 
 if [ $TINFOIL = "true" ]; then
     export privacy__useTinfoil=true
