@@ -1,23 +1,16 @@
 import { sdk } from './sdk'
-import { exposedStore } from './store'
+import { exposedStore, initStore } from './store'
 import { setDependencies } from './dependencies'
 import { setInterfaces } from './interfaces'
 import { versions } from './versions'
 import { actions } from './actions'
 import { setPrimaryUrl } from './actions/setPrimaryUrl'
-import { utils } from '@start9labs/start-sdk'
 
-// **** Install ****
-const install = sdk.setupInstall(async ({ effects }) => {
-  await sdk.store.setOwn(effects, sdk.StorePath, {
-    privacy__useTinfoil: false,
-    url: '',
-    database__connection__password: utils.getDefaultString({
-      charset: 'a-z,A-Z,1-9,!,@,$,%,&,*',
-      len: 16,
-    }),
-  })
+// **** Pre Install ****
+const preInstall = sdk.setupPreInstall(async ({ effects }) => {})
 
+// **** PostInstall ****
+const postInstall = sdk.setupPostInstall(async ({ effects }) => {
   await sdk.action.requestOwn(effects, setPrimaryUrl, 'critical')
 })
 
@@ -29,10 +22,12 @@ const uninstall = sdk.setupUninstall(async ({ effects }) => {})
  */
 export const { packageInit, packageUninit, containerInit } = sdk.setupInit(
   versions,
-  install,
+  preInstall,
+  postInstall,
   uninstall,
   setInterfaces,
   setDependencies,
   actions,
+  initStore,
   exposedStore,
 )

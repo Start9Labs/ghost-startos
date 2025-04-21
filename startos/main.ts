@@ -30,7 +30,12 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    * Each daemon defines its own health check, which can optionally be exposed to the user.
    */
   return sdk.Daemons.of(effects, started, healthReceipts).addDaemon('primary', {
-    subcontainer: { imageId: 'ghost' },
+    subcontainer: await sdk.SubContainer.of(
+      effects,
+      { imageId: 'ghost' },
+      sdk.Mounts.of().addVolume('main', null, '/var/lib/ghost/content', false),
+      'ghost-sub',
+    ),
     command: ['docker_entrypoint.sh'],
     env: {
       URL: url,
@@ -38,12 +43,6 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
       DB_PASS: database__connection__password,
       ADMIN_URL: adminUI?.addressInfo?.localUrls[0]!,
     },
-    mounts: sdk.Mounts.of().addVolume(
-      'main',
-      null,
-      '/var/lib/ghost/content',
-      false,
-    ),
     ready: {
       display: 'Web Interfaces',
       fn: () =>
