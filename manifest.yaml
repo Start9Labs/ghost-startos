@@ -1,6 +1,6 @@
 id: ghost
 title: "Ghost"
-version: 5.116.2
+version: 5.118.0
 release-notes: |
   * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.75.3...v5.116.2)
   * Latest version of localy hosted scripts
