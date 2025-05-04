@@ -42,7 +42,7 @@ Before installation, define `host: https://server-name.local` in your `~/.starto
 make install
 ```
 
-**Tip:** You can also install the ghost.s9pk by sideloading it under the **StartOS > System > Sideload a Service** section.
+**Tip:** You can also install the `ghost.s9pk` by using the **Sideload** tab available in the top menu of the StartOS UI.
 
 ## Verify Install
 
