@@ -4,8 +4,8 @@ import { getPrimaryInterfaceUrls } from '../utils'
 import { readFile, rmdir } from 'fs/promises'
 import { load } from 'js-yaml'
 
-export const v_5_110_4_0 = VersionInfo.of({
-  version: '5.110.4:0',
+export const v_5_118_0_1 = VersionInfo.of({
+  version: '5.118.0:1',
   releaseNotes: 'Revamped for StartOS 0.4.0',
   migrations: {
     up: async ({ effects }) => {
