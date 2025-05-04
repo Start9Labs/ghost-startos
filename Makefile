@@ -1,7 +1,9 @@
 PACKAGE_ID := $(shell grep -o "id: '[^']*'" startos/manifest.ts | sed "s/id: '\([^']*\)'/\1/")
 INGREDIENTS := $(shell start-cli s9pk list-ingredients 2> /dev/null)
 
-.PHONY: all clean install check-deps check-init ingredients
+.PHONY: all clean install check-deps check-init ingredients update-deps
+
+.DELETE_ON_ERROR:
 
 all: ${PACKAGE_ID}.s9pk
 	@echo " Done!"
@@ -10,6 +12,10 @@ all: ${PACKAGE_ID}.s9pk
 check-deps:
 	@if ! command -v start-cli > /dev/null; then \
 		echo "Error: start-cli not found. Please install it first."; \
+		exit 1; \
+	fi
+	@if ! command -v npm > /dev/null; then \
+		echo "Error: npm (Node Package Manager) not found. Please install Node.js and npm."; \
 		exit 1; \
 	fi
 
