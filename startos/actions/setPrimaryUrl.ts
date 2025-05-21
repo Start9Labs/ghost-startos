@@ -1,3 +1,4 @@
+import { store } from '../fileModels/store.json'
 import { sdk } from '../sdk'
 import { getPrimaryInterfaceUrls } from '../utils'
 
@@ -10,10 +11,7 @@ export const inputSpec = InputSpec.of({
     return {
       name: 'URL',
       values: urls.reduce(
-        (obj, url) => ({
-          ...obj,
-          [url]: url,
-        }),
+        (obj, url) => ({ ...obj, [url]: url }),
         {} as Record<string, string>,
       ),
       default:
@@ -42,11 +40,9 @@ export const setPrimaryUrl = sdk.Action.withInput(
 
   // optionally pre-fill the input form
   async ({ effects }) => ({
-    url:
-      (await sdk.store.getOwn(effects, sdk.StorePath.url).const()) || undefined,
+    url: (await store.read((s) => s.url).const(effects)) || undefined,
   }),
 
   // the execution function
-  async ({ effects, input }) =>
-    sdk.store.setOwn(effects, sdk.StorePath.url, input.url),
+  async ({ effects, input }) => store.merge(effects, { url: input.url }),
 )

@@ -1,3 +1,4 @@
+import { store } from '../fileModels/store.json'
 import { sdk } from '../sdk'
 
 export const setTinfoil = sdk.Action.withoutInput(
@@ -6,9 +7,9 @@ export const setTinfoil = sdk.Action.withoutInput(
 
   // metadata
   async ({ effects }) => {
-    const tinfoilEnabled = await sdk.store
-      .getOwn(effects, sdk.StorePath.privacy__useTinfoil)
-      .const()
+    const tinfoilEnabled = await store
+      .read((s) => s.privacy__useTinfoil)
+      .const(effects)
 
     return {
       name: tinfoilEnabled ? 'Disabled Tinfoil Mode' : 'Enabled Tinfoil Mode',
@@ -23,14 +24,10 @@ export const setTinfoil = sdk.Action.withoutInput(
 
   // the execution function
   async ({ effects }) => {
-    const tinfoilEnabled = await sdk.store
-      .getOwn(effects, sdk.StorePath.privacy__useTinfoil)
-      .const()
+    const tinfoilEnabled = await store
+      .read((s) => s.privacy__useTinfoil)
+      .const(effects)
 
-    await sdk.store.setOwn(
-      effects,
-      sdk.StorePath.privacy__useTinfoil,
-      !tinfoilEnabled,
-    )
+    await store.merge(effects, { privacy__useTinfoil: !tinfoilEnabled })
   },
 )

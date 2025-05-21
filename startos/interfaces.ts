@@ -16,7 +16,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
     schemeOverride: null,
     username: null,
     path: '',
-    search: {},
+    query: {},
   })
   const primaryReceipt = await primaryMultiOrigin.export([primary])
 
@@ -34,7 +34,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
     schemeOverride: null,
     username: null,
     path: '/ghost',
-    search: {},
+    query: {},
   })
   const adminReceipt = await adminMultiOrigin.export([admin])
 

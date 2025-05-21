@@ -1,6 +1,7 @@
 import { sdk } from './sdk'
 import { T } from '@start9labs/start-sdk'
 import { uiPort } from './utils'
+import { store } from './fileModels/store.json'
 
 export const main = sdk.setupMain(async ({ effects, started }) => {
   /**
@@ -10,8 +11,11 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    */
   console.info('Starting Ghost!')
 
-  const { url, privacy__useTinfoil, database__connection__password } =
-    await sdk.store.getOwn(effects, sdk.StorePath).const()
+  const storeVals = await store.read().const(effects)
+  if (!storeVals) {
+    throw new Error('Store not found')
+  }
+  const { url, privacy__useTinfoil, database__connection__password } = storeVals
 
   const adminUI = await sdk.serviceInterface.getOwn(effects, 'admin').once()
 
@@ -33,7 +37,12 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     subcontainer: await sdk.SubContainer.of(
       effects,
       { imageId: 'ghost' },
-      sdk.Mounts.of().addVolume('main', null, '/var/lib/ghost/content', false),
+      sdk.Mounts.of().mountVolume({
+        volumeId: 'main',
+        subpath: null,
+        mountpoint: '/var/lib/ghost/content',
+        readonly: false,
+      }),
       'ghost-sub',
     ),
     command: ['docker_entrypoint.sh'],
