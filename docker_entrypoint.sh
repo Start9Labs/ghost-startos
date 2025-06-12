@@ -89,6 +89,7 @@ export sodoSearch__styles="/ghost/assets/local/sodo-main.css"
 export comments__url="/ghost/assets/local/comments-ui.min.js"
 export comments__styles="/ghost/assets/local/comments-main.css"
 export privacy__useUpdateCheck=false
+export security__staffDeviceVerification=false
 
 if [ "$(yq e .useTinfoil /var/lib/ghost/content/start9/config.yaml)" = "true" ]; then
     export privacy__useTinfoil=true
@@ -98,8 +99,8 @@ if [ "$(yq e .useTinfoil /var/lib/ghost/content/start9/config.yaml)" = "true" ];
 fi
 
 sed -i 's#https://code.jquery.com/jquery-3.5.1.min.js#/ghost/assets/local/jquery-3.5.1.min.js#g' /var/lib/ghost/current/content/themes/*/default.hbs
-sed -i 's#https://static.ghost.org/v5.0.0/images/publication-cover.jpg#'$LAN_ADDR'/ghost/assets/local/publication-cover.png#g' /var/lib/ghost/current/core/server/data/schema/default-settings/default-settings.json
-sed -i 's#https://static.ghost.org/v4.0.0/images/feature-image.jpg#'$LAN_ADDR'/ghost/assets/local/feature-image.jpg#g' /var/lib/ghost/current/core/server/data/schema/fixtures/fixtures.json
+sed -i 's#https://static.ghost.org/v5.0.0/images/publication-cover.jpg#/ghost/assets/local/publication-cover.png#g' /var/lib/ghost/current/core/server/data/schema/default-settings/default-settings.json
+sed -i 's#https://static.ghost.org/v4.0.0/images/feature-image.jpg#/ghost/assets/local/feature-image.jpg#g' /var/lib/ghost/current/core/server/data/schema/fixtures/fixtures.json
 sed -i 's#https://static.ghost.org/v4.0.0/images/ghost-orb-1.png#/ghost/assets/local/ghost-orb-1.png#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
 sed -i 's#https://static.ghost.org/v4.0.0/images/ghost-orb-2.png#/ghost/assets/local/ghost-orb-2.png#g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
 sed -i 's#gh-env-error#gh-env-error hidden#g; s#gh-upgrade-notification#gh-upgrade-notification hidden#g; s#gh-btn-notification-dot#gh-btn-notification-dot hidden#g; s@,\[24,"data-tooltip","Update available!"\],@,@g' /var/lib/ghost/current/core/built/admin/assets/ghost-*.js
