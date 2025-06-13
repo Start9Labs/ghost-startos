@@ -68,6 +68,7 @@ export sodoSearch__styles="/ghost/assets/local/sodo-main.css"
 export comments__url="/ghost/assets/local/comments-ui.min.js"
 export comments__styles="/ghost/assets/local/comments-main.css"
 export privacy__useUpdateCheck=false
+export security__staffDeviceVerification=false
 export admin__url=$ADMIN_URL
 
 if [ $TINFOIL = "true" ]; then
