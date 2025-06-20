@@ -1,5 +1,4 @@
 import { sdk } from './sdk'
-import { T } from '@start9labs/start-sdk'
 import { uiPort } from './utils'
 import { store } from './fileModels/store.json'
 
