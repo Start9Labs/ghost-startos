@@ -1,4 +1,4 @@
-import { store } from '../fileModels/store.json'
+import { storeJson } from '../fileModels/store.json'
 import { sdk } from '../sdk'
 
 export const setTinfoil = sdk.Action.withoutInput(
@@ -7,7 +7,7 @@ export const setTinfoil = sdk.Action.withoutInput(
 
   // metadata
   async ({ effects }) => {
-    const tinfoilEnabled = await store
+    const tinfoilEnabled = await storeJson
       .read((s) => s.privacy__useTinfoil)
       .const(effects)
 
@@ -24,10 +24,10 @@ export const setTinfoil = sdk.Action.withoutInput(
 
   // the execution function
   async ({ effects }) => {
-    const tinfoilEnabled = await store
+    const tinfoilEnabled = await storeJson
       .read((s) => s.privacy__useTinfoil)
       .const(effects)
 
-    await store.merge(effects, { privacy__useTinfoil: !tinfoilEnabled })
+    await storeJson.merge(effects, { privacy__useTinfoil: !tinfoilEnabled })
   },
 )

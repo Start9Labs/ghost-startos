@@ -54,8 +54,8 @@ fi
 /usr/sbin/mysqld --user=node --datadir='/var/lib/ghost/content/mysql' --console --skip-name-resolve --skip-networking=0 &
 db_process=$!
 
-echo '** ADMIN URL **'
-echo $ADMIN_URL
+# echo '** ADMIN URL **'
+# echo $ADMIN_URL
 
 export url=$URL
 export database__client=mysql
@@ -69,7 +69,11 @@ export comments__url="/ghost/assets/local/comments-ui.min.js"
 export comments__styles="/ghost/assets/local/comments-main.css"
 export privacy__useUpdateCheck=false
 export security__staffDeviceVerification=false
-export admin__url=$ADMIN_URL
+# export admin__url=$ADMIN_URL
+# export admin__url="https://6aznkbjcmip7ozlei7fwp2rvqwzvxpg6osxac4t7kblu3ylx3g4flcid.onion"
+
+# echo 'Check TINFOIL env'
+# echo $TINFOIL
 
 if [ $TINFOIL = "true" ]; then
     export privacy__useTinfoil=true

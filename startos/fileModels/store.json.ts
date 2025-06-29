@@ -8,7 +8,7 @@ const shape = object({
   database__connection__password: string,
 })
 
-export const store = FileHelper.json(
+export const storeJson = FileHelper.json(
   { volumeId: 'main', subpath: '/store.json' },
   shape,
 )

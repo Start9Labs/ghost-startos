@@ -2,7 +2,7 @@ import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 import { getPrimaryInterfaceUrls } from '../../utils'
 import { readFile, rm } from 'fs/promises'
 import { load } from 'js-yaml'
-import { store } from '../../fileModels/store.json'
+import { storeJson } from '../../fileModels/store.json'
 
 export const v_5_121_0_1 = VersionInfo.of({
   version: '5.121.0:1',
@@ -27,7 +27,7 @@ export const v_5_121_0_1 = VersionInfo.of({
 
       const urls = await getPrimaryInterfaceUrls(effects)
 
-      await store.write(effects, {
+      await storeJson.write(effects, {
         url: urls.find((u) => u.startsWith('http:') && u.includes('.onion'))!,
         privacy__useTinfoil: !!configFile?.useTinfoil,
         database__connection__password: statsFile.data.MariaDB.value,

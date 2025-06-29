@@ -1,6 +1,6 @@
 import { sdk } from './sdk'
 import { uiPort } from './utils'
-import { store } from './fileModels/store.json'
+import { storeJson } from './fileModels/store.json'
 
 export const main = sdk.setupMain(async ({ effects, started }) => {
   /**
@@ -10,7 +10,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    */
   console.info('Starting Ghost!')
 
-  const storeVals = await store.read().const(effects)
+  const storeVals = await storeJson.read().const(effects)
   if (!storeVals) {
     throw new Error('Store not found')
   }

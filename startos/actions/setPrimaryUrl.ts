@@ -1,4 +1,4 @@
-import { store } from '../fileModels/store.json'
+import { storeJson } from '../fileModels/store.json'
 import { sdk } from '../sdk'
 import { getPrimaryInterfaceUrls } from '../utils'
 
@@ -40,9 +40,9 @@ export const setPrimaryUrl = sdk.Action.withInput(
 
   // optionally pre-fill the input form
   async ({ effects }) => ({
-    url: (await store.read((s) => s.url).const(effects)) || undefined,
+    url: (await storeJson.read((s) => s.url).const(effects)) || undefined,
   }),
 
   // the execution function
-  async ({ effects, input }) => store.merge(effects, { url: input.url }),
+  async ({ effects, input }) => storeJson.merge(effects, { url: input.url }),
 )
