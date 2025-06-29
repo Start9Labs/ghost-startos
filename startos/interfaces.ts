@@ -2,11 +2,12 @@ import { sdk } from './sdk'
 import { uiPort } from './utils'
 
 export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
-  // primary
-  const primaryMulti = sdk.MultiHost.of(effects, 'primary-multi')
+  const primaryMulti = sdk.MultiHost.of(effects, 'ui-multi')
   const primaryMultiOrigin = await primaryMulti.bindPort(uiPort, {
     protocol: 'http',
   })
+
+  // primary
   const primary = sdk.createInterface(effects, {
     name: 'Primary UI',
     id: 'primary',
@@ -18,13 +19,8 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
     path: '',
     query: {},
   })
-  const primaryReceipt = await primaryMultiOrigin.export([primary])
 
   // admin
-  const adminMulti = sdk.MultiHost.of(effects, 'admin-multi')
-  const adminMultiOrigin = await adminMulti.bindPort(2369, {
-    protocol: 'http',
-  })
   const admin = sdk.createInterface(effects, {
     name: 'Admin UI',
     id: 'admin',
@@ -36,7 +32,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
     path: '/ghost',
     query: {},
   })
-  const adminReceipt = await adminMultiOrigin.export([admin])
+  const uiReceipt = await primaryMultiOrigin.export([primary, admin])
 
-  return [primaryReceipt, adminReceipt]
+  return [uiReceipt]
 })

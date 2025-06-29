@@ -16,8 +16,6 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   }
   const { url, privacy__useTinfoil, database__connection__password } = storeVals
 
-  const adminUI = await sdk.serviceInterface.getOwn(effects, 'admin').once()
-
   /**
    * ======================== Daemons ========================
    *
@@ -43,7 +41,6 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
         URL: url,
         TINFOIL: String(privacy__useTinfoil),
         DB_PASS: database__connection__password,
-        ADMIN_URL: adminUI?.addressInfo?.localUrls[0]!,
       },
     },
     ready: {
