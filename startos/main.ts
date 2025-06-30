@@ -1,6 +1,7 @@
 import { sdk } from './sdk'
 import { uiPort } from './utils'
 import { storeJson } from './fileModels/store.json'
+import { T } from '@start9labs/start-sdk'
 
 export const main = sdk.setupMain(async ({ effects, started }) => {
   /**
@@ -14,7 +15,34 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   if (!storeVals) {
     throw new Error('Store not found')
   }
-  const { url, privacy__useTinfoil, database__connection__password } = storeVals
+  const { url, privacy__useTinfoil, database__connection__password, smtp } =
+    storeVals
+
+  let smtpCredentials: T.SmtpValue | null = null
+
+  if (smtp.selection === 'system') {
+    smtpCredentials = await sdk.getSystemSmtp(effects).const()
+    if (smtpCredentials && smtp.value.customFrom)
+      smtpCredentials.from = smtp.value.customFrom
+  } else if (smtp.selection === 'custom') {
+    smtpCredentials = smtp.value
+  }
+
+  let smtpEnv = {} as SMTP_ENV
+  if (smtpCredentials) {
+    // Automatic secure flag based on port
+    // Port 465: secure = true, otherwise = false
+    const portNum = Number(smtpCredentials.port)
+    smtpEnv = {
+      SMTP_HOST: smtpCredentials.server,
+      SMTP_FROM: smtpCredentials.from,
+      SMTP_PORT: String(smtpCredentials.port),
+      SMTP_SECURITY: portNum === 465 ? 'true' : 'false',
+      SMTP_USERNAME: smtpCredentials.login,
+    }
+    if (smtpCredentials.password)
+      smtpEnv.SMTP_PASSWORD = smtpCredentials.password
+  }
 
   /**
    * ======================== Daemons ========================
@@ -41,6 +69,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
         URL: url,
         TINFOIL: String(privacy__useTinfoil),
         DB_PASS: database__connection__password,
+        ...smtpEnv,
       },
     },
     ready: {
@@ -58,3 +87,12 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     requires: [],
   })
 })
+
+type SMTP_ENV = {
+  SMTP_HOST: string
+  SMTP_FROM: string
+  SMTP_PORT: string
+  SMTP_SECURITY: 'true' | 'false'
+  SMTP_USERNAME: string
+  SMTP_PASSWORD?: string
+}

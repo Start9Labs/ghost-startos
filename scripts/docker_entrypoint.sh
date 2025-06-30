@@ -66,6 +66,13 @@ export comments__url="/ghost/assets/local/comments-ui.min.js"
 export comments__styles="/ghost/assets/local/comments-main.css"
 export privacy__useUpdateCheck=false
 export security__staffDeviceVerification=false
+export mail__transport=SMTP
+export mail__options__host=$SMTP_HOST
+export mail__options__port=$SMTP_PORT
+export mail__options__secure=$SMTP_SECURITY
+export mail__options__auth__user=$SMTP_USERNAME
+export mail__options__auth__pass=$SMTP_PASSWORD
+export mail__from=$SMTP_FROM
 
 if [ $TINFOIL = "true" ]; then
     export privacy__useTinfoil=true

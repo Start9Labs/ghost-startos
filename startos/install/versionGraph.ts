@@ -13,6 +13,7 @@ export const versionGraph = VersionGraph.of({
         len: 16,
       }),
       privacy__useTinfoil: true,
+      smtp: { selection: 'disabled', value: {} },
     })
   },
 })

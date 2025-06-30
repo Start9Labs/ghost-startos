@@ -31,6 +31,10 @@ export const v_5_121_0_1 = VersionInfo.of({
         url: urls.find((u) => u.startsWith('http:') && u.includes('.onion'))!,
         privacy__useTinfoil: !!configFile?.useTinfoil,
         database__connection__password: statsFile.data.MariaDB.value,
+        smtp: {
+          selection: 'disabled',
+          value: {},
+        },
       })
 
       // remove old start9 dir
