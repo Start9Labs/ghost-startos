@@ -5,7 +5,7 @@ import { load } from 'js-yaml'
 import { storeJson } from '../../fileModels/store.json'
 
 export const v_5_121_0_1 = VersionInfo.of({
-  version: '5.121.0:1',
+  version: '5.121.0:1-alpha.0',
   releaseNotes: 'Revamped for StartOS 0.4.0',
   migrations: {
     up: async ({ effects }) => {
