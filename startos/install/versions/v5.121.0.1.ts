@@ -15,7 +15,7 @@ export const v_5_121_0_1 = VersionInfo.of({
           '/media/startos/volumes/main/start9/stats.yaml',
           'utf-8',
         ),
-      ) as { data: { MariaDB: { value: string } } }
+      ) as { data?: { MariaDB?: { value: string } } } | undefined
 
       // get old config.yaml
       const configFile = load(
