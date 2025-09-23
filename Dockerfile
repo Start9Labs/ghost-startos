@@ -7,8 +7,8 @@ RUN apt-get update; apt-get install -y --no-install-recommends ca-certificates w
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*
 
-COPY --chmod=0755 scripts/docker_entrypoint.sh /usr/local/bin
-COPY scripts/local /var/lib/ghost/current/core/built/admin/assets/local
+COPY --chmod=0755 assets/scripts/docker_entrypoint.sh /usr/local/bin
+COPY assets/scripts/local /var/lib/ghost/current/core/built/admin/assets/local
 
 FROM node:18-bullseye-slim AS final
 

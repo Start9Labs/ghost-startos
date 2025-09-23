@@ -9,7 +9,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    *
    * In this section, we fetch any resources or run any desired preliminary commands.
    */
-  console.info('Starting Ghost!')
+  console.info('[i] Starting Ghost!')
 
   const storeVals = await storeJson.read().const(effects)
   if (!storeVals) {
