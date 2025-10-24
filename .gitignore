@@ -4,3 +4,5 @@ docker-images
 .DS_Store
 .vscode
 config.json
+node_modules
+javascript

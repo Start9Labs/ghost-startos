@@ -1,4 +1,4 @@
-FROM ghost:5.121.0 AS build
+FROM ghost:5.130.5 AS build
 
 RUN apt-get update; apt-get install -y --no-install-recommends ca-certificates wget; \
     dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
@@ -13,7 +13,7 @@ COPY scripts/local /var/lib/ghost/current/core/built/admin/assets/local
 FROM node:18-bullseye-slim AS final
 
 ENV NODE_ENV=production \
-    GHOST_CLI_VERSION=1.27.0 \
+    GHOST_CLI_VERSION=1.28.3 \
     GHOST_INSTALL=/var/lib/ghost \
     GHOST_CONTENT=/var/lib/ghost/content
 
