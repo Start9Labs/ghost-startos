@@ -6,7 +6,7 @@ export const v_5_130_5_1 = VersionInfo.of({
   # Update for StartOS 0.4.0
   
   ### Dependency Updates
-  * Updated SDK to beta.41
+  * Updated SDK to beta.42
   * Updated dev dependencies to latest versions
 
   ### Updated Ghost code to the latest upstream 5.x version.
