@@ -12,7 +12,7 @@ export const setTinfoil = sdk.Action.withoutInput(
       .const(effects)
 
     return {
-      name: tinfoilEnabled ? 'Disabled Tinfoil Mode' : 'Enabled Tinfoil Mode',
+      name: tinfoilEnabled ? 'Disable Tinfoil Mode' : 'Enable Tinfoil Mode',
       description:
         'Enabling tinfoil mode protects your privacy by disabling built-in features of Ghost that could expose your IP address, such as Gravatars, update checks, RPC pinging, structured data, and third party integrations. Note: this may also prevent certain parts of the UI from rendering properly.',
       warning: null,

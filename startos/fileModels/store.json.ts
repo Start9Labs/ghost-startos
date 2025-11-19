@@ -5,7 +5,7 @@ const { object, string, boolean } = matches
 
 const shape = object({
   url: string,
-  privacy__useTinfoil: boolean.onMismatch(false),
+  privacy__useTinfoil: boolean.onMismatch(true),
   database__connection__password: string,
   smtp: sdk.inputSpecConstants.smtpInputSpec.validator.onMismatch({
     selection: 'disabled',
