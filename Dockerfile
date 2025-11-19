@@ -1,12 +1,5 @@
 FROM ghost:5.130.5 AS build
 
-RUN apt-get update; apt-get install -y --no-install-recommends ca-certificates wget; \
-    dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
-    wget -O /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.25.1/yq_linux_$dpkgArch"; \
-    chmod +x /usr/local/bin/yq; \
-    apt-get clean; \
-    rm -rf /var/lib/apt/lists/*
-
 COPY --chmod=0755 assets/scripts/docker_entrypoint.sh /usr/local/bin
 COPY assets/scripts/local /var/lib/ghost/current/core/built/admin/assets/local
 
@@ -26,7 +19,6 @@ WORKDIR $GHOST_INSTALL
 VOLUME $GHOST_CONTENT
 
 COPY --from=build $GHOST_INSTALL $GHOST_INSTALL
-COPY --from=build /usr/local/bin/yq /usr/local/bin/
 COPY --from=build /usr/local/bin/gosu /usr/local/bin/
 COPY --from=build /usr/local/bin/docker* /usr/local/bin/
 COPY --from=build /usr/local/lib/node_modules/ghost-cli /usr/local/lib/node_modules/ghost-cli
