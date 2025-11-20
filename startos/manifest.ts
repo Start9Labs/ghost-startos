@@ -21,13 +21,19 @@ export const manifest = setupManifest({
     short: 'A self-hosted blogging platform',
     long: 'Ghost is a free and open source blogging platform written in JavaScript and distributed under the MIT License, designed to simplify the process of online publishing for individual bloggers as well as online publications.',
   },
-  volumes: ['main'],
+  volumes: ['main', 'mysql'],
   images: {
     ghost: {
       source: {
-        dockerBuild: {},
+        dockerTag: 'ghost:6.8.1',
       },
-      arch: architectures
+      arch: architectures,
+    } as SDKImageInputSpec,
+    mysql: {
+      source: {
+        dockerTag: 'mysql:8.0-bookworm',
+      },
+      arch: architectures,
     } as SDKImageInputSpec,
   },
   hardwareRequirements: { arch: architectures },

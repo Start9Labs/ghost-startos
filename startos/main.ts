@@ -51,41 +51,75 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    *
    * Each daemon defines its own health check, which can optionally be exposed to the user.
    */
-  return sdk.Daemons.of(effects, started).addDaemon('primary', {
-    subcontainer: await sdk.SubContainer.of(
-      effects,
-      { imageId: 'ghost' },
-      sdk.Mounts.of().mountVolume({
-        volumeId: 'main',
-        subpath: null,
-        mountpoint: '/var/lib/ghost/content',
-        readonly: false,
-      }),
-      'ghost-sub',
-    ),
-    exec: {
-      command: ['docker_entrypoint.sh'],
-      env: {
-        URL: url,
-        TINFOIL: String(privacy__useTinfoil),
-        DB_PASS: database__connection__password,
-        ...smtpEnv,
+  return sdk.Daemons.of(effects, started)
+    .addDaemon('db', {
+      subcontainer: await sdk.SubContainer.of(
+        effects,
+        { imageId: 'mysql' },
+        sdk.Mounts.of().mountVolume({
+          volumeId: 'mysql',
+          subpath: null,
+          mountpoint: '/data',
+          readonly: false,
+        }),
+        'db-sub',
+      ),
+      exec: {
+        command: sdk.useEntrypoint(),
+        env: {
+          MYSQL_ROOT_PASSWORD: database__connection__password,
+        },
       },
-    },
-    ready: {
-      display: 'Web Interfaces',
-      fn: () =>
-        sdk.healthCheck.checkWebUrl(
-          effects,
-          `http://ghost.startos:${uiPort}/ghost/api/v3/admin/site/`,
-          {
-            successMessage: 'Ghost web interfaces are ready',
-            errorMessage: 'Ghost web interfaces are not ready',
-          },
-        ),
-    },
-    requires: [],
-  })
+      ready: {
+        display: null,
+        fn: () =>
+          sdk.healthCheck.checkPortListening(effects, 3306, {
+            successMessage: 'MySQL DB is ready',
+            errorMessage: 'MySQL DB error',
+          }),
+      },
+      requires: [],
+    })
+
+    .addDaemon('primary', {
+      subcontainer: await sdk.SubContainer.of(
+        effects,
+        { imageId: 'ghost' },
+        sdk.Mounts.of().mountVolume({
+          volumeId: 'main',
+          subpath: null,
+          mountpoint: '/var/lib/ghost/content',
+          readonly: false,
+        }),
+        'ghost-sub',
+      ),
+      exec: {
+        command: sdk.useEntrypoint(),
+        env: {
+          NODE_ENV: 'production',
+          url,
+          database__client: 'mysql',
+          database__connection__host: 'localhost',
+          database__connection__password,
+          database__connection__database: 'ghost',
+          privacy__useTinfoil: String(privacy__useTinfoil),
+          ...smtpEnv,
+        },
+      },
+      ready: {
+        display: 'Ghost UI',
+        fn: () =>
+          sdk.healthCheck.checkWebUrl(
+            effects,
+            `http://ghost.startos:${uiPort}/ghost/api/v3/admin/site/`,
+            {
+              successMessage: 'Ghost web interfaces are ready',
+              errorMessage: 'Ghost web interfaces are not ready',
+            },
+          ),
+      },
+      requires: ['db'],
+    })
 })
 
 type SMTP_ENV = {
