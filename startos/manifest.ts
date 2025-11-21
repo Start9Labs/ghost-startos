@@ -31,7 +31,7 @@ export const manifest = setupManifest({
     } as SDKImageInputSpec,
     mysql: {
       source: {
-        dockerTag: 'mysql:8.0-bookworm',
+        dockerTag: 'mysql:lts',
       },
       arch: architectures,
     } as SDKImageInputSpec,
