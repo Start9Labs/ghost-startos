@@ -25,13 +25,19 @@ export const manifest = setupManifest({
   images: {
     ghost: {
       source: {
-        dockerTag: 'ghost:6.8.1',
+        dockerTag: 'ghost:6.9.1-alpine',
       },
       arch: architectures,
     } as SDKImageInputSpec,
     mysql: {
       source: {
         dockerTag: 'mysql:lts',
+      },
+      arch: architectures,
+    } as SDKImageInputSpec,
+    caddy: {
+      source: {
+        dockerTag: 'caddy:2-alpine',
       },
       arch: architectures,
     } as SDKImageInputSpec,
