@@ -1,10 +1,9 @@
-import { writeFile } from 'fs/promises'
 import { sdk } from './sdk'
-import { uiPort, ghostPort, getCaddyfile } from './utils'
+import { port } from './utils'
 import { storeJson } from './fileModels/store.json'
 import { T } from '@start9labs/start-sdk'
 
-export const main = sdk.setupMain(async ({ effects, started }) => {
+export const main = sdk.setupMain(async ({ effects }) => {
   /**
    * ======================== Setup (optional) ========================
    *
@@ -16,7 +15,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   if (!storeVals) {
     throw new Error('Store not found')
   }
-  const { url, privacy__useTinfoil, database__connection__password, smtp } =
+  const { url, privacy__useTinfoil, smtp, database__connection__password } =
     storeVals
 
   let smtpCredentials: T.SmtpValue | null = null
@@ -31,49 +30,21 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
 
   let smtpEnv = {} as SMTP_ENV
   if (smtpCredentials) {
-    // Ghost uses double underscore format for nested config
-    // Port 465: secure = true, otherwise = false
-    const portNum = Number(smtpCredentials.port)
-    const isSecure = portNum === 465
     smtpEnv = {
-      'mail__transport': 'SMTP',
-      'mail__options__host': smtpCredentials.server,
-      'mail__options__port': String(smtpCredentials.port),
-      'mail__options__auth__user': smtpCredentials.login,
-      'mail__from': smtpCredentials.from,
+      mail__transport: 'SMTP',
+      mail__options__host: smtpCredentials.server,
+      mail__options__port: String(smtpCredentials.port),
+      mail__options__auth__user: smtpCredentials.login,
+      mail__from: smtpCredentials.from,
     }
-    if (smtpCredentials.password)
+    if (smtpCredentials.password) {
       smtpEnv['mail__options__auth__pass'] = smtpCredentials.password
-    if (isSecure) {
+    }
+
+    if (smtpCredentials.port === 465) {
       smtpEnv['mail__options__secure'] = 'true'
     }
   }
-
-  /**
-   * ======================== SubContainers ========================
-   *
-   * Create subcontainers for services that need them.
-   */
-  const caddySub = await sdk.SubContainer.of(
-    effects,
-    { imageId: 'caddy' },
-    sdk.Mounts.of().mountVolume({
-      volumeId: 'main',
-      subpath: 'caddy',
-      mountpoint: '/data',
-      readonly: false,
-    }),
-    'caddy-sub',
-  )
-
-  // Write Caddyfile to Caddy container's root filesystem
-  // ActivityPub target: use Ghost's official ActivityPub service by default
-  // This should allow Ghost's ActivityPub integration to work but it is broken!
-  const activitypubTarget = 'https://ap.ghost.org'
-  await writeFile(
-    `${caddySub.rootfs}/Caddyfile`,
-    getCaddyfile(activitypubTarget, ghostPort),
-  )
 
   /**
    * ======================== Daemons ========================
@@ -82,7 +53,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    *
    * Each daemon defines its own health check, which can optionally be exposed to the user.
    */
-  const daemons = sdk.Daemons.of(effects, started)
+  const daemons = sdk.Daemons.of(effects)
     .addDaemon('db', {
       subcontainer: await sdk.SubContainer.of(
         effects,
@@ -134,53 +105,34 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
           database__connection__password,
           database__connection__database: 'ghost',
           privacy__useTinfoil: String(privacy__useTinfoil),
-          // ACTIVITYPUB_TARGET tells Ghost where to find the ActivityPub service
-          // TODO: Check if this is passed as an environment variable
-          ACTIVITYPUB_TARGET: activitypubTarget,
           ...smtpEnv,
         },
       },
       ready: {
         display: 'Ghost UI',
+        gracePeriod: 120000,
         fn: () =>
-          sdk.healthCheck.checkPortListening(effects, ghostPort, {
-            successMessage: 'Ghost web interfaces are ready',
-            errorMessage: 'Ghost web interfaces are not ready',
-          }),
+          sdk.healthCheck.checkWebUrl(
+            effects,
+            `http://127.0.0.1:${port}/ghost/api/admin/site/`,
+            {
+              successMessage: 'Ghost web interfaces are ready',
+              errorMessage: 'Ghost web interfaces are not ready',
+            },
+          ),
       },
       requires: ['db'],
-    })
-
-    .addDaemon('caddy', {
-      subcontainer: caddySub,
-      exec: {
-        command: ['caddy', 'run', '--config', '/Caddyfile'],
-        env: {
-          HOME: '/root',
-        },
-      },
-      ready: {
-        display: 'Caddy',
-        fn: () =>
-          sdk.healthCheck.checkPortListening(effects, uiPort, {
-            successMessage: 'Caddy is ready',
-            errorMessage: 'Caddy is not ready',
-          }),
-      },
-      // Caddy should start early so ActivityPub routes are available when Ghost initializes
-      // Ghost will proxy through Caddy, so Caddy doesn't need to wait for Ghost
-      requires: [],
     })
 
   return daemons
 })
 
 type SMTP_ENV = {
-  'mail__transport'?: string
-  'mail__options__host'?: string
-  'mail__options__port'?: string
-  'mail__options__auth__user'?: string
-  'mail__options__auth__pass'?: string
-  'mail__options__secure'?: string
-  'mail__from'?: string
+  mail__transport?: string
+  mail__options__host?: string
+  mail__options__port?: string
+  mail__options__auth__user?: string
+  mail__options__auth__pass?: string
+  mail__options__secure?: string
+  mail__from?: string
 }

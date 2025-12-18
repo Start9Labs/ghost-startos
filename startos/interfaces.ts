@@ -1,10 +1,11 @@
 import { sdk } from './sdk'
-import { uiPort } from './utils'
+import { port } from './utils'
 
 export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
-  const primaryMulti = sdk.MultiHost.of(effects, 'main')
-  const primaryMultiOrigin = await primaryMulti.bindPort(uiPort, {
+  const uiMulti = sdk.MultiHost.of(effects, 'main')
+  const uiMultiOrigin = await uiMulti.bindPort(port, {
     protocol: 'http',
+    addSsl: { addXForwardedHeaders: true },
   })
 
   // primary
@@ -32,7 +33,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
     path: '/ghost',
     query: {},
   })
-  const uiReceipt = await primaryMultiOrigin.export([primary, admin])
+  const uiReceipt = await uiMultiOrigin.export([primary, admin])
 
   return [uiReceipt]
 })
