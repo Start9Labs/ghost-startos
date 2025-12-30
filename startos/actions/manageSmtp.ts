@@ -14,7 +14,8 @@ export const manageSmtp = sdk.Action.withInput(
   // metadata
   async ({ effects }) => ({
     name: 'Configure SMTP',
-    description: 'Add SMTP credentials for sending emails.',
+    description:
+      'Add SMTP credentials for sending/receiving account-related emails.',
     warning: null,
     allowedStatuses: 'any',
     group: null,
@@ -28,7 +29,6 @@ export const manageSmtp = sdk.Action.withInput(
   async ({ effects }) => ({
     smtp: (await storeJson.read((s) => s.smtp).once()) || undefined,
   }),
-
   // the execution function
   async ({ effects, input }) => storeJson.merge(effects, { smtp: input.smtp }),
 )

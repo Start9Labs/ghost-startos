@@ -15,11 +15,11 @@ export const manifest = setupManifest({
     short: 'A self-hosted blogging platform',
     long: 'Ghost is a free and open source blogging platform written in JavaScript and distributed under the MIT License, designed to simplify the process of online publishing for individual bloggers as well as online publications.',
   },
-  volumes: ['main', 'mysql'],
+  volumes: ['content', 'config', 'mysql', 'startos'],
   images: {
     ghost: {
       source: {
-        dockerTag: 'ghost:6.9.1-alpine',
+        dockerTag: 'ghost:6.10.3-alpine',
       },
     },
     mysql: {
@@ -27,19 +27,6 @@ export const manifest = setupManifest({
         dockerTag: 'mysql:lts',
       },
     },
-    caddy: {
-      source: {
-        dockerTag: 'caddy:2-alpine',
-      },
-    },
-  },
-  alerts: {
-    install: null,
-    update: null,
-    uninstall: null,
-    restore: null,
-    start: null,
-    stop: null,
   },
   dependencies: {},
 })

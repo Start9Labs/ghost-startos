@@ -1,7 +1,7 @@
+import { T } from '@start9labs/start-sdk'
+import { storeJson } from './fileModels/store.json'
 import { sdk } from './sdk'
 import { port } from './utils'
-import { storeJson } from './fileModels/store.json'
-import { T } from '@start9labs/start-sdk'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   /**
@@ -11,12 +11,14 @@ export const main = sdk.setupMain(async ({ effects }) => {
    */
   console.info('[i] Starting Ghost!')
 
-  const storeVals = await storeJson.read().const(effects)
-  if (!storeVals) {
-    throw new Error('Store not found')
+  const store = await storeJson.read().const(effects)
+  if (!store) {
+    throw new Error('store.json.env not found')
   }
-  const { url, privacy__useTinfoil, smtp, database__connection__password } =
-    storeVals
+  const {
+    env: { url, database__connection__password, privacy__useTinfoil },
+    smtp,
+  } = store
 
   let smtpCredentials: T.SmtpValue | null = null
 
@@ -40,11 +42,22 @@ export const main = sdk.setupMain(async ({ effects }) => {
     if (smtpCredentials.password) {
       smtpEnv['mail__options__auth__pass'] = smtpCredentials.password
     }
-
     if (smtpCredentials.port === 465) {
       smtpEnv['mail__options__secure'] = 'true'
     }
   }
+
+  const mysqlSub = await sdk.SubContainer.of(
+    effects,
+    { imageId: 'mysql' },
+    sdk.Mounts.of().mountVolume({
+      volumeId: 'mysql',
+      subpath: null,
+      mountpoint: '/var/lib/mysql',
+      readonly: false,
+    }),
+    'db-sub',
+  )
 
   /**
    * ======================== Daemons ========================
@@ -53,42 +66,45 @@ export const main = sdk.setupMain(async ({ effects }) => {
    *
    * Each daemon defines its own health check, which can optionally be exposed to the user.
    */
+
   const daemons = sdk.Daemons.of(effects)
     .addDaemon('db', {
-      subcontainer: await sdk.SubContainer.of(
-        effects,
-        { imageId: 'mysql' },
-        sdk.Mounts.of().mountVolume({
-          volumeId: 'mysql',
-          subpath: null,
-          mountpoint: '/var/lib/mysql',
-          readonly: false,
-        }),
-        'db-sub',
-      ),
+      subcontainer: mysqlSub,
       exec: {
         command: sdk.useEntrypoint(),
         env: {
           MYSQL_ROOT_PASSWORD: database__connection__password,
+          MYSQL_DATABASE: 'ghost',
         },
       },
       ready: {
         display: null,
-        fn: () =>
-          sdk.healthCheck.checkPortListening(effects, 3306, {
-            successMessage: 'MySQL DB is ready',
-            errorMessage: 'MySQL DB error',
-          }),
+        fn: async () => {
+          const { exitCode } = await mysqlSub.exec([
+            'mysql',
+            '-h',
+            'localhost',
+            '-u',
+            'root',
+            `-p${database__connection__password}`,
+            '-e',
+            'SELECT 1',
+          ])
+
+          return {
+            result: exitCode === 0 ? 'success' : 'failure',
+            message: null,
+          }
+        },
       },
       requires: [],
     })
-
     .addDaemon('primary', {
       subcontainer: await sdk.SubContainer.of(
         effects,
         { imageId: 'ghost' },
         sdk.Mounts.of().mountVolume({
-          volumeId: 'main',
+          volumeId: 'content',
           subpath: null,
           mountpoint: '/var/lib/ghost/content',
           readonly: false,
@@ -105,21 +121,66 @@ export const main = sdk.setupMain(async ({ effects }) => {
           database__connection__password,
           database__connection__database: 'ghost',
           privacy__useTinfoil: String(privacy__useTinfoil),
+          privacy__useUpdateCheck: 'false',
+          security__staffDeviceVerification: 'false',
+          referrerPolicy: 'no-referrer',
           ...smtpEnv,
         },
       },
       ready: {
         display: 'Ghost UI',
-        gracePeriod: 120000,
         fn: () =>
-          sdk.healthCheck.checkWebUrl(
-            effects,
-            `http://127.0.0.1:${port}/ghost/api/admin/site/`,
-            {
-              successMessage: 'Ghost web interfaces are ready',
-              errorMessage: 'Ghost web interfaces are not ready',
-            },
-          ),
+          sdk.healthCheck.checkPortListening(effects, port, {
+            successMessage: 'The web UI is ready',
+            errorMessage: 'The web UI is not ready',
+          }),
+      },
+      requires: ['db'],
+    })
+    .addHealthCheck('database-init', {
+      ready: {
+        display: 'Ghost Database',
+        fn: async () => {
+          const res = await mysqlSub.exec([
+            'mysql',
+            '-u',
+            'root',
+            `-p${database__connection__password}`,
+            'ghost',
+            '-e',
+            "SELECT 1 FROM settings WHERE `key` = 'db_hash' LIMIT 1;",
+            '--silent',
+            '--skip-column-names',
+          ])
+
+          const stdout = (res.stdout as string).trim()
+          const stderr = (res.stderr as string).toLowerCase()
+
+          // Still initializing - these are expected during startup
+          const initializing =
+            stderr.includes("can't connect") ||
+            stderr.includes('connection refused') ||
+            stderr.includes('unknown database') ||
+            stderr.includes("doesn't exist") || // table doesn't exist yet
+            stdout === '' // table exists but no rows yet
+
+          if (stdout === '1') {
+            return {
+              result: 'success',
+              message: 'The database is ready',
+            }
+          } else if (initializing) {
+            return {
+              result: 'loading',
+              message: 'Database initializing. This can take a while...',
+            }
+          } else {
+            return {
+              result: 'failure',
+              message: 'The database is not ready',
+            }
+          }
+        },
       },
       requires: ['db'],
     })

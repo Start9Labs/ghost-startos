@@ -4,9 +4,11 @@ import { sdk } from '../sdk'
 const { object, string, boolean } = matches
 
 const shape = object({
-  url: string,
-  privacy__useTinfoil: boolean.onMismatch(true),
-  database__connection__password: string,
+  env: object({
+    url: string,
+    database__connection__password: string,
+    privacy__useTinfoil: boolean,
+  }),
   smtp: sdk.inputSpecConstants.smtpInputSpec.validator.onMismatch({
     selection: 'disabled',
     value: {},
@@ -14,6 +16,6 @@ const shape = object({
 })
 
 export const storeJson = FileHelper.json(
-  { volumeId: 'main', subpath: './store.json' },
+  { volumeId: 'startos', subpath: './store.json' },
   shape,
 )

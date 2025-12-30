@@ -8,7 +8,7 @@ export const setTinfoil = sdk.Action.withoutInput(
   // metadata
   async ({ effects }) => {
     const tinfoilEnabled = await storeJson
-      .read((s) => s.privacy__useTinfoil)
+      .read((s) => s.env.privacy__useTinfoil)
       .const(effects)
 
     return {
@@ -25,9 +25,11 @@ export const setTinfoil = sdk.Action.withoutInput(
   // the execution function
   async ({ effects }) => {
     const tinfoilEnabled = await storeJson
-      .read((s) => s.privacy__useTinfoil)
-      .const(effects)
+      .read((s) => s.env.privacy__useTinfoil)
+      .once()
 
-    await storeJson.merge(effects, { privacy__useTinfoil: !tinfoilEnabled })
+    await storeJson.merge(effects, {
+      env: { privacy__useTinfoil: !tinfoilEnabled },
+    })
   },
 )
