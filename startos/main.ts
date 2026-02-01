@@ -1,5 +1,6 @@
 import { T } from '@start9labs/start-sdk'
 import { storeJson } from './fileModels/store.json'
+import { i18n } from './i18n'
 import { sdk } from './sdk'
 import { port } from './utils'
 
@@ -9,11 +10,11 @@ export const main = sdk.setupMain(async ({ effects }) => {
    *
    * In this section, we fetch any resources or run any desired preliminary commands.
    */
-  console.info('[i] Starting Ghost!')
+  console.info(i18n('Starting Ghost!'))
 
   const store = await storeJson.read().const(effects)
   if (!store) {
-    throw new Error('store.json.env not found')
+    throw new Error(i18n('store.json.env not found'))
   }
   const {
     env: { url, database__connection__password, privacy__useTinfoil },
@@ -128,18 +129,18 @@ export const main = sdk.setupMain(async ({ effects }) => {
         },
       },
       ready: {
-        display: 'Ghost UI',
+        display: i18n('Ghost UI'),
         fn: () =>
           sdk.healthCheck.checkPortListening(effects, port, {
-            successMessage: 'The web UI is ready',
-            errorMessage: 'The web UI is not ready',
+            successMessage: i18n('The web UI is ready'),
+            errorMessage: i18n('The web UI is not ready'),
           }),
       },
       requires: ['db'],
     })
     .addHealthCheck('database-init', {
       ready: {
-        display: 'Ghost Database',
+        display: i18n('Ghost Database'),
         fn: async () => {
           const res = await mysqlSub.exec([
             'mysql',
@@ -167,17 +168,17 @@ export const main = sdk.setupMain(async ({ effects }) => {
           if (stdout === '1') {
             return {
               result: 'success',
-              message: 'The database is ready',
+              message: i18n('The database is ready'),
             }
           } else if (initializing) {
             return {
               result: 'loading',
-              message: 'Database initializing. This can take a while...',
+              message: i18n('Database initializing. This can take a while...'),
             }
           } else {
             return {
               result: 'failure',
-              message: 'The database is not ready',
+              message: i18n('The database is not ready'),
             }
           }
         },

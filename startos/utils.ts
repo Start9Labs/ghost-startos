@@ -11,9 +11,7 @@ export function getDbPass() {
 }
 
 export async function getNonLocalUrls(effects: T.Effects) {
-  const urls = await sdk.serviceInterface
-    .getOwn(effects, 'primary', (i) => i?.addressInfo?.nonLocal.format())
+  return sdk.serviceInterface
+    .getOwn(effects, 'primary', (i) => i?.addressInfo?.nonLocal.format() || [])
     .const()
-
-  return urls || []
 }

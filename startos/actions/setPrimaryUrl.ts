@@ -1,4 +1,5 @@
 import { storeJson } from '../fileModels/store.json'
+import { i18n } from '../i18n'
 import { sdk } from '../sdk'
 import { getNonLocalUrls } from '../utils'
 
@@ -9,7 +10,7 @@ export const inputSpec = InputSpec.of({
     const urls = await getNonLocalUrls(effects)
 
     return {
-      name: 'URL',
+      name: i18n('URL'),
       values: urls.reduce(
         (obj, url) => ({ ...obj, [url]: url }),
         {} as Record<string, string>,
@@ -25,9 +26,10 @@ export const setPrimaryUrl = sdk.Action.withInput(
 
   // metadata
   async ({ effects }) => ({
-    name: 'Set Primary Url',
-    description:
+    name: i18n('Set Primary Url'),
+    description: i18n(
       'Choose which of your Ghost URLs should serve as the primary URL for the purposes of creating links, sending invites, etc.',
+    ),
     warning: null,
     allowedStatuses: 'any',
     group: null,

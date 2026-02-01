@@ -1,4 +1,5 @@
 import { setupManifest } from '@start9labs/start-sdk'
+import { short, long } from './i18n'
 
 export const manifest = setupManifest({
   id: 'ghost',
@@ -11,21 +12,20 @@ export const manifest = setupManifest({
   donationUrl: 'https://github.com/sponsors/TryGhost/',
   docsUrl:
     'https://github.com/Start9Labs/ghost-startos/blob/update/040/docs/README.md',
-  description: {
-    short: 'A self-hosted blogging platform',
-    long: 'Ghost is a free and open source blogging platform written in JavaScript and distributed under the MIT License, designed to simplify the process of online publishing for individual bloggers as well as online publications.',
-  },
+  description: { short, long },
   volumes: ['content', 'config', 'mysql', 'startos'],
   images: {
     ghost: {
       source: {
-        dockerTag: 'ghost:6.10.3-alpine',
+        dockerTag: 'ghost:6.14.0-alpine',
       },
+      arch: ['x86_64', 'aarch64'],
     },
     mysql: {
       source: {
         dockerTag: 'mysql:lts',
       },
+      arch: ['x86_64', 'aarch64'],
     },
   },
   dependencies: {},

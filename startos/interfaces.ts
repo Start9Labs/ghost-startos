@@ -1,3 +1,4 @@
+import { i18n } from './i18n'
 import { sdk } from './sdk'
 import { port } from './utils'
 
@@ -10,9 +11,9 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
 
   // primary
   const primary = sdk.createInterface(effects, {
-    name: 'Primary UI',
+    name: i18n('Primary UI'),
     id: 'primary',
-    description: 'The primary web interface for your Ghost blog',
+    description: i18n('The primary web interface for your Ghost blog'),
     type: 'ui',
     masked: false,
     schemeOverride: null,
@@ -23,9 +24,9 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
 
   // admin
   const admin = sdk.createInterface(effects, {
-    name: 'Admin UI',
+    name: i18n('Admin UI'),
     id: 'admin',
-    description: 'The admin web interface',
+    description: i18n('The admin web interface'),
     type: 'ui',
     masked: false,
     schemeOverride: null,
