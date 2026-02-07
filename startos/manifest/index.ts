@@ -10,8 +10,7 @@ export const manifest = setupManifest({
   supportSite: 'https://ghost.org/help/',
   marketingSite: 'https://ghost.org/',
   donationUrl: 'https://github.com/sponsors/TryGhost/',
-  docsUrl:
-    'https://github.com/Start9Labs/ghost-startos/blob/update/040/docs/README.md',
+  docsUrl: 'https://ghost.org/docs/',
   description: { short, long },
   volumes: ['content', 'config', 'mysql', 'startos'],
   images: {
