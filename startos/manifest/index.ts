@@ -5,18 +5,18 @@ export const manifest = setupManifest({
   id: 'ghost',
   title: 'Ghost',
   license: 'MIT',
-  wrapperRepo: 'https://github.com/Start9Labs/ghost-startos',
+  packageRepo:
+    'https://github.com/Start9Labs/ghost-startos/tree/update/040',
   upstreamRepo: 'https://github.com/TryGhost/ghost',
-  supportSite: 'https://ghost.org/help/',
-  marketingSite: 'https://ghost.org/',
+  marketingUrl: 'https://ghost.org/',
   donationUrl: 'https://github.com/sponsors/TryGhost/',
-  docsUrl: 'https://ghost.org/docs/',
+  docsUrls: ['https://ghost.org/docs/'],
   description: { short, long },
   volumes: ['content', 'config', 'mysql', 'startos'],
   images: {
     ghost: {
       source: {
-        dockerTag: 'ghost:6.14.0-alpine',
+        dockerTag: 'ghost:6.20.0-alpine',
       },
       arch: ['x86_64', 'aarch64'],
     },

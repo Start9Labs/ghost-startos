@@ -7,8 +7,8 @@
 > **Upstream docs:** <https://docs.ghost.org/>
 >
 > Everything not listed in this document should behave the same as upstream
-> Ghost 6.14.0. If a feature, setting, or behavior is not mentioned
-> here, the upstream documentation is accurate and fully applicable.
+> Ghost. If a feature, setting, or behavior is not mentioned here, the
+> upstream documentation is accurate and fully applicable.
 
 [Ghost](https://github.com/TryGhost/ghost) is a professional publishing platform for creating blogs, newsletters, and membership sites. It provides a modern editor, subscription management, and flexible content APIs.
 
@@ -36,7 +36,7 @@
 
 | Property | Value |
 |----------|-------|
-| Ghost Image | `ghost:6.14.0-alpine` (upstream unmodified) |
+| Ghost Image | `ghost` (upstream unmodified, alpine variant) |
 | MySQL Image | `mysql:lts` (upstream unmodified) |
 | Architectures | x86_64, aarch64 |
 | Runtime | Two containers (Ghost + MySQL) |
@@ -253,9 +253,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for build instructions and development wo
 
 ```yaml
 package_id: ghost
-upstream_version: 6.14.0
 images:
-  ghost: ghost:6.14.0-alpine
+  ghost: ghost (alpine variant)
   mysql: mysql:lts
 architectures: [x86_64, aarch64]
 volumes:

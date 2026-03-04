@@ -25,25 +25,25 @@ export const main = sdk.setupMain(async ({ effects }) => {
 
   if (smtp.selection === 'system') {
     smtpCredentials = await sdk.getSystemSmtp(effects).const()
-    if (smtpCredentials && smtp.value.customFrom)
-      smtpCredentials.from = smtp.value.customFrom
+    const customFrom = smtp.value.customFrom as string | undefined
+    if (smtpCredentials && customFrom) smtpCredentials.from = customFrom
   } else if (smtp.selection === 'custom') {
-    smtpCredentials = smtp.value
+    smtpCredentials = smtp.value as unknown as T.SmtpValue
   }
 
   let smtpEnv = {} as SMTP_ENV
   if (smtpCredentials) {
     smtpEnv = {
       mail__transport: 'SMTP',
-      mail__options__host: smtpCredentials.server,
+      mail__options__host: smtpCredentials.host,
       mail__options__port: String(smtpCredentials.port),
-      mail__options__auth__user: smtpCredentials.login,
+      mail__options__auth__user: smtpCredentials.username,
       mail__from: smtpCredentials.from,
     }
     if (smtpCredentials.password) {
       smtpEnv['mail__options__auth__pass'] = smtpCredentials.password
     }
-    if (smtpCredentials.port === 465) {
+    if (smtpCredentials.security === 'tls') {
       smtpEnv['mail__options__secure'] = 'true'
     }
   }
@@ -72,7 +72,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
     .addDaemon('db', {
       subcontainer: mysqlSub,
       exec: {
-        command: sdk.useEntrypoint(),
+        command: ['mysqld', '--bind-address=127.0.0.1'],
         env: {
           MYSQL_ROOT_PASSWORD: database__connection__password,
           MYSQL_DATABASE: 'ghost',
