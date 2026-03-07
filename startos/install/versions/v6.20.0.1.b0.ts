@@ -1,7 +1,7 @@
 import { VersionInfo } from '@start9labs/start-sdk'
 
-export const v_6_20_0_0 = VersionInfo.of({
-  version: '6.20.0:0',
+export const v_6_20_0_1_b0 = VersionInfo.of({
+  version: '6.20.0:1-beta.0',
   releaseNotes: {
     en_US: 'Update to Ghost v6.20.0',
     es_ES: 'Actualización a Ghost v6.20.0',

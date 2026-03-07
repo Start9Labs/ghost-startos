@@ -2,7 +2,6 @@ import { T } from '@start9labs/start-sdk'
 import { storeJson } from './fileModels/store.json'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
-import { port } from './utils'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   /**
@@ -68,23 +67,38 @@ export const main = sdk.setupMain(async ({ effects }) => {
    * Each daemon defines its own health check, which can optionally be exposed to the user.
    */
 
+  const { exitCode: freshCheck } = await mysqlSub.exec([
+    'test',
+    '-f',
+    '/var/lib/mysql/ibdata1',
+  ])
+  const freshInstall = freshCheck !== 0
+
   const daemons = sdk.Daemons.of(effects)
-    .addDaemon('db', {
+    .addOneshot('chown-mysql', {
       subcontainer: mysqlSub,
       exec: {
-        command: ['mysqld', '--bind-address=127.0.0.1'],
+        command: ['chown', '-R', 'mysql:mysql', '/var/lib/mysql'],
+        user: 'root',
+      },
+      requires: [],
+    })
+    .addDaemon('mysql', {
+      subcontainer: mysqlSub,
+      exec: {
+        command: sdk.useEntrypoint(['--bind-address=127.0.0.1']),
         env: {
           MYSQL_ROOT_PASSWORD: database__connection__password,
           MYSQL_DATABASE: 'ghost',
         },
       },
       ready: {
-        display: null,
+        display: i18n('Ghost Database'),
         fn: async () => {
           const { exitCode } = await mysqlSub.exec([
             'mysql',
             '-h',
-            'localhost',
+            '127.0.0.1',
             '-u',
             'root',
             `-p${database__connection__password}`,
@@ -93,14 +107,21 @@ export const main = sdk.setupMain(async ({ effects }) => {
           ])
 
           return {
-            result: exitCode === 0 ? 'success' : 'failure',
-            message: null,
+            result: exitCode === 0 ? 'success' : 'loading',
+            message:
+              exitCode === 0
+                ? i18n('The database is ready')
+                : freshInstall
+                  ? i18n(
+                      'Initializing fresh database. This can take a while...',
+                    )
+                  : i18n('Initializing database...'),
           }
         },
       },
-      requires: [],
+      requires: ['chown-mysql'],
     })
-    .addDaemon('primary', {
+    .addDaemon('ghost', {
       subcontainer: await sdk.SubContainer.of(
         effects,
         { imageId: 'ghost' },
@@ -129,18 +150,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
         },
       },
       ready: {
-        display: i18n('Ghost UI'),
-        fn: () =>
-          sdk.healthCheck.checkPortListening(effects, port, {
-            successMessage: i18n('The web UI is ready'),
-            errorMessage: i18n('The web UI is not ready'),
-          }),
-      },
-      requires: ['db'],
-    })
-    .addHealthCheck('database-init', {
-      ready: {
-        display: i18n('Ghost Database'),
+        display: i18n('Ghost Server'),
         fn: async () => {
           const res = await mysqlSub.exec([
             'mysql',
@@ -157,33 +167,34 @@ export const main = sdk.setupMain(async ({ effects }) => {
           const stdout = (res.stdout as string).trim()
           const stderr = (res.stderr as string).toLowerCase()
 
-          // Still initializing - these are expected during startup
           const initializing =
             stderr.includes("can't connect") ||
             stderr.includes('connection refused') ||
             stderr.includes('unknown database') ||
-            stderr.includes("doesn't exist") || // table doesn't exist yet
-            stdout === '' // table exists but no rows yet
+            stderr.includes("doesn't exist") ||
+            stdout === ''
 
           if (stdout === '1') {
             return {
               result: 'success',
-              message: i18n('The database is ready'),
+              message: i18n('Ghost is ready'),
             }
           } else if (initializing) {
             return {
               result: 'loading',
-              message: i18n('Database initializing. This can take a while...'),
+              message: i18n(
+                'Initializing fresh schema. This can take a while...',
+              ),
             }
           } else {
             return {
               result: 'failure',
-              message: i18n('The database is not ready'),
+              message: i18n('Ghost encountered an error'),
             }
           }
         },
       },
-      requires: ['db'],
+      requires: ['mysql'],
     })
 
   return daemons

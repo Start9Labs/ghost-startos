@@ -34,12 +34,12 @@
 
 ## Image and Container Runtime
 
-| Property | Value |
-|----------|-------|
-| Ghost Image | `ghost` (upstream unmodified, alpine variant) |
-| MySQL Image | `mysql:lts` (upstream unmodified) |
-| Architectures | x86_64, aarch64 |
-| Runtime | Two containers (Ghost + MySQL) |
+| Property      | Value                                         |
+| ------------- | --------------------------------------------- |
+| Ghost Image   | `ghost` (upstream unmodified, alpine variant) |
+| MySQL Image   | `mysql:lts` (upstream unmodified)             |
+| Architectures | x86_64, aarch64                               |
+| Runtime       | Two containers (Ghost + MySQL)                |
 
 **StartOS runs Ghost with a co-located MySQL database.** Both containers are managed automatically; users do not interact with MySQL directly.
 
@@ -47,12 +47,12 @@
 
 ## Volume and Data Layout
 
-| Volume | Mount Point | Purpose |
-|--------|-------------|---------|
+| Volume    | Mount Point              | Purpose                              |
+| --------- | ------------------------ | ------------------------------------ |
 | `content` | `/var/lib/ghost/content` | Themes, images, uploads, and content |
-| `config` | — | Reserved for configuration |
-| `mysql` | `/var/lib/mysql` | MySQL database storage |
-| `startos` | — | StartOS-managed state (`store.json`) |
+| `config`  | —                        | Reserved for configuration           |
+| `mysql`   | `/var/lib/mysql`         | MySQL database storage               |
+| `startos` | —                        | StartOS-managed state (`store.json`) |
 
 **StartOS-specific files:**
 
@@ -62,17 +62,19 @@
 
 ## Installation and First-Run Flow
 
-| Step | Upstream | StartOS |
-|------|----------|---------|
-| Database setup | Manual MySQL/SQLite configuration | Automatic MySQL provisioning |
-| Initial URL | Set in config file | Select via "Set Primary URL" action |
-| Owner account | Create via `/ghost/#/setup/` | Same as upstream |
+| Step           | Upstream                          | StartOS                                                                 |
+| -------------- | --------------------------------- | ----------------------------------------------------------------------- |
+| Database setup | Manual MySQL/SQLite configuration | Automatic MySQL provisioning                                            |
+| Initial URL    | Set in config file                | Auto-selected on first install; changeable via "Set Primary URL" action |
+| Owner account  | Create via `/ghost/#/setup/`      | Same as upstream                                                        |
 
 **Key differences:**
 
 1. Database is automatically configured — no manual setup required
-2. After installation, run "Set Primary URL" to select which URL Ghost uses for links and invites
-3. Visit `/ghost/` path to create your owner account (same as upstream)
+2. On first install, a `.local` URL is automatically selected as the primary URL
+3. If the selected primary URL is later removed, a critical task prompts the user to select a new one
+4. First-time MySQL initialization can take several minutes on slower hardware
+5. Visit `/ghost/` path to create your owner account (same as upstream)
 
 ---
 
@@ -80,38 +82,38 @@
 
 ### Environment Variables (Managed by StartOS)
 
-| Variable | Upstream Default | StartOS Value |
-|----------|------------------|---------------|
-| `NODE_ENV` | `development` | `production` |
-| `database__client` | `mysql` | `mysql` (fixed) |
-| `database__connection__host` | Configurable | `localhost` (fixed) |
-| `database__connection__password` | Configurable | Auto-generated |
-| `database__connection__database` | Configurable | `ghost` (fixed) |
-| `privacy__useTinfoil` | `false` | Configurable via action |
-| `privacy__useUpdateCheck` | `true` | `false` (forced) |
-| `security__staffDeviceVerification` | `true` | `false` (forced) |
-| `referrerPolicy` | `origin-when-crossorigin` | `no-referrer` (forced) |
-| `url` | Configurable | Selected via action |
+| Variable                            | Upstream Default          | StartOS Value           |
+| ----------------------------------- | ------------------------- | ----------------------- |
+| `NODE_ENV`                          | `development`             | `production`            |
+| `database__client`                  | `mysql`                   | `mysql` (fixed)         |
+| `database__connection__host`        | Configurable              | `localhost` (fixed)     |
+| `database__connection__password`    | Configurable              | Auto-generated          |
+| `database__connection__database`    | Configurable              | `ghost` (fixed)         |
+| `privacy__useTinfoil`               | `false`                   | Configurable via action |
+| `privacy__useUpdateCheck`           | `true`                    | `false` (forced)        |
+| `security__staffDeviceVerification` | `true`                    | `false` (forced)        |
+| `referrerPolicy`                    | `origin-when-crossorigin` | `no-referrer` (forced)  |
+| `url`                               | Configurable              | Selected via action     |
 
 ### Configuration NOT Exposed on StartOS
 
-| Feature | Upstream Support | StartOS |
-|---------|------------------|---------|
-| External database | Supported | Not available |
-| Storage adapters | S3, Cloudinary, Azure, etc. | Local only |
-| Cache adapters | Redis, etc. | In-memory only |
-| Custom content paths | Configurable | Fixed |
-| Image optimization | Configurable | Default settings |
-| Logging configuration | Configurable | stdout (default) |
+| Feature               | Upstream Support            | StartOS          |
+| --------------------- | --------------------------- | ---------------- |
+| External database     | Supported                   | Not available    |
+| Storage adapters      | S3, Cloudinary, Azure, etc. | Local only       |
+| Cache adapters        | Redis, etc.                 | In-memory only   |
+| Custom content paths  | Configurable                | Fixed            |
+| Image optimization    | Configurable                | Default settings |
+| Logging configuration | Configurable                | stdout (default) |
 
 ---
 
 ## Network Access and Interfaces
 
-| Interface | Port | Protocol | Purpose |
-|-----------|------|----------|---------|
-| Primary UI | 2368 | HTTP | Ghost publishing platform |
-| Admin UI | 2368 | HTTP | Available at `/ghost/` path |
+| Interface  | Port | Protocol | Purpose                     |
+| ---------- | ---- | -------- | --------------------------- |
+| Primary UI | 2368 | HTTP     | Ghost publishing platform   |
+| Admin UI   | 2368 | HTTP     | Available at `/ghost/` path |
 
 **Access methods (StartOS 0.4.0):**
 
@@ -126,25 +128,25 @@
 
 ### Set Primary URL
 
-| Property | Value |
-|----------|-------|
-| ID | `set-primary-url` |
-| Name | Set Primary Url |
-| Visibility | Enabled |
-| Availability | Any status |
-| Purpose | Select which URL Ghost uses for links and invites |
+| Property     | Value                                             |
+| ------------ | ------------------------------------------------- |
+| ID           | `set-primary-url`                                 |
+| Name         | Set Primary Url                                   |
+| Visibility   | Enabled                                           |
+| Availability | Any status                                        |
+| Purpose      | Select which URL Ghost uses for links and invites |
 
 **How it works:** Presents a dropdown of all available URLs for your Ghost instance (LAN, Tor, custom domains). Ghost uses this URL when generating links in emails, RSS feeds, and the admin panel.
 
 ### Configure SMTP
 
-| Property | Value |
-|----------|-------|
-| ID | `manage-smtp` |
-| Name | Configure SMTP |
-| Visibility | Enabled |
-| Availability | Any status |
-| Purpose | Enable email sending for invites and notifications |
+| Property     | Value                                              |
+| ------------ | -------------------------------------------------- |
+| ID           | `manage-smtp`                                      |
+| Name         | Configure SMTP                                     |
+| Visibility   | Enabled                                            |
+| Availability | Any status                                         |
+| Purpose      | Enable email sending for invites and notifications |
 
 **Options:**
 
@@ -154,13 +156,13 @@
 
 ### Enable/Disable Tinfoil Mode
 
-| Property | Value |
-|----------|-------|
-| ID | `set-tinfoil` |
-| Name | Enable Tinfoil Mode / Disable Tinfoil Mode |
-| Visibility | Enabled |
-| Availability | Any status |
-| Purpose | Toggle privacy protection mode |
+| Property     | Value                                      |
+| ------------ | ------------------------------------------ |
+| ID           | `set-tinfoil`                              |
+| Name         | Enable Tinfoil Mode / Disable Tinfoil Mode |
+| Visibility   | Enabled                                    |
+| Availability | Any status                                 |
+| Purpose      | Toggle privacy protection mode             |
 
 **What Tinfoil Mode disables:**
 
@@ -198,18 +200,25 @@ None. Ghost runs with its own co-located MySQL database.
 
 ## Health Checks
 
-| Check | Display Name | Method |
-|-------|--------------|--------|
-| Web UI | Ghost UI | Port listening on 2368 |
-| Database | Ghost Database | MySQL query for initialization status |
+| Check        | Display Name   | Method                                      |
+| ------------ | -------------- | ------------------------------------------- |
+| MySQL daemon | Ghost Database | `SELECT 1` via TCP to 127.0.0.1             |
+| Ghost daemon | Ghost Server   | MySQL query for `db_hash` in settings table |
+
+**Startup sequence:**
+
+1. `chown-mysql` oneshot — fixes volume ownership for the `mysql` user
+2. `mysql` daemon — starts MySQL via Docker entrypoint (handles first-time initialization)
+3. `ghost` daemon — starts Ghost (waits for MySQL to be ready)
 
 **Messages:**
 
-- UI Success: "The web UI is ready"
-- UI Error: "The web UI is not ready"
-- DB Initializing: "Database initializing. This can take a while..."
-- DB Success: "The database is ready"
-- DB Error: "The database is not ready"
+- MySQL loading (fresh install): "Initializing fresh database. This can take a while..."
+- MySQL loading (restart): "Initializing database..."
+- MySQL success: "The database is ready"
+- Ghost loading: "Initializing fresh schema. This can take a while..."
+- Ghost success: "Ghost is ready"
+- Ghost error: "Ghost encountered an error"
 
 ---
 
@@ -270,8 +279,8 @@ forced_config:
   database__client: mysql
   database__connection__host: localhost
   database__connection__database: ghost
-  privacy__useUpdateCheck: "false"
-  security__staffDeviceVerification: "false"
+  privacy__useUpdateCheck: 'false'
+  security__staffDeviceVerification: 'false'
   referrerPolicy: no-referrer
 startos_managed_config:
   - url (via set-primary-url action)
@@ -282,9 +291,13 @@ actions:
   - set-primary-url (enabled, any)
   - manage-smtp (enabled, any)
   - set-tinfoil (enabled, any)
+startup_sequence:
+  - chown-mysql (oneshot, fixes volume ownership)
+  - mysql (daemon, Docker entrypoint with --bind-address=127.0.0.1)
+  - ghost (daemon, requires mysql)
 health_checks:
-  - port_listening: 2368 (Ghost UI)
-  - mysql_query: db_hash check (Ghost Database)
+  - mysql: SELECT 1 via TCP (Ghost Database)
+  - ghost: db_hash query (Ghost Server)
 backup_volumes:
   - content
   - config

@@ -8,10 +8,18 @@ export const taskSetPrimaryUrl = sdk.setupOnInit(async (effects) => {
   const availableUrls = await getNonLocalUrls(effects)
   const url = await storeJson.read((s) => s.env.url).const(effects)
 
-  if (!url || !availableUrls.includes(url)) {
+  if (!url) {
+    await storeJson.merge(
+      effects,
+      {
+        env: { url: availableUrls.find((u) => u.includes('.local')) },
+      },
+      { allowWriteAfterConst: true },
+    )
+  } else if (!availableUrls.includes(url)) {
     await sdk.action.createOwnTask(effects, setPrimaryUrl, 'critical', {
       reason: i18n(
-        'Ghost requires a primary URL for the purpose of creating links, sending invites, etc.',
+        'Primary URL removed. Select a new primary URL.',
       ),
     })
   }
