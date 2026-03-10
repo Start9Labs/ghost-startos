@@ -4,7 +4,7 @@
 
 # Ghost on StartOS
 
-> **Upstream docs:** <https://docs.ghost.org/>
+> **Upstream docs:** <https://ghost.org/docs/>
 >
 > Everything not listed in this document should behave the same as upstream
 > Ghost. If a feature, setting, or behavior is not mentioned here, the
