@@ -1,9 +1,12 @@
 id: ghost
 title: "Ghost"
-version: 5.130.5
+version: 5.130.6
 release-notes: |
-  * Latest upstream update - full changelog available [here](https://github.com/TryGhost/Ghost/compare/v5.121.0...v5.130.5)
-  * Latest version of localy hosted scripts
+  * Security patch release — bumps Ghost from 5.130.5 to 5.130.6
+  * Fixed staff token authorization bypass via trailing slash mismatch
+  * Fixed potential SSRF via media inliner
+  * Fixed SQL injection vulnerability in click event query
+  * Fixed ability to bypass Staff User 2FA flow
 license: MIT
 wrapper-repo: "https://github.com/Start9Labs/ghost-startos"
 upstream-repo: "https://github.com/TryGhost/ghost"
