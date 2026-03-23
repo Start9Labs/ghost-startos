@@ -89,7 +89,7 @@
 | `database__connection__host`        | Configurable              | `localhost` (fixed)     |
 | `database__connection__password`    | Configurable              | Auto-generated          |
 | `database__connection__database`    | Configurable              | `ghost` (fixed)         |
-| `privacy__useTinfoil`               | `false`                   | Configurable via action |
+| `privacy__useTinfoil`               | `false`                   | `true` on fresh install; configurable via action |
 | `privacy__useUpdateCheck`           | `true`                    | `false` (forced)        |
 | `security__staffDeviceVerification` | `true`                    | `false` (forced)        |
 | `referrerPolicy`                    | `origin-when-crossorigin` | `no-referrer` (forced)  |
@@ -184,17 +184,22 @@ None. Ghost runs with its own co-located MySQL database.
 
 ## Backups and Restore
 
-**Included in backup:**
+**Database:** Uses `mysqldump`/`mysql` for MySQL instead of raw volume rsync. The dump is written directly to the backup target.
+
+**Volumes backed up via rsync:**
 
 - `content` volume — themes, images, uploads
 - `config` volume — configuration data
-- `mysql` volume — full MySQL database
 - `startos` volume — StartOS state
+
+**NOT included in backup:**
+
+- `mysql` volume — Not rsynced directly; database is captured via `mysqldump`
 
 **Restore behavior:**
 
 - All content, settings, and accounts are restored
-- Database is fully preserved
+- Database is rebuilt from dump via `mysql` import
 
 ---
 
@@ -298,10 +303,7 @@ startup_sequence:
 health_checks:
   - mysql: SELECT 1 via TCP (Ghost Database)
   - ghost: db_hash query (Ghost Server)
-backup_volumes:
-  - content
-  - config
-  - mysql
+backup_strategy: mysqldump (mysql) + volume rsync (content, config, startos)
   - startos
 not_available:
   - ActivityPub federation

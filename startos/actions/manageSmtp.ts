@@ -1,3 +1,4 @@
+import { smtpPrefill } from '@start9labs/start-sdk'
 import { storeJson } from '../fileModels/store.json'
 import { i18n } from '../i18n'
 import { sdk } from '../sdk'
@@ -29,7 +30,7 @@ export const manageSmtp = sdk.Action.withInput(
 
   // optionally pre-fill the input form
   async ({ effects }) => ({
-    smtp: (await storeJson.read((s) => s.smtp).once()) || undefined,
+    smtp: smtpPrefill(await storeJson.read((s) => s.smtp).once()),
   }),
   // the execution function
   async ({ effects, input }) => storeJson.merge(effects, { smtp: input.smtp }),
