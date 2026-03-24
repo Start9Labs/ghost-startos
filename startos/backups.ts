@@ -1,11 +1,12 @@
 import { storeJson } from './fileModels/store.json'
 import { sdk } from './sdk'
+import { MYSQL_DATADIR } from './utils'
 
 export const { createBackup, restoreInit } = sdk.setupBackups(async () =>
   sdk.Backups.withMysqlDump({
     imageId: 'mysql',
     dbVolume: 'mysql',
-    datadir: '/var/lib/mysql',
+    datadir: MYSQL_DATADIR,
     database: 'ghost',
     user: 'root',
     password: async () => {

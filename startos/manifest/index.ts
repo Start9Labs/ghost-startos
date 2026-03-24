@@ -22,7 +22,7 @@ export const manifest = setupManifest({
     },
     mysql: {
       source: {
-        dockerTag: 'mysql:lts',
+        dockerTag: 'mysql:8.4.5',
       },
       arch: ['x86_64', 'aarch64'],
     },

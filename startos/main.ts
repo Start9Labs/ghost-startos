@@ -2,6 +2,7 @@ import { T } from '@start9labs/start-sdk'
 import { storeJson } from './fileModels/store.json'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
+import { MYSQL_DATADIR } from './utils'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   /**
@@ -53,7 +54,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
     sdk.Mounts.of().mountVolume({
       volumeId: 'mysql',
       subpath: null,
-      mountpoint: '/var/lib/mysql',
+      mountpoint: MYSQL_DATADIR,
       readonly: false,
     }),
     'db-sub',
@@ -70,19 +71,11 @@ export const main = sdk.setupMain(async ({ effects }) => {
   const { exitCode: freshCheck } = await mysqlSub.exec([
     'test',
     '-f',
-    '/var/lib/mysql/ibdata1',
+    `${MYSQL_DATADIR}/ibdata1`,
   ])
   const freshInstall = freshCheck !== 0
 
   const daemons = sdk.Daemons.of(effects)
-    .addOneshot('chown-mysql', {
-      subcontainer: mysqlSub,
-      exec: {
-        command: ['chown', '-R', 'mysql:mysql', '/var/lib/mysql'],
-        user: 'root',
-      },
-      requires: [],
-    })
     .addDaemon('mysql', {
       subcontainer: mysqlSub,
       exec: {
@@ -119,7 +112,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
           }
         },
       },
-      requires: ['chown-mysql'],
+      requires: [],
     })
     .addDaemon('ghost', {
       subcontainer: await sdk.SubContainer.of(
