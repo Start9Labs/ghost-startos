@@ -2,7 +2,7 @@ import { setupManifest } from '@start9labs/start-sdk'
 import { long, short } from './i18n'
 
 export const manifest = setupManifest({
-  id: 'ghost',
+  id: 'ghost-2',
   title: 'Ghost',
   license: 'MIT',
   packageRepo: 'https://github.com/Start9Labs/ghost-startos/tree/update/040',
@@ -11,7 +11,7 @@ export const manifest = setupManifest({
   donationUrl: 'https://github.com/sponsors/TryGhost/',
   docsUrls: ['https://ghost.org/docs/'],
   description: { short, long },
-  volumes: ['main', 'content', 'config', 'mysql', 'startos'], // main for migration only
+  volumes: ['content', 'config', 'mysql', 'startos'],
   images: {
     ghost: {
       source: {
