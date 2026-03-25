@@ -2,8 +2,8 @@ import { IMPOSSIBLE, VersionInfo, YAML } from '@start9labs/start-sdk'
 import { readFile, rm } from 'fs/promises'
 import { storeJson } from '../fileModels/store.json'
 
-export const v_6_22_1_0_b3 = VersionInfo.of({
-  version: '6.22.1:0-beta.3',
+export const v_6_22_1_0_b4 = VersionInfo.of({
+  version: '6.22.1:0-beta.4',
   releaseNotes: {
     en_US: 'Update Ghost to 6.22.1',
     es_ES: 'Actualización de Ghost a 6.22.1',
