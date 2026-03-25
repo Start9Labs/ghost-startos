@@ -8,9 +8,9 @@ import { seedFiles } from './seedFiles'
 import { taskSetPrimaryUrl } from './taskSetPrimaryUrl'
 
 export const init = sdk.setupInit(
-  seedFiles,
   restoreInit,
   versionGraph,
+  seedFiles,
   setInterfaces,
   setDependencies,
   actions,
