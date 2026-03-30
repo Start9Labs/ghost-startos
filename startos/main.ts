@@ -211,13 +211,13 @@ export const main = sdk.setupMain(async ({ effects }) => {
             ? {
                 result: 'success',
                 message: i18n(
-                  'SMTP is configured, members/subscribers can log in',
+                  'SMTP configured, members/subscribers can log in',
                 ),
               }
             : {
                 result: 'disabled',
                 message: i18n(
-                  'SMTP is required for member/subscriber login. Use the SMTP action to enable.',
+                  'SMTP required for member/subscriber login. Use the SMTP action to enable.',
                 ),
               },
       },
