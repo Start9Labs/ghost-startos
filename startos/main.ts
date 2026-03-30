@@ -190,6 +190,40 @@ export const main = sdk.setupMain(async ({ effects }) => {
       requires: ['mysql'],
     })
 
+    .addHealthCheck('admin-portal', {
+      ready: {
+        display: i18n('Admin Portal'),
+        fn: async () => ({
+          result: 'success',
+          message: i18n(
+            'Login will only succeed at ${url}/ghost. Use the "Set Primary URL" Action to select a different URL.',
+            { url },
+          ),
+        }),
+      },
+      requires: ['ghost'],
+    })
+    .addHealthCheck('members', {
+      ready: {
+        display: i18n('Member/Subscriber Login'),
+        fn: async () =>
+          smtpCredentials
+            ? {
+                result: 'success',
+                message: i18n(
+                  'SMTP is configured, members/subscribers can log in',
+                ),
+              }
+            : {
+                result: 'disabled',
+                message: i18n(
+                  'SMTP is required for member/subscriber login. Use the SMTP action to enable.',
+                ),
+              },
+      },
+      requires: ['ghost'],
+    })
+
   return daemons
 })
 

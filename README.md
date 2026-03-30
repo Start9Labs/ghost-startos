@@ -154,6 +154,18 @@
 - **System SMTP** — Use StartOS system SMTP server (if configured)
 - **Custom** — Enter your own SMTP credentials
 
+### Reset Owner Password
+
+| Property     | Value                                                    |
+| ------------ | -------------------------------------------------------- |
+| ID           | `reset-password`                                         |
+| Name         | Reset Owner Password                                     |
+| Visibility   | Enabled                                                  |
+| Availability | Only running                                             |
+| Purpose      | Generate a new password for the site owner account       |
+
+**How it works:** Generates a random 22-character password, hashes it with bcrypt using the Ghost container, and updates the owner's record in MySQL. The account status is also reset to `active` in case it was locked. Other staff accounts are not affected. The new password is displayed as a masked, copyable value.
+
 ### Enable/Disable Tinfoil Mode
 
 | Property     | Value                                      |
@@ -205,16 +217,23 @@ None. Ghost runs with its own co-located MySQL database.
 
 ## Health Checks
 
-| Check        | Display Name   | Method                                      |
-| ------------ | -------------- | ------------------------------------------- |
-| MySQL daemon | Ghost Database | `SELECT 1` via TCP to 127.0.0.1             |
-| Ghost daemon | Ghost Server   | MySQL query for `db_hash` in settings table |
+| Check                      | Display Name               | Method                                      |
+| -------------------------- | -------------------------- | ------------------------------------------- |
+| MySQL daemon               | Ghost Database             | `SELECT 1` via TCP to 127.0.0.1             |
+| Ghost daemon               | Ghost Server               | MySQL query for `db_hash` in settings table |
+| Admin Portal               | Admin Portal               | Shows which URL to use for admin login      |
+| Member/Subscriber Login    | Member/Subscriber Login    | Reports whether SMTP is configured          |
+
+**Admin Portal:** Always displays `success` with the primary URL where admin login will work. Ghost enforces origin checks, so login only succeeds at the configured primary URL. Use the "Set Primary URL" action to change it.
+
+**Member/Subscriber Login:** Shows `success` when SMTP is configured, or `disabled` with guidance to configure SMTP. Ghost uses magic-link (email-based) authentication for members, so SMTP is required for member/subscriber logins via the Portal.
 
 **Startup sequence:**
 
 1. `chown-mysql` oneshot — fixes volume ownership for the `mysql` user
 2. `mysql` daemon — starts MySQL via Docker entrypoint (handles first-time initialization)
 3. `ghost` daemon — starts Ghost (waits for MySQL to be ready)
+4. `admin-portal` and `members` health checks — run after Ghost is ready
 
 **Messages:**
 
@@ -237,6 +256,8 @@ None. Ghost runs with its own co-located MySQL database.
 6. **Staff device verification disabled** — `security__staffDeviceVerification` forced to `false` for compatibility
 7. **Strict referrer policy** — `referrerPolicy` set to `no-referrer` for privacy
 8. **URL via action** — primary URL selected through StartOS action instead of config file
+9. **Single-origin admin login** — Ghost enforces that admin login requests come from the configured primary URL; other URLs will fail with an origin mismatch error
+10. **Member login requires SMTP** — Ghost uses magic-link (email) authentication for members/subscribers; without SMTP configured, they cannot log in
 
 ---
 
@@ -296,6 +317,7 @@ actions:
   - set-primary-url (enabled, any)
   - manage-smtp (enabled, any)
   - set-tinfoil (enabled, any)
+  - reset-password (enabled, only-running)
 startup_sequence:
   - chown-mysql (oneshot, fixes volume ownership)
   - mysql (daemon, Docker entrypoint with --bind-address=127.0.0.1)
@@ -303,6 +325,8 @@ startup_sequence:
 health_checks:
   - mysql: SELECT 1 via TCP (Ghost Database)
   - ghost: db_hash query (Ghost Server)
+  - admin-portal: shows primary URL for admin login (Admin Portal)
+  - members: SMTP status for member login (Member/Subscriber Login)
 backup_strategy: mysqldump (mysql) + volume rsync (content, config, startos)
   - startos
 not_available:
