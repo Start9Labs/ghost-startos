@@ -36,8 +36,8 @@
 
 | Property      | Value                                         |
 | ------------- | --------------------------------------------- |
-| Ghost Image   | `ghost` (upstream unmodified, alpine variant) |
-| MySQL Image   | `mysql:lts` (upstream unmodified)             |
+| Ghost Image   | `ghost` (upstream, alpine variant)            |
+| MySQL Image   | `mysql` (upstream)                            |
 | Architectures | x86_64, aarch64                               |
 | Runtime       | Two containers (Ghost + MySQL)                |
 
@@ -230,10 +230,9 @@ None. Ghost runs with its own co-located MySQL database.
 
 **Startup sequence:**
 
-1. `chown-mysql` oneshot — fixes volume ownership for the `mysql` user
-2. `mysql` daemon — starts MySQL via Docker entrypoint (handles first-time initialization)
-3. `ghost` daemon — starts Ghost (waits for MySQL to be ready)
-4. `admin-portal` and `members` health checks — run after Ghost is ready
+1. `mysql` daemon — starts MySQL via Docker entrypoint (handles first-time initialization)
+2. `ghost` daemon — starts Ghost (waits for MySQL to be ready)
+3. `admin-portal` and `members` health checks — run after Ghost is ready
 
 **Messages:**
 
@@ -288,9 +287,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for build instructions and development wo
 
 ```yaml
 package_id: ghost
-images:
-  ghost: ghost (alpine variant)
-  mysql: mysql:lts
+image: ghost (alpine), mysql
 architectures: [x86_64, aarch64]
 volumes:
   content: /var/lib/ghost/content
@@ -300,39 +297,27 @@ volumes:
 ports:
   ui: 2368
 dependencies: none
-forced_config:
-  NODE_ENV: production
-  database__client: mysql
-  database__connection__host: localhost
-  database__connection__database: ghost
-  privacy__useUpdateCheck: 'false'
-  security__staffDeviceVerification: 'false'
-  referrerPolicy: no-referrer
-startos_managed_config:
-  - url (via set-primary-url action)
-  - privacy__useTinfoil (via set-tinfoil action)
-  - mail__* (via manage-smtp action)
-  - database__connection__password (auto-generated)
+startos_managed_env_vars:
+  - NODE_ENV
+  - url
+  - database__client
+  - database__connection__host
+  - database__connection__password
+  - database__connection__database
+  - privacy__useTinfoil
+  - privacy__useUpdateCheck
+  - security__staffDeviceVerification
+  - referrerPolicy
+  - mail__transport
+  - mail__options__host
+  - mail__options__port
+  - mail__options__auth__user
+  - mail__options__auth__pass
+  - mail__options__secure
+  - mail__from
 actions:
-  - set-primary-url (enabled, any)
-  - manage-smtp (enabled, any)
-  - set-tinfoil (enabled, any)
-  - reset-password (enabled, only-running)
-startup_sequence:
-  - chown-mysql (oneshot, fixes volume ownership)
-  - mysql (daemon, Docker entrypoint with --bind-address=127.0.0.1)
-  - ghost (daemon, requires mysql)
-health_checks:
-  - mysql: SELECT 1 via TCP (Ghost Database)
-  - ghost: db_hash query (Ghost Server)
-  - admin-portal: shows primary URL for admin login (Admin Portal)
-  - members: SMTP status for member login (Member/Subscriber Login)
-backup_strategy: mysqldump (mysql) + volume rsync (content, config, startos)
-  - startos
-not_available:
-  - ActivityPub federation
-  - External database connections
-  - Storage adapters (S3, Cloudinary, etc.)
-  - Cache adapters (Redis, etc.)
-  - Custom content paths
+  - set-primary-url
+  - manage-smtp
+  - set-tinfoil
+  - reset-password
 ```
