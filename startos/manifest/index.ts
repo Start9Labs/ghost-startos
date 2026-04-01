@@ -1,0 +1,30 @@
+import { setupManifest } from '@start9labs/start-sdk'
+import { long, short } from './i18n'
+
+export const manifest = setupManifest({
+  id: 'ghost',
+  title: 'Ghost',
+  license: 'MIT',
+  packageRepo: 'https://github.com/Start9Labs/ghost-startos',
+  upstreamRepo: 'https://github.com/TryGhost/ghost',
+  marketingUrl: 'https://ghost.org/',
+  donationUrl: 'https://github.com/sponsors/TryGhost/',
+  docsUrls: ['https://ghost.org/docs/'],
+  description: { short, long },
+  volumes: ['content', 'config', 'mysql', 'startos'],
+  images: {
+    ghost: {
+      source: {
+        dockerTag: 'ghost:6.24.0-alpine',
+      },
+      arch: ['x86_64', 'aarch64'],
+    },
+    mysql: {
+      source: {
+        dockerTag: 'mysql:8.4.5',
+      },
+      arch: ['x86_64', 'aarch64'],
+    },
+  },
+  dependencies: {},
+})
