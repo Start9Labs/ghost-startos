@@ -15,13 +15,13 @@ export const manifest = setupManifest({
   images: {
     ghost: {
       source: {
-        dockerTag: 'ghost:6.24.0-alpine',
+        dockerTag: 'ghost:6.30.0-alpine',
       },
       arch: ['x86_64', 'aarch64'],
     },
     mysql: {
       source: {
-        dockerTag: 'mysql:8.4.5',
+        dockerTag: 'mysql:8.4.8',
       },
       arch: ['x86_64', 'aarch64'],
     },
