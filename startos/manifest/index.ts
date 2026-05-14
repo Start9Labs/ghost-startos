@@ -9,19 +9,18 @@ export const manifest = setupManifest({
   upstreamRepo: 'https://github.com/TryGhost/ghost',
   marketingUrl: 'https://ghost.org/',
   donationUrl: 'https://github.com/sponsors/TryGhost/',
-  docsUrls: ['https://ghost.org/docs/'],
   description: { short, long },
   volumes: ['content', 'config', 'mysql', 'startos'],
   images: {
     ghost: {
       source: {
-        dockerTag: 'ghost:6.30.0-alpine',
+        dockerTag: 'ghost:6.37.1-alpine',
       },
       arch: ['x86_64', 'aarch64'],
     },
     mysql: {
       source: {
-        dockerTag: 'mysql:8.4.8',
+        dockerTag: 'mysql:8.4.9',
       },
       arch: ['x86_64', 'aarch64'],
     },
