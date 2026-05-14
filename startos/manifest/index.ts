@@ -9,7 +9,6 @@ export const manifest = setupManifest({
   upstreamRepo: 'https://github.com/TryGhost/ghost',
   marketingUrl: 'https://ghost.org/',
   donationUrl: 'https://github.com/sponsors/TryGhost/',
-  docsUrls: ['https://ghost.org/docs/'],
   description: { short, long },
   volumes: ['content', 'config', 'mysql', 'startos'],
   images: {
