@@ -28,7 +28,16 @@ export const main = sdk.setupMain(async ({ effects }) => {
     const customFrom = smtp.value.customFrom as string | undefined
     if (smtpCredentials && customFrom) smtpCredentials.from = customFrom
   } else if (smtp.selection === 'custom') {
-    smtpCredentials = smtp.value as unknown as T.SmtpValue
+    const { host, from, username, password, security } =
+      smtp.value.provider.value
+    smtpCredentials = {
+      host,
+      from,
+      username,
+      password: password ?? null,
+      port: Number(security.value.port),
+      security: security.selection,
+    }
   }
 
   let smtpEnv = {} as SMTP_ENV
