@@ -14,7 +14,7 @@ export const manifest = setupManifest({
   images: {
     ghost: {
       source: {
-        dockerTag: 'ghost:6.43.1-alpine',
+        dockerTag: 'ghost:6.44.0-alpine',
       },
       arch: ['x86_64', 'aarch64'],
     },
