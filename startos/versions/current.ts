@@ -1,43 +1,43 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.45.0:0',
+  version: '6.46.0:0',
   releaseNotes: {
-    en_US: `Updated Ghost to 6.45.0.
+    en_US: `Updated Ghost to 6.46.0.
 
-- Added IndexNow to notify search engines of content changes.
-- Updated the Source and Casper themes.
-- Numerous bug fixes across comments, members, the editor, and Portal.
+- Fixed disabling structured data for LLMs and AI search engines.
+- Fixed importer silently dropping content by surfacing validation errors.
+- Numerous fixes across members, newsletters, checkout, and the editor.
 
-Full release notes: https://github.com/TryGhost/Ghost/releases/tag/v6.45.0`,
-    es_ES: `Actualiza Ghost a 6.45.0.
+Full release notes: https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
+    es_ES: `Actualiza Ghost a 6.46.0.
 
-- Añade IndexNow para notificar a los motores de búsqueda los cambios de contenido.
-- Actualiza los temas Source y Casper.
-- Numerosas correcciones en comentarios, miembros, el editor y Portal.
+- Corrige la desactivación de los datos estructurados para LLM y buscadores con IA.
+- Corrige que el importador descartara contenido en silencio, mostrando errores de validación.
+- Numerosas correcciones en miembros, boletines, el pago y el editor.
 
-Notas de la versión completas: https://github.com/TryGhost/Ghost/releases/tag/v6.45.0`,
-    de_DE: `Aktualisiert Ghost auf 6.45.0.
+Notas de la versión completas: https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
+    de_DE: `Aktualisiert Ghost auf 6.46.0.
 
-- Fügt IndexNow hinzu, um Suchmaschinen über Inhaltsänderungen zu informieren.
-- Aktualisiert die Themes Source und Casper.
-- Zahlreiche Fehlerbehebungen bei Kommentaren, Mitgliedern, dem Editor und Portal.
+- Behebt das Deaktivieren strukturierter Daten für LLMs und KI-Suchmaschinen.
+- Behebt das stille Verwerfen von Inhalten beim Import durch Anzeige von Validierungsfehlern.
+- Zahlreiche Fehlerbehebungen bei Mitgliedern, Newslettern, dem Checkout und dem Editor.
 
-Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/releases/tag/v6.45.0`,
-    pl_PL: `Aktualizuje Ghost do 6.45.0.
+Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
+    pl_PL: `Aktualizuje Ghost do 6.46.0.
 
-- Dodaje IndexNow, aby powiadamiać wyszukiwarki o zmianach treści.
-- Aktualizuje motywy Source i Casper.
-- Liczne poprawki błędów w komentarzach, członkach, edytorze i Portalu.
+- Naprawia wyłączanie danych strukturalnych dla LLM i wyszukiwarek AI.
+- Naprawia ciche pomijanie treści przez importer, pokazując błędy walidacji.
+- Liczne poprawki w członkach, newsletterach, płatnościach i edytorze.
 
-Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/releases/tag/v6.45.0`,
-    fr_FR: `Met à jour Ghost vers 6.45.0.
+Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
+    fr_FR: `Met à jour Ghost vers 6.46.0.
 
-- Ajoute IndexNow pour informer les moteurs de recherche des changements de contenu.
-- Met à jour les thèmes Source et Casper.
-- Nombreuses corrections de bugs dans les commentaires, les membres, l'éditeur et Portal.
+- Corrige la désactivation des données structurées pour les LLM et les moteurs de recherche IA.
+- Corrige l'importateur qui supprimait silencieusement du contenu en affichant les erreurs de validation.
+- Nombreuses corrections dans les membres, les newsletters, le paiement et l'éditeur.
 
-Notes de version complètes : https://github.com/TryGhost/Ghost/releases/tag/v6.45.0`,
+Notes de version complètes : https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
   },
   migrations: {
     up: async ({ effects }) => {},
