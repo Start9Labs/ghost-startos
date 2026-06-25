@@ -1,43 +1,48 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.46.0:0',
+  version: '6.47.0:0',
   releaseNotes: {
-    en_US: `Updated Ghost to 6.46.0.
+    en_US: `Updated Ghost to 6.47.0.
 
-- Fixed disabling structured data for LLMs and AI search engines.
-- Fixed importer silently dropping content by surfacing validation errors.
-- Numerous fixes across members, newsletters, checkout, and the editor.
+- Added a beta of the automations feature.
+- Fixed themes with custom error templates returning HTTP 500.
+- Fixed paid members on other tiers receiving gated newsletter content.
+- Fixed the Portal offer link spinning forever for active paid members.
 
-Full release notes: https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
-    es_ES: `Actualiza Ghost a 6.46.0.
+Full release notes: https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
+    es_ES: `Actualiza Ghost a 6.47.0.
 
-- Corrige la desactivación de los datos estructurados para LLM y buscadores con IA.
-- Corrige que el importador descartara contenido en silencio, mostrando errores de validación.
-- Numerosas correcciones en miembros, boletines, el pago y el editor.
+- Añade una versión beta de la función de automatizaciones.
+- Corrige que los temas con plantillas de error personalizadas devolvieran HTTP 500.
+- Corrige que los miembros de pago de otros niveles recibieran contenido restringido de los boletines.
+- Corrige que el enlace de oferta de Portal girara indefinidamente para los miembros de pago activos.
 
-Notas de la versión completas: https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
-    de_DE: `Aktualisiert Ghost auf 6.46.0.
+Notas de la versión completas: https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
+    de_DE: `Aktualisiert Ghost auf 6.47.0.
 
-- Behebt das Deaktivieren strukturierter Daten für LLMs und KI-Suchmaschinen.
-- Behebt das stille Verwerfen von Inhalten beim Import durch Anzeige von Validierungsfehlern.
-- Zahlreiche Fehlerbehebungen bei Mitgliedern, Newslettern, dem Checkout und dem Editor.
+- Fügt eine Beta-Version der Automatisierungsfunktion hinzu.
+- Behebt, dass Themes mit benutzerdefinierten Fehlervorlagen HTTP 500 zurückgaben.
+- Behebt, dass zahlende Mitglieder anderer Stufen eingeschränkte Newsletter-Inhalte erhielten.
+- Behebt, dass der Portal-Angebotslink für aktive zahlende Mitglieder endlos lud.
 
-Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
-    pl_PL: `Aktualizuje Ghost do 6.46.0.
+Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
+    pl_PL: `Aktualizuje Ghost do 6.47.0.
 
-- Naprawia wyłączanie danych strukturalnych dla LLM i wyszukiwarek AI.
-- Naprawia ciche pomijanie treści przez importer, pokazując błędy walidacji.
-- Liczne poprawki w członkach, newsletterach, płatnościach i edytorze.
+- Dodaje wersję beta funkcji automatyzacji.
+- Naprawia motywy z niestandardowymi szablonami błędów zwracające HTTP 500.
+- Naprawia otrzymywanie ograniczonych treści newslettera przez płacących członków z innych poziomów.
+- Naprawia link oferty Portal kręcący się w nieskończoność dla aktywnych płacących członków.
 
-Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
-    fr_FR: `Met à jour Ghost vers 6.46.0.
+Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
+    fr_FR: `Met à jour Ghost vers 6.47.0.
 
-- Corrige la désactivation des données structurées pour les LLM et les moteurs de recherche IA.
-- Corrige l'importateur qui supprimait silencieusement du contenu en affichant les erreurs de validation.
-- Nombreuses corrections dans les membres, les newsletters, le paiement et l'éditeur.
+- Ajoute une version bêta de la fonctionnalité d'automatisations.
+- Corrige les thèmes avec des modèles d'erreur personnalisés renvoyant une erreur HTTP 500.
+- Corrige les membres payants d'autres niveaux recevant du contenu de newsletter restreint.
+- Corrige le lien d'offre Portal qui tournait indéfiniment pour les membres payants actifs.
 
-Notes de version complètes : https://github.com/TryGhost/Ghost/releases/tag/v6.46.0`,
+Notes de version complètes : https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
   },
   migrations: {
     up: async ({ effects }) => {},
