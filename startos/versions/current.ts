@@ -1,48 +1,48 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.47.0:0',
+  version: '6.49.0:0',
   releaseNotes: {
-    en_US: `Updated Ghost to 6.47.0.
+    en_US: `Updated Ghost to 6.49.0.
 
-- Added a beta of the automations feature.
-- Fixed themes with custom error templates returning HTTP 500.
-- Fixed paid members on other tiers receiving gated newsletter content.
-- Fixed the Portal offer link spinning forever for active paid members.
+- Added markdown and llms.txt support for AI tooling.
+- Recovered newsletter sends interrupted by container restarts.
+- Fixed theme uploads freezing when folders are read-only.
+- Fixed the analytics Today view showing data points in the future.
 
-Full release notes: https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
-    es_ES: `Actualiza Ghost a 6.47.0.
+Full release notes: https://github.com/TryGhost/Ghost/releases/tag/v6.49.0`,
+    es_ES: `Actualiza Ghost a 6.49.0.
 
-- Añade una versión beta de la función de automatizaciones.
-- Corrige que los temas con plantillas de error personalizadas devolvieran HTTP 500.
-- Corrige que los miembros de pago de otros niveles recibieran contenido restringido de los boletines.
-- Corrige que el enlace de oferta de Portal girara indefinidamente para los miembros de pago activos.
+- Añade compatibilidad con markdown y llms.txt para herramientas de IA.
+- Recupera los envíos de boletines interrumpidos por reinicios del contenedor.
+- Corrige el bloqueo de las subidas de temas cuando las carpetas son de solo lectura.
+- Corrige que la vista de Hoy de analíticas mostrara puntos de datos en el futuro.
 
-Notas de la versión completas: https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
-    de_DE: `Aktualisiert Ghost auf 6.47.0.
+Notas de la versión completas: https://github.com/TryGhost/Ghost/releases/tag/v6.49.0`,
+    de_DE: `Aktualisiert Ghost auf 6.49.0.
 
-- Fügt eine Beta-Version der Automatisierungsfunktion hinzu.
-- Behebt, dass Themes mit benutzerdefinierten Fehlervorlagen HTTP 500 zurückgaben.
-- Behebt, dass zahlende Mitglieder anderer Stufen eingeschränkte Newsletter-Inhalte erhielten.
-- Behebt, dass der Portal-Angebotslink für aktive zahlende Mitglieder endlos lud.
+- Fügt Unterstützung für Markdown und llms.txt für KI-Tools hinzu.
+- Stellt durch Container-Neustarts unterbrochene Newsletter-Versände wieder her.
+- Behebt das Einfrieren von Theme-Uploads bei schreibgeschützten Ordnern.
+- Behebt, dass die Heute-Ansicht der Analysen Datenpunkte in der Zukunft anzeigte.
 
-Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
-    pl_PL: `Aktualizuje Ghost do 6.47.0.
+Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/releases/tag/v6.49.0`,
+    pl_PL: `Aktualizuje Ghost do 6.49.0.
 
-- Dodaje wersję beta funkcji automatyzacji.
-- Naprawia motywy z niestandardowymi szablonami błędów zwracające HTTP 500.
-- Naprawia otrzymywanie ograniczonych treści newslettera przez płacących członków z innych poziomów.
-- Naprawia link oferty Portal kręcący się w nieskończoność dla aktywnych płacących członków.
+- Dodaje obsługę markdown i llms.txt dla narzędzi AI.
+- Przywraca wysyłki newsletterów przerwane przez restarty kontenera.
+- Naprawia zawieszanie się przesyłania motywów, gdy foldery są tylko do odczytu.
+- Naprawia wyświetlanie przez widok Dziś w analityce punktów danych w przyszłości.
 
-Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
-    fr_FR: `Met à jour Ghost vers 6.47.0.
+Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/releases/tag/v6.49.0`,
+    fr_FR: `Met à jour Ghost vers 6.49.0.
 
-- Ajoute une version bêta de la fonctionnalité d'automatisations.
-- Corrige les thèmes avec des modèles d'erreur personnalisés renvoyant une erreur HTTP 500.
-- Corrige les membres payants d'autres niveaux recevant du contenu de newsletter restreint.
-- Corrige le lien d'offre Portal qui tournait indéfiniment pour les membres payants actifs.
+- Ajoute la prise en charge de markdown et llms.txt pour les outils d'IA.
+- Récupère les envois de newsletters interrompus par les redémarrages du conteneur.
+- Corrige le blocage des téléversements de thèmes lorsque les dossiers sont en lecture seule.
+- Corrige la vue Aujourd'hui des analyses affichant des points de données dans le futur.
 
-Notes de version complètes : https://github.com/TryGhost/Ghost/releases/tag/v6.47.0`,
+Notes de version complètes : https://github.com/TryGhost/Ghost/releases/tag/v6.49.0`,
   },
   migrations: {
     up: async ({ effects }) => {},
