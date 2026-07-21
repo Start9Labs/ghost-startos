@@ -57,7 +57,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
     }
   }
 
-  const mysqlSub = await sdk.SubContainer.of(
+  const mysqlSub = sdk.SubContainer.of(
     effects,
     { imageId: 'mysql' },
     sdk.Mounts.of().mountVolume({
@@ -124,7 +124,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
       requires: [],
     })
     .addDaemon('ghost', {
-      subcontainer: await sdk.SubContainer.of(
+      subcontainer: sdk.SubContainer.of(
         effects,
         { imageId: 'ghost' },
         sdk.Mounts.of().mountVolume({
