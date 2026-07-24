@@ -1,7 +1,7 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.53.0:0',
+  version: '6.53.0:1',
   releaseNotes: {
     en_US: `Updated Ghost to 6.53.0.
 
