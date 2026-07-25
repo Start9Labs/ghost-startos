@@ -34,12 +34,12 @@
 
 ## Image and Container Runtime
 
-| Property      | Value                                         |
-| ------------- | --------------------------------------------- |
-| Ghost Image   | `ghost` (upstream, alpine variant)            |
-| MySQL Image   | `mysql` (upstream)                            |
-| Architectures | x86_64, aarch64                               |
-| Runtime       | Two containers (Ghost + MySQL)                |
+| Property      | Value                              |
+| ------------- | ---------------------------------- |
+| Ghost Image   | `ghost` (upstream, alpine variant) |
+| MySQL Image   | `mysql` (upstream)                 |
+| Architectures | x86_64, aarch64                    |
+| Runtime       | Two containers (Ghost + MySQL)     |
 
 **StartOS runs Ghost with a co-located MySQL database.** Both containers are managed automatically; users do not interact with MySQL directly.
 
@@ -82,18 +82,18 @@
 
 ### Environment Variables (Managed by StartOS)
 
-| Variable                            | Upstream Default          | StartOS Value           |
-| ----------------------------------- | ------------------------- | ----------------------- |
-| `NODE_ENV`                          | `development`             | `production`            |
-| `database__client`                  | `mysql`                   | `mysql` (fixed)         |
-| `database__connection__host`        | Configurable              | `localhost` (fixed)     |
-| `database__connection__password`    | Configurable              | Auto-generated          |
-| `database__connection__database`    | Configurable              | `ghost` (fixed)         |
+| Variable                            | Upstream Default          | StartOS Value                                    |
+| ----------------------------------- | ------------------------- | ------------------------------------------------ |
+| `NODE_ENV`                          | `development`             | `production`                                     |
+| `database__client`                  | `mysql`                   | `mysql` (fixed)                                  |
+| `database__connection__host`        | Configurable              | `localhost` (fixed)                              |
+| `database__connection__password`    | Configurable              | Auto-generated                                   |
+| `database__connection__database`    | Configurable              | `ghost` (fixed)                                  |
 | `privacy__useTinfoil`               | `false`                   | `true` on fresh install; configurable via action |
-| `privacy__useUpdateCheck`           | `true`                    | `false` (forced)        |
-| `security__staffDeviceVerification` | `true`                    | `false` (forced)        |
-| `referrerPolicy`                    | `origin-when-crossorigin` | `no-referrer` (forced)  |
-| `url`                               | Configurable              | Selected via action     |
+| `privacy__useUpdateCheck`           | `true`                    | `false` (forced)                                 |
+| `security__staffDeviceVerification` | `true`                    | `false` (forced)                                 |
+| `referrerPolicy`                    | `origin-when-crossorigin` | `no-referrer` (forced)                           |
+| `url`                               | Configurable              | Selected via action                              |
 
 ### Configuration NOT Exposed on StartOS
 
@@ -156,13 +156,13 @@
 
 ### Reset Owner Password
 
-| Property     | Value                                                    |
-| ------------ | -------------------------------------------------------- |
-| ID           | `reset-password`                                         |
-| Name         | Reset Owner Password                                     |
-| Visibility   | Enabled                                                  |
-| Availability | Only running                                             |
-| Purpose      | Generate a new password for the site owner account       |
+| Property     | Value                                              |
+| ------------ | -------------------------------------------------- |
+| ID           | `reset-password`                                   |
+| Name         | Reset Owner Password                               |
+| Visibility   | Enabled                                            |
+| Availability | Only running                                       |
+| Purpose      | Generate a new password for the site owner account |
 
 **How it works:** Generates a random 22-character password, hashes it with bcrypt using the Ghost container, and updates the owner's record in MySQL. The account status is also reset to `active` in case it was locked. Other staff accounts are not affected. The new password is displayed as a masked, copyable value.
 
@@ -217,12 +217,12 @@ None. Ghost runs with its own co-located MySQL database.
 
 ## Health Checks
 
-| Check                      | Display Name               | Method                                      |
-| -------------------------- | -------------------------- | ------------------------------------------- |
-| MySQL daemon               | Ghost Database             | `SELECT 1` via TCP to 127.0.0.1             |
-| Ghost daemon               | Ghost Server               | MySQL query for `db_hash` in settings table |
-| Admin Portal               | Admin Portal               | Shows which URL to use for admin login      |
-| Member/Subscriber Login    | Member/Subscriber Login    | Reports whether SMTP is configured          |
+| Check                   | Display Name            | Method                                      |
+| ----------------------- | ----------------------- | ------------------------------------------- |
+| MySQL daemon            | Ghost Database          | `SELECT 1` via TCP to 127.0.0.1             |
+| Ghost daemon            | Ghost Server            | MySQL query for `db_hash` in settings table |
+| Admin Portal            | Admin Portal            | Shows which URL to use for admin login      |
+| Member/Subscriber Login | Member/Subscriber Login | Reports whether SMTP is configured          |
 
 **Admin Portal:** Always displays `success` with the primary URL where admin login will work. Ghost enforces origin checks, so login only succeeds at the configured primary URL. Use the "Set Primary URL" action to change it.
 
@@ -279,7 +279,7 @@ None. Ghost runs with its own co-located MySQL database.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for build instructions and development workflow.
+Build and development workflow follow the StartOS packaging guide: <https://docs.start9.com/packaging>. Keep `README.md`, `instructions.md`, and `AGENTS.md` in sync with any change to user-visible behavior or package structure.
 
 ---
 
