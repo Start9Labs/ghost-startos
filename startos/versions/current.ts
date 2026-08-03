@@ -1,48 +1,58 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.54.1:0',
+  version: '6.55.0:0',
   releaseNotes: {
-    en_US: `Updated Ghost to 6.54.1.
+    en_US: `Updated Ghost to 6.55.0.
 
-- Hardened upload filename generation.
-- Added an inline editor for routes.yaml and redirects.yaml in the admin panel.
-- Added member labels, complimentary subscriptions, and member gravatars in themes.
-- Fixed several members CSV import bugs, sitemap handling of self-referential canonical URLs, and a settings preview regression.
+A bug-fix release:
 
-Full release notes: https://github.com/TryGhost/Ghost/releases/tag/v6.54.1`,
-    es_ES: `Actualiza Ghost a 6.54.1.
+- Fixed members being unsubscribed from every newsletter when unsubscribing from one.
+- Fixed broken admin views for Contributor and Author staff users.
+- Fixed redirect capture groups not being substituted inside query strings.
+- Fixed duplicate reply notification emails, broken internal links in automation emails, and feature image alt text being dropped when too long.
 
-- Refuerza la generación de nombres de los archivos subidos.
-- Añade un editor integrado para routes.yaml y redirects.yaml en el panel de administración.
-- Añade etiquetas de miembros, suscripciones de cortesía y gravatares de miembros en los temas.
-- Corrige varios errores de importación CSV de miembros, el tratamiento de URLs canónicas autorreferenciales en el mapa del sitio y una regresión en la vista previa de ajustes.
+Full release notes: https://github.com/TryGhost/Ghost/releases/tag/v6.55.0`,
+    es_ES: `Actualiza Ghost a 6.55.0.
 
-Notas de la versión completas: https://github.com/TryGhost/Ghost/releases/tag/v6.54.1`,
-    de_DE: `Aktualisiert Ghost auf 6.54.1.
+Una versión de corrección de errores:
 
-- Härtet die Erzeugung von Dateinamen beim Hochladen.
-- Fügt einen integrierten Editor für routes.yaml und redirects.yaml im Admin-Bereich hinzu.
-- Fügt Mitglieder-Labels, Gratis-Abonnements und Mitglieder-Gravatare in Themes hinzu.
-- Behebt mehrere Fehler beim CSV-Import von Mitgliedern, die Behandlung selbstreferenzieller kanonischer URLs in der Sitemap sowie eine Regression in der Einstellungsvorschau.
+- Corrige que los miembros se dieran de baja de todos los boletines al darse de baja de uno.
+- Corrige vistas de administración rotas para los usuarios con rol Colaborador y Autor.
+- Corrige que los grupos de captura de las redirecciones no se sustituyeran dentro de las cadenas de consulta.
+- Corrige correos de notificación de respuesta duplicados, enlaces internos rotos en los correos de automatización y la pérdida del texto alternativo de la imagen destacada cuando era demasiado largo.
 
-Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/releases/tag/v6.54.1`,
-    pl_PL: `Aktualizuje Ghost do 6.54.1.
+Notas de la versión completas: https://github.com/TryGhost/Ghost/releases/tag/v6.55.0`,
+    de_DE: `Aktualisiert Ghost auf 6.55.0.
 
-- Wzmacnia generowanie nazw przesyłanych plików.
-- Dodaje wbudowany edytor plików routes.yaml i redirects.yaml w panelu administracyjnym.
-- Dodaje etykiety członków, subskrypcje gratisowe oraz gravatary członków w motywach.
-- Naprawia kilka błędów importu CSV członków, obsługę samoodwołujących się adresów kanonicznych w mapie witryny oraz regresję w podglądzie ustawień.
+Eine Fehlerbehebungs-Version:
 
-Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/releases/tag/v6.54.1`,
-    fr_FR: `Met à jour Ghost vers 6.54.1.
+- Behebt, dass Mitglieder beim Abmelden von einem Newsletter von allen Newslettern abgemeldet wurden.
+- Behebt fehlerhafte Admin-Ansichten für Benutzer mit den Rollen Mitwirkender und Autor.
+- Behebt, dass Erfassungsgruppen in Weiterleitungen innerhalb von Query-Strings nicht ersetzt wurden.
+- Behebt doppelte Antwort-Benachrichtigungs-E-Mails, fehlerhafte interne Links in Automatisierungs-E-Mails und den Verlust zu langer Alternativtexte von Beitragsbildern.
 
-- Renforce la génération des noms de fichiers téléversés.
-- Ajoute un éditeur intégré pour routes.yaml et redirects.yaml dans le panneau d'administration.
-- Ajoute les étiquettes de membres, les abonnements offerts et les gravatars de membres dans les thèmes.
-- Corrige plusieurs bogues d'import CSV des membres, la gestion des URL canoniques auto-référentielles dans le sitemap et une régression de l'aperçu des réglages.
+Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/releases/tag/v6.55.0`,
+    pl_PL: `Aktualizuje Ghost do 6.55.0.
 
-Notes de version complètes : https://github.com/TryGhost/Ghost/releases/tag/v6.54.1`,
+Wydanie naprawiające błędy:
+
+- Naprawia wypisywanie członków ze wszystkich newsletterów przy rezygnacji z jednego.
+- Naprawia niedziałające widoki panelu administracyjnego dla ról Współpracownik i Autor.
+- Naprawia brak podstawiania grup przechwytywania przekierowań wewnątrz parametrów zapytania.
+- Naprawia duplikaty powiadomień e-mail o odpowiedziach, niedziałające linki wewnętrzne w e-mailach automatyzacji oraz utratę zbyt długiego tekstu alternatywnego obrazu wyróżniającego.
+
+Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/releases/tag/v6.55.0`,
+    fr_FR: `Met à jour Ghost vers 6.55.0.
+
+Une version de correction de bogues :
+
+- Corrige le désabonnement des membres de toutes les newsletters lors du désabonnement d'une seule.
+- Corrige les vues d'administration cassées pour les utilisateurs Contributeur et Auteur.
+- Corrige la non-substitution des groupes de capture des redirections dans les chaînes de requête.
+- Corrige les e-mails de notification de réponse en double, les liens internes cassés dans les e-mails d'automatisation et la perte du texte alternatif trop long de l'image à la une.
+
+Notes de version complètes : https://github.com/TryGhost/Ghost/releases/tag/v6.55.0`,
   },
   migrations: {
     up: async ({ effects }) => {},
