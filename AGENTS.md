@@ -6,12 +6,12 @@ Develop it inside a StartOS packaging workspace created by `start-cli s9pk init-
 which provides the packaging guide and agent context one level up. If you're reading this in a
 bare clone with no workspace, the full guide is at <https://docs.start9.com/packaging>.
 
-Work this package's `TODO.md` from top to bottom. Keep `README.md` (architecture, for developers and LLMs) and `instructions.md` (end-user docs) in sync with your changes.
+Work this package's `TODO.md` from top to bottom. Keep `README.md` (technical reference for an AI support or administering agent) and `instructions.md` (end-user docs) in sync with your changes.
 
 ## This repo
 
-- **Package id is `ghost`.** Ships its own bundled MySQL 8.4 database — the `mysql` daemon (subcontainer `db-sub`) binds to `127.0.0.1` only, and the `ghost` daemon (subcontainer `ghost-sub`) connects to it over localhost. Two UI interfaces, `primary` and `admin` (the `/ghost` admin panel), are exported on a single host (`sdk.MultiHost.of` id `ui-multi`). No package dependencies or dependents.
-
-## Inspecting a running install
-
-To run a command inside the service's container (read its generated config, grep app logs), use `start-cli package attach ghost -n <name> -- <cmd>`. Select the subcontainer by **name** with `-n` (the name passed to `SubContainer.of` in `main.ts` — `ghost-sub` for the Ghost app, `db-sub` for MySQL) or by image with `-i`. Note: `-s/--subcontainer` matches the internal **Guid**, not the name, so passing a name to `-s` fails with "no matching subcontainers".
+- **`security__staffDeviceVerification` must stay `false`.** Ghost emails a verification code, so on a server without SMTP enabling it locks staff out entirely rather than degrading gracefully.
+- **Init must not silently replace a stored `url` that has gone away** — it raises the `critical` task instead. Only an _unset_ url gets the `.local` fallback. Published content and the admin login are both built from that value, so choosing a replacement on the user's behalf rewrites where their site claims to live.
+- **`reset-password` needs both temp subcontainers.** The hash is produced with the Ghost image's own bcrypt so it matches what Ghost verifies against, and the write goes through the MySQL image. Don't collapse them into one.
+- **The `ghost` health check reads the database, not an HTTP endpoint.** It looks for the `db_hash` settings row, which is what distinguishes "schema still initialising" from "actually broken" — an HTTP probe cannot tell those apart on a first start.
+- **The database password lives in `store.json` on the `startos` volume and is what backups authenticate with.** A change to where it is stored breaks `backups.ts` as well as `main`.
