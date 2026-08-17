@@ -16,5 +16,5 @@ export const long = {
   pl_PL:
     'Ghost to darmowa platforma blogowa o otwartym kodzie źródłowym napisana w JavaScript i dystrybuowana na licencji MIT, zaprojektowana w celu uproszczenia procesu publikacji online zarówno dla indywidualnych blogerów, jak i publikacji internetowych.',
   fr_FR:
-    "Ghost est une plateforme de blog gratuite et open source écrite en JavaScript et distribuée sous licence MIT, conçue pour simplifier le processus de publication en ligne pour les blogueurs individuels ainsi que pour les publications en ligne.",
+    'Ghost est une plateforme de blog gratuite et open source écrite en JavaScript et distribuée sous licence MIT, conçue pour simplifier le processus de publication en ligne pour les blogueurs individuels ainsi que pour les publications en ligne.',
 }

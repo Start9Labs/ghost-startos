@@ -1,6 +1,11 @@
 import { i18n } from './i18n'
 import { sdk } from './sdk'
-import { adminInterfaceId, port, primaryInterfaceId, uiMultiHostId } from './utils'
+import {
+  adminInterfaceId,
+  port,
+  primaryInterfaceId,
+  uiMultiHostId,
+} from './utils'
 
 export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
   const uiMulti = sdk.MultiHost.of(effects, uiMultiHostId)

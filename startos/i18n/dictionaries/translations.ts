@@ -132,7 +132,7 @@ export default {
     25: 'Mot de passe réinitialisé',
     26: 'Le mot de passe du propriétaire a été réinitialisé. Utilisez le nouveau mot de passe ci-dessous pour vous connecter.',
     27: "Portail d'administration",
-    28: 'La connexion ne fonctionnera qu\'à ${url}/ghost. Utilisez l\'action « Définir l\'URL principale » pour sélectionner une URL différente.',
+    28: "La connexion ne fonctionnera qu'à ${url}/ghost. Utilisez l'action « Définir l'URL principale » pour sélectionner une URL différente.",
     29: 'Connexion membres/abonnés',
     30: 'SMTP est configuré, les membres/abonnés peuvent se connecter',
     31: "SMTP est requis pour la connexion des membres/abonnés. Utilisez l'action SMTP pour l'activer.",

@@ -18,9 +18,7 @@ export const taskSetPrimaryUrl = sdk.setupOnInit(async (effects) => {
     )
   } else if (!availableUrls.includes(url)) {
     await sdk.action.createOwnTask(effects, setPrimaryUrl, 'critical', {
-      reason: i18n(
-        'Primary URL removed. Select a new primary URL.',
-      ),
+      reason: i18n('Primary URL removed. Select a new primary URL.'),
     })
   }
 })
