@@ -1,9 +1,9 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.59.0:0',
+  version: '6.60.0:0',
   releaseNotes: {
-    en_US: `Updated Ghost to 6.59.0, covering the 6.58.0 and 6.59.0 releases.
+    en_US: `Updated Ghost to 6.60.0, covering the 6.58.0, 6.59.0 and 6.60.0 releases.
 
 Security fixes, all in 6.58.0 and all disclosed after Ghost published its release notes:
 
@@ -14,15 +14,19 @@ Security fixes, all in 6.58.0 and all disclosed after Ghost published its releas
 New features and other fixes:
 
 - Released the React member details screen and refined the React tag details screen.
+- Added analytics fields to the automations list.
 - Added support for Docker secrets to config loading.
 - Improved Admin error messages so they say what actually went wrong.
+- Sped up startup by moving the archiver and the x402 adapter off the boot path.
+- Fixed unsafe HTML in Admin notifications.
+- Fixed newsletter recipients being dropped when batch email creation is interrupted, and post counts on tags being inflated.
 - Fixed redirecting outbound requests crashing Ghost, and card assets busting caches on every Ghost restart.
 - Fixed negated newsletter filters being read as their opposite, and donation checkout failing when the note label translation is too long.
 - Fixed several member import problems: columns silently dropped when the first row is short, the mapping step on short screens, and the missing email notification when an import fails.
 - Updated the Source and Casper themes.
 
-Full release notes: https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.59.0`,
-    es_ES: `Actualiza Ghost a 6.59.0, incluyendo las versiones 6.58.0 y 6.59.0.
+Full release notes: https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.60.0`,
+    es_ES: `Actualiza Ghost a 6.60.0, incluyendo las versiones 6.58.0, 6.59.0 y 6.60.0.
 
 Correcciones de seguridad, todas en 6.58.0 y publicadas después de las notas de la versión de Ghost:
 
@@ -33,15 +37,19 @@ Correcciones de seguridad, todas en 6.58.0 y publicadas después de las notas de
 Funciones nuevas y otras correcciones:
 
 - Publica la pantalla de detalles de miembro en React y mejora la pantalla de detalles de etiqueta en React.
+- Añade campos de analítica a la lista de automatizaciones.
 - Añade compatibilidad con los secretos de Docker en la carga de la configuración.
 - Mejora los mensajes de error de administración para que indiquen qué ha fallado realmente.
+- Acelera el arranque moviendo el archivador y el adaptador x402 fuera de la ruta de inicio.
+- Corrige el HTML inseguro en las notificaciones de administración.
+- Corrige la pérdida de destinatarios del boletín cuando se interrumpe la creación de lotes de correo y el recuento inflado de entradas en las etiquetas.
 - Corrige el fallo de Ghost al redirigir peticiones salientes y la invalidación de la caché de los recursos de las tarjetas en cada reinicio.
 - Corrige los filtros de boletín negados que se interpretaban al revés y el fallo del pago de donaciones cuando la traducción de la etiqueta de la nota es demasiado larga.
 - Corrige varios problemas de la importación de miembros: columnas descartadas en silencio cuando la primera fila es corta, el paso de asignación en pantallas pequeñas y la notificación por correo ausente cuando falla una importación.
 - Actualiza los temas Source y Casper.
 
-Notas de la versión completas: https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.59.0`,
-    de_DE: `Aktualisiert Ghost auf 6.59.0 und umfasst die Versionen 6.58.0 und 6.59.0.
+Notas de la versión completas: https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.60.0`,
+    de_DE: `Aktualisiert Ghost auf 6.60.0 und umfasst die Versionen 6.58.0, 6.59.0 und 6.60.0.
 
 Sicherheitskorrekturen, alle in 6.58.0 und erst nach den Versionshinweisen von Ghost veröffentlicht:
 
@@ -52,15 +60,19 @@ Sicherheitskorrekturen, alle in 6.58.0 und erst nach den Versionshinweisen von G
 Neue Funktionen und weitere Fehlerbehebungen:
 
 - Veröffentlicht die React-Ansicht für Mitgliederdetails und verbessert die React-Ansicht für Tag-Details.
+- Fügt der Automatisierungsliste Analysefelder hinzu.
 - Fügt Unterstützung für Docker-Secrets beim Laden der Konfiguration hinzu.
 - Verbessert die Fehlermeldungen im Admin-Bereich, sodass sie die tatsächliche Ursache nennen.
+- Beschleunigt den Start, indem der Archiver und der x402-Adapter aus dem Startpfad entfernt wurden.
+- Behebt unsicheres HTML in den Benachrichtigungen des Admin-Bereichs.
+- Behebt den Verlust von Newsletter-Empfängern bei einem Abbruch der Stapelerstellung sowie überhöhte Beitragszahlen bei Tags.
 - Behebt einen Absturz von Ghost beim Weiterleiten ausgehender Anfragen sowie das Ungültigmachen der Card-Asset-Caches bei jedem Neustart.
 - Behebt negierte Newsletter-Filter, die umgekehrt ausgewertet wurden, und einen Fehler beim Spenden-Checkout, wenn die Übersetzung der Notiz-Beschriftung zu lang ist.
 - Behebt mehrere Probleme beim Mitglieder-Import: stillschweigend verworfene Spalten bei einer kurzen ersten Zeile, den Zuordnungsschritt auf kleinen Bildschirmen und die fehlende E-Mail-Benachrichtigung bei einem fehlgeschlagenen Import.
 - Aktualisiert die Themes Source und Casper.
 
-Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.59.0`,
-    pl_PL: `Aktualizuje Ghost do 6.59.0, obejmując wydania 6.58.0 i 6.59.0.
+Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.60.0`,
+    pl_PL: `Aktualizuje Ghost do 6.60.0, obejmując wydania 6.58.0, 6.59.0 i 6.60.0.
 
 Poprawki bezpieczeństwa, wszystkie w 6.58.0 i ujawnione po opublikowaniu informacji o wydaniu przez Ghost:
 
@@ -71,15 +83,19 @@ Poprawki bezpieczeństwa, wszystkie w 6.58.0 i ujawnione po opublikowaniu inform
 Nowe funkcje i pozostałe poprawki:
 
 - Udostępnia ekran szczegółów członka w React i ulepsza ekran szczegółów tagu w React.
+- Dodaje pola analityczne do listy automatyzacji.
 - Dodaje obsługę sekretów Dockera podczas wczytywania konfiguracji.
 - Ulepsza komunikaty o błędach w panelu administracyjnym, aby wskazywały rzeczywistą przyczynę.
+- Przyspiesza uruchamianie, przenosząc archiwizator i adapter x402 poza ścieżkę startu.
+- Naprawia niebezpieczny kod HTML w powiadomieniach panelu administracyjnego.
+- Naprawia gubienie odbiorców newslettera przy przerwaniu tworzenia partii wiadomości oraz zawyżone liczniki wpisów przy tagach.
 - Naprawia awarię Ghost przy przekierowywaniu żądań wychodzących oraz unieważnianie pamięci podręcznej zasobów kart przy każdym restarcie.
 - Naprawia negowane filtry newslettera interpretowane odwrotnie oraz błąd płatności darowizny, gdy tłumaczenie etykiety notatki jest zbyt długie.
 - Naprawia kilka problemów importu członków: ciche pomijanie kolumn, gdy pierwszy wiersz jest krótki, krok mapowania na małych ekranach oraz brak powiadomienia e-mail o nieudanym imporcie.
 - Aktualizuje motywy Source i Casper.
 
-Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.59.0`,
-    fr_FR: `Met à jour Ghost vers 6.59.0, couvrant les versions 6.58.0 et 6.59.0.
+Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.60.0`,
+    fr_FR: `Met à jour Ghost vers 6.60.0, couvrant les versions 6.58.0, 6.59.0 et 6.60.0.
 
 Correctifs de sécurité, tous dans la 6.58.0 et divulgués après la publication des notes de version de Ghost :
 
@@ -90,14 +106,18 @@ Correctifs de sécurité, tous dans la 6.58.0 et divulgués après la publicatio
 Nouvelles fonctionnalités et autres corrections :
 
 - Publie l'écran React des détails d'un membre et améliore l'écran React des détails d'une étiquette.
+- Ajoute des champs d'analyse à la liste des automatisations.
 - Ajoute la prise en charge des secrets Docker au chargement de la configuration.
 - Améliore les messages d'erreur de l'administration pour qu'ils indiquent la véritable cause.
+- Accélère le démarrage en sortant l'archiveur et l'adaptateur x402 du chemin d'amorçage.
+- Corrige du HTML non sécurisé dans les notifications de l'administration.
+- Corrige la perte de destinataires de newsletter lorsque la création des lots d'e-mails est interrompue, ainsi que le nombre d'articles surévalué sur les étiquettes.
 - Corrige le plantage de Ghost lors de la redirection des requêtes sortantes ainsi que l'invalidation du cache des ressources de cartes à chaque redémarrage.
 - Corrige les filtres de newsletter avec négation interprétés à l'envers et l'échec du paiement d'un don quand la traduction du libellé de la note est trop longue.
 - Corrige plusieurs problèmes d'import de membres : colonnes ignorées silencieusement quand la première ligne est courte, étape de correspondance sur les petits écrans et notification par e-mail manquante en cas d'échec de l'import.
 - Met à jour les thèmes Source et Casper.
 
-Notes de version complètes : https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.59.0`,
+Notes de version complètes : https://github.com/TryGhost/Ghost/compare/v6.57.1...v6.60.0`,
   },
   migrations: {
     up: async ({ effects }) => {},
