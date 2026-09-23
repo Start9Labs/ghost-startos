@@ -1,48 +1,48 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.64.0:0',
+  version: '6.65.0:0',
   releaseNotes: {
-    en_US: `Updated Ghost to 6.64.0.
+    en_US: `Updated Ghost to 6.65.0.
 
-- Updated the bundled Source theme to 1.7.5.
-- Fixed navigation icons failing to save and email rendering crashes caused by malformed CSS in post content.
-- Fixed members being subscribed to every newsletter after choosing none.
-- Fixed missing audit log entries for staff token changes and settings imports overwriting protected core settings.
+- Updated the bundled Source and Casper themes.
+- Improved responsiveness while rebuilding sitemaps and reduced sitemap memory use on sites with many posts.
+- Fixed comments on gated posts being hidden from readers who have access.
+- Fixed mobile analytics layouts and paid conversion counts.
 
-Full release notes: https://github.com/TryGhost/Ghost/compare/v6.63.0...v6.64.0`,
-    es_ES: `Actualiza Ghost a 6.64.0.
+Full release notes: https://github.com/TryGhost/Ghost/compare/v6.64.0...v6.65.0`,
+    es_ES: `Actualiza Ghost a 6.65.0.
 
-- Actualiza el tema Source incluido a la versión 1.7.5.
-- Corrige los iconos de navegación que no se guardaban y los fallos al renderizar correos causados por CSS incorrecto en el contenido de las publicaciones.
-- Corrige la suscripción de miembros a todos los boletines tras no elegir ninguno.
-- Corrige la ausencia de entradas en el registro de auditoría para los cambios de tokens del personal y la sobrescritura de ajustes principales protegidos al importar ajustes.
+- Actualiza los temas Source y Casper incluidos.
+- Mejora la capacidad de respuesta durante la reconstrucción de los mapas del sitio y reduce su uso de memoria en sitios con muchas publicaciones.
+- Corrige los comentarios de publicaciones restringidas que se ocultaban a lectores con acceso.
+- Corrige los diseños de analíticas en dispositivos móviles y el recuento de conversiones de pago.
 
-Notas completas de la versión: https://github.com/TryGhost/Ghost/compare/v6.63.0...v6.64.0`,
-    de_DE: `Aktualisiert Ghost auf 6.64.0.
+Notas completas de la versión: https://github.com/TryGhost/Ghost/compare/v6.64.0...v6.65.0`,
+    de_DE: `Aktualisiert Ghost auf 6.65.0.
 
-- Aktualisiert das mitgelieferte Source-Theme auf Version 1.7.5.
-- Behebt, dass Navigationssymbole nicht gespeichert wurden und fehlerhaftes CSS in Beiträgen die Darstellung von E-Mails zum Absturz brachte.
-- Behebt, dass Mitglieder nach der Auswahl keines Newsletters alle Newsletter abonnierten.
-- Behebt fehlende Audit-Protokolleinträge für Änderungen an Mitarbeiter-Tokens und das Überschreiben geschützter Kerneinstellungen beim Import von Einstellungen.
+- Aktualisiert die mitgelieferten Themes Source und Casper.
+- Verbessert die Reaktionsfähigkeit beim Neuaufbau von Sitemaps und reduziert deren Speicherverbrauch auf Websites mit vielen Beiträgen.
+- Behebt, dass Kommentare zu zugriffsbeschränkten Beiträgen für Leser mit Zugriff ausgeblendet wurden.
+- Behebt Analytics-Layouts auf Mobilgeräten und die Zählung zahlender Konversionen.
 
-Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/compare/v6.63.0...v6.64.0`,
-    pl_PL: `Aktualizuje Ghost do 6.64.0.
+Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/compare/v6.64.0...v6.65.0`,
+    pl_PL: `Aktualizuje Ghost do 6.65.0.
 
-- Aktualizuje dołączony motyw Source do wersji 1.7.5.
-- Naprawia niezapisywanie ikon nawigacji oraz awarie renderowania wiadomości e-mail spowodowane nieprawidłowym kodem CSS w treści wpisów.
-- Naprawia subskrybowanie wszystkich newsletterów przez członków, którzy nie wybrali żadnego z nich.
-- Naprawia brakujące wpisy dziennika audytu dla zmian tokenów personelu oraz nadpisywanie chronionych ustawień podstawowych podczas importowania ustawień.
+- Aktualizuje dołączone motywy Source i Casper.
+- Poprawia responsywność podczas przebudowy map witryny i zmniejsza zużycie pamięci przez mapy w witrynach z wieloma wpisami.
+- Naprawia ukrywanie komentarzy do wpisów z ograniczonym dostępem przed czytelnikami, którzy mają dostęp.
+- Naprawia układ analityki na urządzeniach mobilnych i zliczanie płatnych konwersji.
 
-Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/compare/v6.63.0...v6.64.0`,
-    fr_FR: `Met à jour Ghost vers 6.64.0.
+Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/compare/v6.64.0...v6.65.0`,
+    fr_FR: `Met à jour Ghost vers 6.65.0.
 
-- Met à jour le thème Source fourni vers la version 1.7.5.
-- Corrige les icônes de navigation qui ne s'enregistraient pas et les plantages du rendu des e-mails causés par du code CSS incorrect dans le contenu des publications.
-- Corrige l'abonnement des membres à toutes les newsletters après n'en avoir sélectionné aucune.
-- Corrige l'absence d'entrées dans le journal d'audit pour les modifications des jetons du personnel et l'écrasement des paramètres principaux protégés lors de l'importation de paramètres.
+- Met à jour les thèmes Source et Casper fournis.
+- Améliore la réactivité lors de la reconstruction des plans de site et réduit leur utilisation de mémoire sur les sites comportant de nombreuses publications.
+- Corrige les commentaires des publications à accès restreint masqués aux lecteurs autorisés.
+- Corrige la mise en page des analyses sur mobile et le comptage des conversions payantes.
 
-Notes de version complètes : https://github.com/TryGhost/Ghost/compare/v6.63.0...v6.64.0`,
+Notes de version complètes : https://github.com/TryGhost/Ghost/compare/v6.64.0...v6.65.0`,
   },
   migrations: {
     up: async ({ effects }) => {},
