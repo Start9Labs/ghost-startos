@@ -1,11 +1,11 @@
 import { sdk } from '../sdk'
-import { setPrimaryUrl } from './setPrimaryUrl'
+import { primaryUrl } from '../primaryUrl'
 import { setTinfoil } from './setTinfoil'
 import { manageSmtp } from './manageSmtp'
 import { resetPassword } from './resetPassword'
 
 export const actions = sdk.Actions.of()
-  .addAction(setPrimaryUrl)
+  .addAction(primaryUrl.action)
   .addAction(setTinfoil)
   .addAction(manageSmtp)
   .addAction(resetPassword)

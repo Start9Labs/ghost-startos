@@ -18,16 +18,23 @@ Freshly scaffolded? Work the
 guide page, not a file in this repo — read it, don't copy it in.
 
 Keep `README.md` (technical reference for an AI support or administering agent) and
-`instructions.md` (end-user docs) in sync with your changes.
+`instructions.md` (end-user docs) in sync with your changes. This file restates neither:
+whoever changes the package has both, so it carries only what they don't — repo mechanics,
+a change that looks right and is not, where the next thing gets added, a naming trap, a
+build or test invocation particular to this repo.
 
-**Bugs and feature requests are GitHub issues on this repo** — file them as you find them.
+**Fix a defect you spot rather than reporting it** — you have the package open and the
+context to be sure. File **a GitHub issue on this repo** only when the call isn't yours to
+make: you can't pin the cause down, two defensible fixes exist, or it's too large to ride on
+the work in hand. An open issue is a report, not a queue — implement one when you're asked
+to or when it's labelled `Approved`, then close it with `Closes #<n>`.
+
 Don't record work in the repo instead: no `TODO.md`, no `NOTES.md`, no `PLAN.md`. What you
 verified, tried, and decided belongs in the commit message and the PR body.
 
 ## This repo
 
-- **`security__staffDeviceVerification` must stay `false`.** Ghost emails a verification code, so on a server without SMTP enabling it locks staff out entirely rather than degrading gracefully.
-- **Init must not silently replace a stored `url` that has gone away** — it raises the `critical` task instead. Only an _unset_ url gets the `.local` fallback. Published content and the admin login are both built from that value, so choosing a replacement on the user's behalf rewrites where their site claims to live.
-- **`reset-password` needs both temp subcontainers.** The hash is produced with the Ghost image's own bcrypt so it matches what Ghost verifies against, and the write goes through the MySQL image. Don't collapse them into one.
-- **The `ghost` health check reads the database, not an HTTP endpoint.** It looks for the `db_hash` settings row, which is what distinguishes "schema still initialising" from "actually broken" — an HTTP probe cannot tell those apart on a first start.
-- **The database password lives in `store.json` on the `startos` volume and is what backups authenticate with.** A change to where it is stored breaks `backups.ts` as well as `main`.
+- **Keep `security__staffDeviceVerification` at `false`.** Ghost emails the verification code, so without SMTP enabling it locks staff out.
+- **Keep `fallback: false` and the `critical` task on the primary URL** — never let Ghost run on an address the user didn't choose, because published content and the admin login are built from that value.
+- **`reset-password` needs both temp subcontainers** — the hash must come from the Ghost image's own bcrypt, and the write goes through the MySQL image.
+- **Don't replace the `ghost` health check with an HTTP probe** — only the `db_hash` row tells a first-start schema initialisation from a failure.

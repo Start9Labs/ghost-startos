@@ -17,7 +17,7 @@ export const manageSmtp = sdk.Action.withInput(
   async ({ effects }) => ({
     name: i18n('Configure SMTP'),
     description: i18n(
-      'Add SMTP credentials for sending/receiving account-related emails.',
+      'Add SMTP credentials so Ghost can send account-related emails. Members and subscribers can log in only once SMTP is configured.',
     ),
     warning: null,
     allowedStatuses: 'any',
