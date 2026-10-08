@@ -1,4 +1,5 @@
 import { i18n } from './i18n'
+import { primaryUrl } from './primaryUrl'
 import { sdk } from './sdk'
 import {
   adminInterfaceId,
@@ -12,6 +13,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
   const uiMultiOrigin = await uiMulti.bindPort(port, {
     protocol: 'http',
   })
+  const preferredLauncherAddress = await primaryUrl.bestUsable(effects).const()
 
   // primary
   const primary = sdk.createInterface(effects, {
@@ -24,6 +26,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
     username: null,
     path: '',
     query: {},
+    preferredLauncherAddress,
   })
 
   // admin
@@ -37,6 +40,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
     username: null,
     path: '/ghost',
     query: {},
+    preferredLauncherAddress,
   })
   const uiReceipt = await uiMultiOrigin.export([primary, admin])
 

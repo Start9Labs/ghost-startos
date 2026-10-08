@@ -19,7 +19,13 @@ export const setTinfoil = sdk.Action.withoutInput(
       description: i18n(
         'Enabling tinfoil mode protects your privacy by disabling built-in features of Ghost that could expose your IP address, such as Gravatars, update checks, RPC pinging, structured data, and third party integrations. Note: this may also prevent certain parts of the UI from rendering properly.',
       ),
-      warning: null,
+      warning: tinfoilEnabled
+        ? i18n(
+            'If Ghost is running, it restarts with tinfoil mode off, turning back on the built-in features that can expose your IP address.',
+          )
+        : i18n(
+            'If Ghost is running, it restarts with tinfoil mode on. Some parts of its UI may stop rendering properly.',
+          ),
       allowedStatuses: 'any',
       group: null,
       visibility: 'enabled',

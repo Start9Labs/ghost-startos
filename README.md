@@ -71,14 +71,14 @@ One model, and it holds the values Ghost's own configuration file would otherwis
 | ------------ | ------ | ----------------------- | ------------------------------------ |
 | `store.json` | JSON   | Yes — `FileHelper.json` | Install, every init, and the actions |
 
-| Key                                  | Set by                                | Notes                                                           |
-| ------------------------------------ | ------------------------------------- | --------------------------------------------------------------- |
-| `env.database__connection__password` | Install                               | The bundled database's root password; also used to take backups |
-| `env.url`                            | Init, then the Set Primary URL action | The address Ghost builds every link and invite from             |
-| `env.privacy__useTinfoil`            | The Tinfoil action                    | Defaults to **on**                                              |
-| `smtp`                               | The Configure SMTP action             | StartOS's system SMTP, your own server, or disabled             |
+| Key                                  | Set by                     | Notes                                                           |
+| ------------------------------------ | -------------------------- | --------------------------------------------------------------- |
+| `env.database__connection__password` | Install                    | The bundled database's root password; also used to take backups |
+| `env.url`                            | The Set Primary URL action | The address Ghost builds every link and invite from             |
+| `env.privacy__useTinfoil`            | The Tinfoil action         | Defaults to **on**                                              |
+| `smtp`                               | The Configure SMTP action  | StartOS's system SMTP, your own server, or disabled             |
 
-`env.url` is handled by init in two different ways depending on what it finds. If nothing is stored, init picks the `.local` address. If something **is** stored and it is no longer one of the published addresses, init does not silently replace it — it raises a `critical` task instead, because every link Ghost has already published was built from that value.
+`env.url` is only ever written by the user. Ghost runs on it only while its hostname is one of the published addresses, following it to that hostname's current port and scheme (as after a restore). While it is unset, or its hostname is gone, Ghost does not start and a `critical` task asks for a choice, because every link Ghost has already published was built from that value. Nothing picks an address on the user's behalf (`setupPrimaryUrl` with `fallback: false`).
 
 **No configuration file reaches the application.** Ghost is configured entirely by environment, composed on each start, and that is where this package's overrides live:
 
@@ -106,16 +106,16 @@ Two interfaces on one binding — the same port, distinguished by path.
 
 Both are exported from one host, so they are enabled and exposed together.
 
-**Admin login only works at the primary URL.** Ghost validates the address the admin session was started from, so reaching `/ghost` at any other published address fails to log in — which is what the Admin Portal health check reports.
+**Admin login only works at the primary URL.** Ghost validates the address the admin session was started from, so reaching `/ghost` at any other published address fails to log in — which is what the Admin Portal health check reports. Both interfaces nominate the primary URL to StartOS, so **Open UI** opens Ghost there whenever that address is published.
 
 ## Installation and First-Run Flow
 
-Install generates the database password and chooses a primary URL from the interface's published addresses, preferring the `.local` one. No task is raised on a fresh install and no credential is shown: the owner account is created inside Ghost, on the first visit to `/ghost`.
+Install generates the database password and raises the `critical` Set Primary Url task: Ghost does not start until the user picks one of the interface's addresses, and the form preselects none. No credential is shown: the owner account is created inside Ghost, on the first visit to `/ghost`.
 
 Two things are worth knowing before that first visit:
 
 - **The first start is slow.** MySQL initialises a fresh data directory and Ghost then creates its schema; both health checks report `loading` with an explanatory message throughout, which is expected rather than a fault.
-- **The primary URL decides where you can log in.** If you intend to reach the site at a domain rather than the `.local` address, set it before creating the owner account and publishing anything.
+- **The primary URL decides where you can log in.** If you intend to reach the site at a domain, add the domain before choosing, so it can be chosen before the owner account is created and anything is published.
 
 Email is not configured until you run [Configure SMTP](#actions), and without it members and subscribers cannot log in at all.
 
@@ -130,7 +130,7 @@ Chooses which published address Ghost treats as its own — links, invites, and 
 - **What it changes:** `env.url` in `store.json`.
 - **Cost:** seconds, then a restart.
 - **Repeat safety:** idempotent, but not consequence-free once the site is in use: content already published carries the old address, and the admin login moves with it.
-- **Input:** a dropdown of the interface's non-local addresses.
+- **Input:** a dropdown of the Primary UI interface's non-local addresses, with none preselected.
 
 ### Enable / Disable Tinfoil Mode
 
@@ -139,6 +139,7 @@ Toggles Ghost's privacy mode. The action's name flips to describe what running i
 - **What it changes:** `env.privacy__useTinfoil` in `store.json`.
 - **Cost:** seconds, then a restart.
 - **Repeat safety:** idempotent in both directions.
+- **Confirmation:** asks before running, naming the restart and what the new mode turns on or off.
 - **Worth knowing:** with it on, some parts of Ghost's interface do not render, because the features they depend on are the ones being disabled. That is the trade rather than a fault.
 
 ### Configure SMTP
@@ -157,17 +158,18 @@ Generates a new password for the site owner. Run it when locked out; other staff
 - **What it changes:** the owner's password hash in the database, and sets that account active.
 - **Availability:** only while the service is running, because it goes through the live database.
 - **Repeat safety:** safe to re-run; each run generates a fresh password.
+- **Confirmation:** asks before running, since the current password stops working.
 - **Outputs:** the new password, masked and copyable, shown once.
 
 ## Tasks
 
-One task, and it cannot appear on a fresh install.
+One task.
 
-| Task            | Severity   | Raised when                                                    | Cleared when    |
-| --------------- | ---------- | -------------------------------------------------------------- | --------------- |
-| Set Primary Url | `critical` | A primary URL was set, and that address is no longer published | The action runs |
+| Task            | Severity   | Raised when                                                                     | Cleared when                                                  |
+| --------------- | ---------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Set Primary Url | `critical` | No primary URL is set (a fresh install), or its hostname is no longer published | A published address is chosen, or the chosen hostname returns |
 
-Init picks an address when none is stored, so this only fires when one that was in use goes away — a domain removed, for instance. `critical` because the address is embedded in published content and is where admin login is accepted, so the package asks rather than choosing a replacement for you.
+It comes from `primaryUrl.setupTask` and re-runs whenever the interface's addresses change. A port change alone does not raise it. `critical` because the address is embedded in published content and is where admin login is accepted, so the package stops and asks rather than choosing a replacement for you; `main.ts` also refuses to start without one.
 
 ## Health Checks
 

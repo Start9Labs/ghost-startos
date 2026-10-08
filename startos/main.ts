@@ -1,6 +1,7 @@
 import { T } from '@start9labs/start-sdk'
 import { storeJson } from './fileModels/store.json'
 import { i18n } from './i18n'
+import { primaryUrl } from './primaryUrl'
 import { sdk } from './sdk'
 import { MYSQL_DATADIR } from './utils'
 
@@ -17,9 +18,18 @@ export const main = sdk.setupMain(async ({ effects }) => {
     throw new Error(i18n('store.json.env not found'))
   }
   const {
-    env: { url, database__connection__password, privacy__useTinfoil },
+    env: { database__connection__password, privacy__useTinfoil },
     smtp,
   } = store
+
+  const url = await primaryUrl.bestUsable(effects).const()
+  if (!url) {
+    throw new Error(
+      i18n(
+        'Ghost cannot start without a primary URL. Run the Set Primary Url action, then start the service.',
+      ),
+    )
+  }
 
   let smtpCredentials: T.SmtpValue | null = null
 

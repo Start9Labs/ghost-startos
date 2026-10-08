@@ -11,7 +11,9 @@ export const resetPassword = sdk.Action.withoutInput(
     description: i18n(
       'Generate a new password for the site owner account. Other staff accounts are not affected.',
     ),
-    warning: null,
+    warning: i18n(
+      "Replaces the site owner's password. The current password stops working, and the new one is shown only once.",
+    ),
     allowedStatuses: 'only-running',
     group: null,
     visibility: 'enabled',
