@@ -1,78 +1,93 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.67.0:1',
+  version: '6.69.0:0',
   releaseNotes: {
-    en_US: `Updated Ghost to 6.67.0.
+    en_US: `Updated Ghost to 6.69.0, including the 6.68.0 and 6.69.0 releases.
 
-- Fixed post history crashing for posts without revisions and importing posts with empty mobiledoc content.
-- Fixed posts losing selection during bulk actions and filters behaving incorrectly in the editor and sidebar.
-- Fixed scroll restoration when returning to posts and members.
-- Fixed repeated Stripe portal configuration errors and crashes when a subscription's member or paid tier is missing.
+**Features**
 
-Full release notes: https://github.com/TryGhost/Ghost/compare/v6.65.0...v6.67.0
+- Added member location maps, automation analytics and self-serve site exports in Ghost Admin.
+- Released the React posts list and member activity screens, and improved member-import column mapping.
 
-- Open UI opens Ghost at its primary URL.
-- Enable Tinfoil Mode, Disable Tinfoil Mode and Reset Owner Password ask for confirmation before running.
-- Configure SMTP's description explains what SMTP is needed for.
-- Ghost starts only once a primary URL is chosen, and Set Primary Url preselects nothing.
-- When only the port of the primary URL changes, as after a restore, Ghost follows it without asking you to choose again.`,
-    es_ES: `Actualiza Ghost a 6.67.0.
+**Fixes**
 
-- Corrige los fallos del historial de publicaciones sin revisiones y de la importación de publicaciones con contenido mobiledoc vacío.
-- Corrige la pérdida de selección de publicaciones durante acciones masivas y el comportamiento incorrecto de los filtros en el editor y la barra lateral.
-- Corrige la restauración de la posición de desplazamiento al volver a publicaciones y miembros.
-- Corrige los errores repetidos de configuración del portal de Stripe y los fallos cuando falta el miembro o el nivel de pago de una suscripción.
+- Fixed scheduled posts not being sent due to a race condition and the editor freezing when adding a YouTube embed.
+- Fixed uploads hanging on empty API responses and Portal initialization failing with malformed theme links.
 
-Notas completas de la versión: https://github.com/TryGhost/Ghost/compare/v6.65.0...v6.67.0
+**Internal**
 
-- Abrir interfaz abre Ghost en su URL principal.
-- Activar modo Tinfoil, Desactivar modo Tinfoil y Restablecer contraseña del propietario piden confirmación antes de ejecutarse.
-- La descripción de Configurar SMTP explica para qué se necesita SMTP.
-- Ghost solo se inicia una vez elegida una URL principal, y Establecer URL principal no preselecciona nada.
-- Cuando solo cambia el puerto de la URL principal, como tras una restauración, Ghost lo sigue sin pedirle que vuelva a elegir.`,
-    de_DE: `Aktualisiert Ghost auf 6.67.0.
+- Updated start-sdk to 3.0.4.
 
-- Behebt Abstürze des Beitragsverlaufs bei Beiträgen ohne Revisionen und Fehler beim Import von Beiträgen mit leerem mobiledoc-Inhalt.
-- Behebt den Verlust der Beitragsauswahl bei Massenaktionen und fehlerhaftes Filterverhalten im Editor und in der Seitenleiste.
-- Behebt die Wiederherstellung der Scrollposition bei der Rückkehr zu Beiträgen und Mitgliedern.
-- Behebt wiederholte Konfigurationsfehler des Stripe-Portals und Abstürze bei Abonnements mit fehlendem Mitglied oder fehlender kostenpflichtiger Stufe.
+[Full upstream release notes](https://github.com/TryGhost/Ghost/compare/v6.67.0...v6.69.0)`,
+    es_ES: `Actualiza Ghost a 6.69.0, incluyendo las versiones 6.68.0 y 6.69.0.
 
-Vollständige Versionshinweise: https://github.com/TryGhost/Ghost/compare/v6.65.0...v6.67.0
+**Funciones**
 
-- „Oberfläche öffnen“ öffnet Ghost unter seiner primären URL.
-- „Tinfoil-Modus aktivieren“, „Tinfoil-Modus deaktivieren“ und „Eigentümer-Passwort zurücksetzen“ fragen vor der Ausführung nach einer Bestätigung.
-- Die Beschreibung von „SMTP konfigurieren“ erklärt, wofür SMTP benötigt wird.
-- Ghost startet erst, wenn eine primäre URL gewählt ist, und „Primäre URL festlegen“ wählt nichts vor.
-- Ändert sich nur der Port der primären URL, etwa nach einer Wiederherstellung, folgt Ghost ihm, ohne Sie erneut wählen zu lassen.`,
-    pl_PL: `Aktualizuje Ghost do 6.67.0.
+- Añade mapas de ubicación de miembros, analíticas de automatizaciones y exportaciones del sitio de autoservicio en Ghost Admin.
+- Publica la lista de entradas y las pantallas de actividad de miembros en React, y mejora la asignación de columnas al importar miembros.
 
-- Naprawia awarie historii wpisów bez zapisanych rewizji i importowanie wpisów z pustą treścią mobiledoc.
-- Naprawia utratę zaznaczenia wpisów podczas działań zbiorczych oraz nieprawidłowe działanie filtrów w edytorze i na pasku bocznym.
-- Naprawia przywracanie pozycji przewijania po powrocie do wpisów i członków.
-- Naprawia powtarzające się błędy konfiguracji portalu Stripe oraz awarie, gdy brakuje członka lub płatnego poziomu subskrypcji.
+**Correcciones**
 
-Pełne informacje o wydaniu: https://github.com/TryGhost/Ghost/compare/v6.65.0...v6.67.0
+- Corrige las entradas programadas que no se enviaban por una condición de carrera y el bloqueo del editor al añadir un vídeo de YouTube.
+- Corrige las subidas que quedaban bloqueadas ante respuestas vacías de la API y los fallos de inicialización de Portal con enlaces de tema mal formados.
 
-- „Otwórz interfejs” otwiera Ghost pod jego głównym adresem URL.
-- „Włącz tryb Tinfoil”, „Wyłącz tryb Tinfoil” i „Zresetuj hasło właściciela” proszą o potwierdzenie przed uruchomieniem.
-- Opis „Konfiguracja SMTP” wyjaśnia, do czego potrzebny jest SMTP.
-- Ghost uruchamia się dopiero po wybraniu głównego URL, a „Ustaw główny URL” niczego nie zaznacza wstępnie.
-- Gdy zmienia się tylko port głównego URL, na przykład po przywróceniu, Ghost podąża za nim bez ponownego pytania o wybór.`,
-    fr_FR: `Met à jour Ghost vers 6.67.0.
+**Cambios internos**
 
-- Corrige les plantages de l'historique des publications sans révisions et l'importation de publications au contenu mobiledoc vide.
-- Corrige la perte de sélection des publications lors d'actions groupées et le comportement incorrect des filtres dans l'éditeur et la barre latérale.
-- Corrige la restauration de la position de défilement au retour aux publications et aux membres.
-- Corrige les erreurs répétées de configuration du portail Stripe et les plantages lorsqu'il manque le membre ou le palier payant d'un abonnement.
+- Actualiza start-sdk a 3.0.4.
 
-Notes de version complètes : https://github.com/TryGhost/Ghost/compare/v6.65.0...v6.67.0
+[Notas completas de las versiones originales](https://github.com/TryGhost/Ghost/compare/v6.67.0...v6.69.0)`,
+    de_DE: `Aktualisiert Ghost auf 6.69.0, einschließlich der Versionen 6.68.0 und 6.69.0.
 
-- Ouvrir l'interface ouvre Ghost sur son URL principale.
-- Activer le mode Tinfoil, Désactiver le mode Tinfoil et Réinitialiser le mot de passe du propriétaire demandent une confirmation avant de s'exécuter.
-- La description de Configurer SMTP explique à quoi sert SMTP.
-- Ghost ne démarre qu'une fois une URL principale choisie, et Définir l'URL principale ne présélectionne rien.
-- Lorsque seul le port de l'URL principale change, par exemple après une restauration, Ghost le suit sans vous demander de choisir à nouveau.`,
+**Funktionen**
+
+- Fügt Karten der Mitgliederstandorte, Automatisierungsanalysen und selbst bedienbare Website-Exporte in Ghost Admin hinzu.
+- Veröffentlicht die React-Beitragsliste und die Ansichten der Mitgliederaktivität und verbessert die Spaltenzuordnung beim Mitgliederimport.
+
+**Fehlerbehebungen**
+
+- Behebt nicht versendete geplante Beiträge durch eine Race Condition und das Einfrieren des Editors beim Einbetten eines YouTube-Videos.
+- Behebt hängende Uploads bei leeren API-Antworten und Fehler beim Start von Portal mit fehlerhaften Theme-Links.
+
+**Interne Änderungen**
+
+- Aktualisiert start-sdk auf 3.0.4.
+
+[Vollständige Upstream-Versionshinweise](https://github.com/TryGhost/Ghost/compare/v6.67.0...v6.69.0)`,
+    pl_PL: `Aktualizuje Ghost do 6.69.0, obejmując wydania 6.68.0 i 6.69.0.
+
+**Nowe funkcje**
+
+- Dodaje mapy lokalizacji członków, statystyki automatyzacji i samodzielne eksportowanie witryny w Ghost Admin.
+- Udostępnia listę wpisów i ekrany aktywności członków w React oraz usprawnia mapowanie kolumn podczas importu członków.
+
+**Poprawki**
+
+- Naprawia niewysyłanie zaplanowanych wpisów z powodu wyścigu oraz zawieszanie się edytora podczas osadzania filmu z YouTube.
+- Naprawia zawieszanie się przesyłania plików przy pustych odpowiedziach API oraz błędy uruchamiania Portal przy nieprawidłowych linkach motywu.
+
+**Zmiany wewnętrzne**
+
+- Aktualizuje start-sdk do 3.0.4.
+
+[Pełne informacje o wydaniach upstream](https://github.com/TryGhost/Ghost/compare/v6.67.0...v6.69.0)`,
+    fr_FR: `Met à jour Ghost vers 6.69.0, couvrant les versions 6.68.0 et 6.69.0.
+
+**Fonctionnalités**
+
+- Ajoute des cartes de localisation des membres, des statistiques d'automatisation et des exports de site en libre-service dans Ghost Admin.
+- Publie la liste des articles et les écrans d'activité des membres en React et améliore la correspondance des colonnes lors de l'import de membres.
+
+**Correctifs**
+
+- Corrige les articles programmés non envoyés à cause d'une condition de concurrence et le blocage de l'éditeur lors de l'intégration d'une vidéo YouTube.
+- Corrige les téléversements bloqués par des réponses API vides et les échecs d'initialisation de Portal avec des liens de thème mal formés.
+
+**Modifications internes**
+
+- Met à jour start-sdk vers 3.0.4.
+
+[Notes de version complètes du projet amont](https://github.com/TryGhost/Ghost/compare/v6.67.0...v6.69.0)`,
   },
   migrations: {
     up: async ({ effects }) => {},
