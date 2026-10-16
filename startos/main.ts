@@ -119,7 +119,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
           ])
 
           return {
-            result: exitCode === 0 ? 'success' : 'loading',
+            result: exitCode === 0 ? 'success' : 'starting',
             message:
               exitCode === 0
                 ? i18n('The database is ready')

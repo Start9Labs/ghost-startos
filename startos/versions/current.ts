@@ -10,6 +10,8 @@ export const current = VersionInfo.of({
 - Fixed republishing emailed posts after their newsletter was archived, hidden AM/PM in the post scheduler, and callout emoji pickers in email editors.
 - Improved long tag and author names in post settings and fixed stale tag search results in post filters.
 
+Performance improvement
+
 [Full upstream release notes](https://github.com/TryGhost/Ghost/releases/tag/v6.71.0)`,
     es_ES: `Actualiza Ghost a 6.71.0.
 
@@ -17,6 +19,8 @@ export const current = VersionInfo.of({
 - Corrige los fallos de carga de Portal, Search y Comments autoalojados y el texto ilegible de los boletines en el modo oscuro de Proton Mail.
 - Corrige la republicación de entradas enviadas por correo tras archivar su boletín, la indicación AM/PM oculta en el programador de publicaciones y los selectores de emojis de los recuadros en los editores de correo.
 - Mejora la visualización de nombres largos de etiquetas y autores en los ajustes de publicaciones y corrige los resultados obsoletos de búsqueda de etiquetas en los filtros.
+
+Mejora de rendimiento
 
 [Notas completas de la versión original](https://github.com/TryGhost/Ghost/releases/tag/v6.71.0)`,
     de_DE: `Aktualisiert Ghost auf 6.71.0.
@@ -26,6 +30,8 @@ export const current = VersionInfo.of({
 - Behebt die erneute Veröffentlichung per E-Mail versendeter Beiträge nach der Archivierung ihres Newsletters, ausgeblendete AM/PM-Angaben im Beitragsplaner und die Emoji-Auswahl für Hinweisblöcke in E-Mail-Editoren.
 - Verbessert die Anzeige langer Tag- und Autorennamen in den Beitragseinstellungen und behebt veraltete Tag-Suchergebnisse in Beitragsfiltern.
 
+Leistungsverbesserung
+
 [Vollständige Upstream-Versionshinweise](https://github.com/TryGhost/Ghost/releases/tag/v6.71.0)`,
     pl_PL: `Aktualizuje Ghost do 6.71.0.
 
@@ -34,6 +40,8 @@ export const current = VersionInfo.of({
 - Naprawia ponowne publikowanie wpisów wysłanych e-mailem po zarchiwizowaniu ich newslettera, ukryte oznaczenia AM/PM w harmonogramie publikacji oraz selektory emoji w blokach wyróżnienia w edytorach e-mail.
 - Poprawia wyświetlanie długich nazw tagów i autorów w ustawieniach wpisów oraz naprawia nieaktualne wyniki wyszukiwania tagów w filtrach wpisów.
 
+Poprawa wydajności
+
 [Pełne informacje o wydaniu upstream](https://github.com/TryGhost/Ghost/releases/tag/v6.71.0)`,
     fr_FR: `Met à jour Ghost vers 6.71.0.
 
@@ -41,6 +49,8 @@ export const current = VersionInfo.of({
 - Corrige les échecs de chargement de Portal, Search et Comments auto-hébergés ainsi que le texte illisible des newsletters dans le mode sombre de Proton Mail.
 - Corrige la republication d'articles envoyés par e-mail après l'archivage de leur newsletter, les indications AM/PM masquées dans le planificateur de publication et les sélecteurs d'emojis des encadrés dans les éditeurs d'e-mails.
 - Améliore l'affichage des noms longs d'étiquettes et d'auteurs dans les réglages des articles et corrige les résultats obsolètes de recherche d'étiquettes dans les filtres d'articles.
+
+Amélioration des performances
 
 [Notes de version complètes du projet amont](https://github.com/TryGhost/Ghost/releases/tag/v6.71.0)`,
   },
