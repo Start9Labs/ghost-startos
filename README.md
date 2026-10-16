@@ -114,7 +114,7 @@ Install generates the database password and raises the `critical` Set Primary Ur
 
 Two things are worth knowing before that first visit:
 
-- **The first start is slow.** MySQL initialises a fresh data directory and Ghost then creates its schema; both health checks report `loading` with an explanatory message throughout, which is expected rather than a fault.
+- **The first start is slow.** MySQL reports `starting` until it accepts queries. Ghost then reports `loading` with an explanatory message while creating its schema. Both states are expected rather than faults.
 - **The primary URL decides where you can log in.** If you intend to reach the site at a domain, add the domain before choosing, so it can be chosen before the owner account is created and anything is published.
 
 Email is not configured until you run [Configure SMTP](#actions), and without it members and subscribers cannot log in at all.
