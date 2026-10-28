@@ -41,7 +41,7 @@ export const resetPassword = sdk.Action.withoutInput(
           [
             'node',
             '-e',
-            `console.log(require('bcryptjs').hashSync(${JSON.stringify(newPassword)}, 10))`,
+            `require('@tryghost/security').password.hash(${JSON.stringify(newPassword)}).then(hash => console.log(hash)).catch(error => { console.error(error); process.exit(1) })`,
           ],
           { cwd: '/var/lib/ghost/current' },
         )
