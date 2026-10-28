@@ -155,7 +155,7 @@ Sets up outbound email.
 
 Generates a new password for the site owner. Run it when locked out; other staff accounts are untouched.
 
-- **What it changes:** the owner's password hash in the database, and sets that account active.
+- **What it changes:** the owner's password hash in the database, using the Ghost image's own `@tryghost/security` password hasher, and sets that account active.
 - **Availability:** only while the service is running, because it goes through the live database.
 - **Repeat safety:** safe to re-run; each run generates a fresh password.
 - **Confirmation:** asks before running, since the current password stops working.
