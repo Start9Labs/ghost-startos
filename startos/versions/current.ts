@@ -1,53 +1,48 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '6.73.0:0',
+  version: '6.74.0:0',
   releaseNotes: {
-    en_US: `Updated Ghost to 6.73.0.
+    en_US: `Updated Ghost to 6.74.0.
 
-- Fixed gallery reordering removing images from other galleries, slow member imports on sites with many labels, and paid members losing their tier when a complimentary period ends.
-- Fixed Transistor embeds and email links, newsletter click counts inflated by link checkers, and tag filtering.
-- Updated start-sdk to 3.1.1 and made owner password reset use Ghost's password-hashing API for compatibility with its dependency layout.
+- Added an “is all of” member label filter, comment link copying, selected-text word counts in the editor, and editable alt text for Product card images.
+- Fixed scheduled posts shifting when the site timezone changes, newsletter analytics omitting sends, repeated delivery to rejecting addresses, and password reset requests hanging when SMTP is unreachable.
 
-Back up before updating. Ghost migrates its database automatically; rebuilding the experimental member custom-field tables discards their definitions, values and bindings if that private feature was manually enabled. This package does not enable it.
+Back up before updating. Ghost automatically migrates automation triggers and other database tables. If the private experimental Apps feature was manually enabled, this update deletes its app installations and manifests. This package does not enable it.
 
-[Full upstream release notes](https://github.com/TryGhost/Ghost/releases/tag/v6.73.0)`,
-    es_ES: `Actualiza Ghost a 6.73.0.
+[Full upstream release notes](https://github.com/TryGhost/Ghost/releases/tag/v6.74.0)`,
+    es_ES: `Actualiza Ghost a 6.74.0.
 
-- Corrige que reordenar una galería eliminara imágenes de otras galerías, la lentitud al importar miembros en sitios con muchas etiquetas y la pérdida del nivel de miembros de pago al terminar un período gratuito.
-- Corrige las inserciones de Transistor y los enlaces en correos, los clics de boletines inflados por verificadores de enlaces y el filtrado por etiquetas.
-- Actualiza start-sdk a 3.1.1 y adapta el restablecimiento de la contraseña del propietario a la API de contraseñas de Ghost para admitir su estructura de dependencias.
+- Añade un filtro de etiquetas de miembros «incluye todas», la copia de enlaces a comentarios, el recuento de palabras del texto seleccionado en el editor y texto alternativo editable para las imágenes de las tarjetas de producto.
+- Corrige el desplazamiento de las publicaciones programadas al cambiar la zona horaria del sitio, los envíos omitidos en las estadísticas de boletines, los envíos repetidos a direcciones que los rechazan y las solicitudes de restablecimiento de contraseña bloqueadas cuando SMTP no está disponible.
 
-Haz una copia de seguridad antes de actualizar. Ghost migra su base de datos automáticamente; al reconstruir las tablas experimentales de campos personalizados de miembros se descartan sus definiciones, valores y asociaciones si esa función privada se activó manualmente. Este paquete no la activa.
+Haz una copia de seguridad antes de actualizar. Ghost migra automáticamente los disparadores de automatizaciones y otras tablas de la base de datos. Si la función experimental privada Apps se activó manualmente, esta actualización elimina sus instalaciones de aplicaciones y manifiestos. Este paquete no la activa.
 
-[Notas completas de la versión original](https://github.com/TryGhost/Ghost/releases/tag/v6.73.0)`,
-    de_DE: `Aktualisiert Ghost auf 6.73.0.
+[Notas completas de la versión original](https://github.com/TryGhost/Ghost/releases/tag/v6.74.0)`,
+    de_DE: `Aktualisiert Ghost auf 6.74.0.
 
-- Behebt, dass das Umordnen einer Galerie Bilder aus anderen Galerien entfernte, langsame Mitgliederimporte auf Websites mit vielen Labels und den Verlust der Tarifstufe zahlender Mitglieder nach Ablauf eines kostenlosen Zeitraums.
-- Behebt Transistor-Einbettungen und E-Mail-Links, durch Linkprüfer überhöhte Newsletter-Klickzahlen und die Filterung nach Tags.
-- Aktualisiert start-sdk auf 3.1.1 und nutzt beim Zurücksetzen des Eigentümerpassworts Ghosts Passwort-Hashing-API für dessen Abhängigkeitsstruktur.
+- Fügt einen Mitglieder-Label-Filter „enthält alle“, das Kopieren von Kommentarlinks, die Wortzählung für ausgewählten Text im Editor und bearbeitbaren Alternativtext für Bilder in Produktkarten hinzu.
+- Behebt verschobene geplante Beiträge nach Änderungen der Website-Zeitzone, fehlende Sendungen in Newsletter-Statistiken, wiederholte Zustellversuche an ablehnende Adressen und hängende Anfragen zum Zurücksetzen des Passworts bei nicht erreichbarem SMTP-Server.
 
-Vor dem Update ein Backup erstellen. Ghost migriert seine Datenbank automatisch; beim Neuaufbau der experimentellen Tabellen für benutzerdefinierte Mitgliederfelder gehen deren Definitionen, Werte und Zuordnungen verloren, falls diese private Funktion manuell aktiviert wurde. Dieses Paket aktiviert sie nicht.
+Vor dem Update ein Backup erstellen. Ghost migriert Automatisierungsauslöser und weitere Datenbanktabellen automatisch. Falls die private experimentelle Apps-Funktion manuell aktiviert wurde, löscht dieses Update deren App-Installationen und Manifeste. Dieses Paket aktiviert sie nicht.
 
-[Vollständige Upstream-Versionshinweise](https://github.com/TryGhost/Ghost/releases/tag/v6.73.0)`,
-    pl_PL: `Aktualizuje Ghost do 6.73.0.
+[Vollständige Upstream-Versionshinweise](https://github.com/TryGhost/Ghost/releases/tag/v6.74.0)`,
+    pl_PL: `Aktualizuje Ghost do 6.74.0.
 
-- Naprawia usuwanie obrazów z innych galerii przy zmianie kolejności, powolny import członków w witrynach z wieloma etykietami oraz utratę poziomu przez płacących członków po zakończeniu okresu bezpłatnego.
-- Naprawia osadzenia Transistor i odnośniki w e-mailach, zawyżanie liczby kliknięć newsletterów przez skanery odnośników oraz filtrowanie według tagów.
-- Aktualizuje start-sdk do 3.1.1 i korzysta z API haszowania haseł Ghost przy resetowaniu hasła właściciela, zapewniając zgodność z układem zależności.
+- Dodaje filtr etykiet członków „zawiera wszystkie”, kopiowanie odnośników do komentarzy, liczenie słów zaznaczonego tekstu w edytorze i edytowalny tekst alternatywny obrazów na kartach produktów.
+- Naprawia przesuwanie zaplanowanych wpisów po zmianie strefy czasowej witryny, pomijanie wysyłek w statystykach newsletterów, wielokrotne wysyłanie na adresy odrzucające wiadomości oraz zawieszanie żądań resetowania hasła, gdy serwer SMTP jest niedostępny.
 
-Przed aktualizacją wykonaj kopię zapasową. Ghost automatycznie migruje bazę danych; przebudowa eksperymentalnych tabel niestandardowych pól członków usuwa ich definicje, wartości i powiązania, jeśli ta prywatna funkcja została ręcznie włączona. Ten pakiet jej nie włącza.
+Przed aktualizacją wykonaj kopię zapasową. Ghost automatycznie migruje wyzwalacze automatyzacji i inne tabele bazy danych. Jeśli prywatna eksperymentalna funkcja Apps została ręcznie włączona, ta aktualizacja usuwa jej instalacje aplikacji i manifesty. Ten pakiet jej nie włącza.
 
-[Pełne informacje o wydaniu upstream](https://github.com/TryGhost/Ghost/releases/tag/v6.73.0)`,
-    fr_FR: `Met à jour Ghost vers 6.73.0.
+[Pełne informacje o wydaniu upstream](https://github.com/TryGhost/Ghost/releases/tag/v6.74.0)`,
+    fr_FR: `Met à jour Ghost vers 6.74.0.
 
-- Corrige la suppression d'images d'autres galeries lors du réordonnancement, la lenteur des imports de membres sur les sites avec de nombreuses étiquettes et la perte du palier des membres payants à la fin d'une période offerte.
-- Corrige les intégrations Transistor et les liens dans les e-mails, les clics de newsletters gonflés par les vérificateurs de liens et le filtrage par étiquette.
-- Met à jour start-sdk vers 3.1.1 et utilise l'API de hachage des mots de passe de Ghost pour réinitialiser le mot de passe du propriétaire, afin de respecter son organisation des dépendances.
+- Ajoute un filtre d'étiquettes de membres « contient toutes », la copie des liens de commentaires, le comptage des mots du texte sélectionné dans l'éditeur et un texte alternatif modifiable pour les images des cartes de produit.
+- Corrige le décalage des publications programmées lors d'un changement de fuseau horaire du site, les envois omis des statistiques de newsletters, les envois répétés aux adresses qui les refusent et les demandes de réinitialisation de mot de passe bloquées lorsque SMTP est inaccessible.
 
-Faites une sauvegarde avant la mise à jour. Ghost migre automatiquement sa base de données ; la reconstruction des tables expérimentales de champs personnalisés des membres supprime leurs définitions, valeurs et associations si cette fonctionnalité privée a été activée manuellement. Ce paquet ne l'active pas.
+Faites une sauvegarde avant la mise à jour. Ghost migre automatiquement les déclencheurs d'automatisation et d'autres tables de la base de données. Si la fonctionnalité expérimentale privée Apps a été activée manuellement, cette mise à jour supprime ses installations d'applications et ses manifestes. Ce paquet ne l'active pas.
 
-[Notes de version complètes du projet amont](https://github.com/TryGhost/Ghost/releases/tag/v6.73.0)`,
+[Notes de version complètes du projet amont](https://github.com/TryGhost/Ghost/releases/tag/v6.74.0)`,
   },
   migrations: {
     up: async ({ effects }) => {},
