@@ -35,6 +35,16 @@ export const current = VersionInfo.of({
         }),
         'repair-root',
       )
+      // Normal startup owns database initialization.
+      const { exitCode: databaseCheck } = await sub.exec([
+        'test',
+        '-d',
+        `${MYSQL_DATADIR}/mysql`,
+      ])
+      if (databaseCheck !== 0) {
+        await sub.destroy()
+        return
+      }
       const sqlPassword = `'${password.replace(/\\/g, '\\\\').replace(/'/g, "''")}'`
       await sdk.Daemons.of(effects)
         .addDaemon('mysql', {
