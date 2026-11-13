@@ -71,12 +71,12 @@ One model, and it holds the values Ghost's own configuration file would otherwis
 | ------------ | ------ | ----------------------- | ------------------------------------ |
 | `store.json` | JSON   | Yes — `FileHelper.json` | Install, every init, and the actions |
 
-| Key                                  | Set by                     | Notes                                                           |
-| ------------------------------------ | -------------------------- | --------------------------------------------------------------- |
-| `env.database__connection__password` | Install                    | The bundled database's root password; also used to take backups |
-| `env.url`                            | The Set Primary URL action | The address Ghost builds every link and invite from             |
-| `env.privacy__useTinfoil`            | The Tinfoil action         | Defaults to **on**                                              |
-| `smtp`                               | The Configure SMTP action  | StartOS's system SMTP, your own server, or disabled             |
+| Key                                  | Set by                     | Notes                                               |
+| ------------------------------------ | -------------------------- | --------------------------------------------------- |
+| `env.database__connection__password` | Install                    | The bundled database's root password                |
+| `env.url`                            | The Set Primary URL action | The address Ghost builds every link and invite from |
+| `env.privacy__useTinfoil`            | The Tinfoil action         | Defaults to **on**                                  |
+| `smtp`                               | The Configure SMTP action  | StartOS's system SMTP, your own server, or disabled |
 
 `env.url` is only ever written by the user. Ghost runs on it only while its hostname is one of the published addresses, following it to that hostname's current port and scheme (as after a restore). While it is unset, or its hostname is gone, Ghost does not start and a `critical` task asks for a choice, because every link Ghost has already published was built from that value. Nothing picks an address on the user's behalf (`setupPrimaryUrl` with `fallback: false`).
 
@@ -190,12 +190,9 @@ Four checks, and two of them are status displays rather than fault detectors.
 
 ## Backups and Restore
 
-Mixed, and the distinction decides what a restore gives you.
+All four volumes (`mysql`, `content`, `config` and `startos`) are copied whole: the database files, themes, images, uploads, and `store.json` with the database password, primary URL and SMTP settings. StartOS stops Ghost before a backup, so nothing writes during the copy. If that stop ended in a forced kill, InnoDB recovers on the next start, as after a power loss. A restore brings back the database's accounts exactly as they were.
 
-- **`mysql` is dumped, not copied.** `Backups.withMysqlDump` takes a logical dump of the `ghost` database, authenticating with the password from `store.json`. The volume's files are never captured; a restore replays the dump into a fresh database.
-- **`content`, `config`, and `startos` are copied wholesale** — themes, images, uploads, and `store.json` with the database password, primary URL, and SMTP settings.
-
-The two halves are not independent: the dump is taken with a credential that lives in `store.json`, so a backup missing that file could not be restored.
+A backup taken by a release that dumped the database restores with that release's own code, and comes back with only a socket-local `root` account, which Ghost cannot reach. The database stays `starting`. Updating repairs it: the migration into this release starts MySQL once and recreates `root@'%'`.
 
 **Restore is complete** — posts, members, staff accounts, themes, and uploads all return. If the restored server does not publish the address the backup recorded, the task above asks you to choose a new one before links and admin login work.
 
