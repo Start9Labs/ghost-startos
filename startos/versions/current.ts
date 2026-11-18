@@ -1,88 +1,41 @@
 import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
-import { storeJson } from '../fileModels/store.json'
-import { sdk } from '../sdk'
-import { MYSQL_DATADIR } from '../utils'
 
 export const current = VersionInfo.of({
-  version: '6.77.0:1',
+  version: '6.78.0:0',
   releaseNotes: {
-    en_US:
-      'Restoring Ghost from a backup now brings it back up. A Ghost that a restore left stuck on starting is fixed by updating to this version.',
-    es_ES:
-      'Restaurar Ghost desde una copia de seguridad ahora lo vuelve a poner en marcha. Si una restauración dejó Ghost atascado al iniciar, actualizar a esta versión lo soluciona.',
-    de_DE:
-      'Ghost startet nach der Wiederherstellung aus einem Backup jetzt wieder. Ein Ghost, der nach einer Wiederherstellung beim Starten hängen geblieben ist, wird durch das Update auf diese Version behoben.',
-    pl_PL:
-      'Przywrócenie Ghosta z kopii zapasowej ponownie go uruchamia. Jeśli po przywróceniu Ghost utknął na uruchamianiu, aktualizacja do tej wersji to naprawia.',
-    fr_FR:
-      'La restauration de Ghost depuis une sauvegarde le remet désormais en marche. Un Ghost resté bloqué au démarrage après une restauration est réparé par la mise à jour vers cette version.',
+    en_US: `Updated Ghost to 6.78.0.
+
+- Added shipping address and phone number collection to Stripe Checkout.
+- Fixed gift redemption for new members on paid-only sites, formatting lost in feature image captions, corrupted card links, and analytics presets and daily paid-subscription figures covering the wrong days.
+
+[Full upstream release notes](https://github.com/TryGhost/Ghost/releases/tag/v6.78.0)`,
+    es_ES: `Actualiza Ghost a 6.78.0.
+
+- Añade la recogida de dirección de envío y número de teléfono en Stripe Checkout.
+- Corrige el canje de regalos para nuevos miembros en sitios solo de pago, la pérdida de formato en los pies de las imágenes destacadas, los enlaces de tarjetas dañados y los preajustes de estadísticas y las cifras diarias de suscripciones de pago que abarcaban días incorrectos.
+
+[Notas completas de la versión original](https://github.com/TryGhost/Ghost/releases/tag/v6.78.0)`,
+    de_DE: `Aktualisiert Ghost auf 6.78.0.
+
+- Fügt die Erfassung von Lieferadresse und Telefonnummer im Stripe Checkout hinzu.
+- Behebt das Einlösen von Geschenken für neue Mitglieder auf rein kostenpflichtigen Websites, verlorene Formatierung in Bildunterschriften von Beitragsbildern, beschädigte Kartenlinks sowie Statistik-Voreinstellungen und tägliche Zahlen zu kostenpflichtigen Abonnements, die falsche Tage abdeckten.
+
+[Vollständige Upstream-Versionshinweise](https://github.com/TryGhost/Ghost/releases/tag/v6.78.0)`,
+    pl_PL: `Aktualizuje Ghost do 6.78.0.
+
+- Dodaje zbieranie adresu wysyłki i numeru telefonu w Stripe Checkout.
+- Naprawia realizację prezentów przez nowych członków w witrynach tylko płatnych, utratę formatowania w podpisach obrazów wyróżniających, uszkodzone odnośniki w kartach oraz ustawienia statystyk i dzienne dane o płatnych subskrypcjach obejmujące niewłaściwe dni.
+
+[Pełne informacje o wydaniu upstream](https://github.com/TryGhost/Ghost/releases/tag/v6.78.0)`,
+    fr_FR: `Met à jour Ghost vers 6.78.0.
+
+- Ajoute la collecte de l'adresse de livraison et du numéro de téléphone dans Stripe Checkout.
+- Corrige l'utilisation des cadeaux par les nouveaux membres sur les sites uniquement payants, la perte de mise en forme des légendes d'images à la une, les liens de cartes corrompus, ainsi que les préréglages de statistiques et les chiffres quotidiens d'abonnements payants couvrant les mauvais jours.
+
+[Notes de version complètes du projet amont](https://github.com/TryGhost/Ghost/releases/tag/v6.78.0)`,
   },
   migrations: {
-    // A restored dump backup left only root@localhost, which Ghost cannot reach over TCP.
-    up: async ({ effects }) => {
-      const password = await storeJson
-        .read((s) => s.env.database__connection__password)
-        .once()
-      if (!password) return
-      const sub = sdk.SubContainer.of(
-        effects,
-        { imageId: 'mysql' },
-        sdk.Mounts.of().mountVolume({
-          volumeId: 'mysql',
-          subpath: null,
-          mountpoint: MYSQL_DATADIR,
-          readonly: false,
-        }),
-        'repair-root',
-      )
-      // Normal startup owns database initialization.
-      const { exitCode: databaseCheck } = await sub.exec([
-        'test',
-        '-d',
-        `${MYSQL_DATADIR}/mysql`,
-      ])
-      if (databaseCheck !== 0) {
-        await sub.destroy()
-        return
-      }
-      const sqlPassword = `'${password.replace(/\\/g, '\\\\').replace(/'/g, "''")}'`
-      await sdk.Daemons.of(effects)
-        .addDaemon('mysql', {
-          subcontainer: sub,
-          exec: {
-            command: sdk.useEntrypoint(['--bind-address=127.0.0.1']),
-            env: { MYSQL_ROOT_PASSWORD: password, MYSQL_DATABASE: 'ghost' },
-          },
-          ready: {
-            display: null,
-            fn: async () => {
-              const { exitCode } = await sub.exec(
-                ['mysql', '-u', 'root', '-e', 'SELECT 1'],
-                { env: { MYSQL_PWD: password } },
-              )
-              return exitCode === 0
-                ? { result: 'success' as const, message: null }
-                : { result: 'starting' as const, message: null }
-            },
-          },
-          requires: [],
-        })
-        .addOneshot('root-tcp', {
-          subcontainer: sub,
-          exec: {
-            command: [
-              'mysql',
-              '-u',
-              'root',
-              '-e',
-              `CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY ${sqlPassword}; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;`,
-            ],
-            env: { MYSQL_PWD: password },
-          },
-          requires: ['mysql'],
-        })
-        .runUntilSuccess(300_000)
-    },
+    up: async ({ effects }) => {},
     down: IMPOSSIBLE,
   },
 })
